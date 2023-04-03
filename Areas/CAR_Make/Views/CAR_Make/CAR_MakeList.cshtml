@@ -32,6 +32,19 @@
             </div>
         </div>
 
+        @if (TempData["MakeInsertMsg"] != null)
+        {
+            <div id="review-alert" class="alert alert-light-success color-success">
+                <i class="bi bi-check-circle"></i> @TempData["MakeInsertMsg"]
+            </div>
+
+            <script>
+                setTimeout(function () {
+                    $('#review-alert').fadeOut('fast');
+                }, 2000); // 2 seconds
+            </script>
+        }
+
         <div class="row filters">
             <div class="col-md-10">
                 <form method="post" class="form-inline">

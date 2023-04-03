@@ -1,6 +1,9 @@
 ﻿using CarInfo.Areas.CAR_FuelType.Models;
+using CarInfo.Areas.CAR_FuelType.Models;
+using CarInfo.Areas.CAR_FuelType.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data;
 using System.Reflection;
 
@@ -27,5 +30,67 @@ namespace CarInfo.Areas.CAR_FuelType.Controllers
 
             return View("CAR_FuelTypeList", fueltype);
         }
+
+        public IActionResult Save(CAR_FuelTypeModel modelCAR_FuelType)
+        {
+            #region Insert & Update
+
+            string str = Configuration.GetConnectionString("MyConnectionString");
+            CAR_DAL dalCAR = new CAR_DAL();
+
+            if (modelCAR_FuelType.FuelTypeID == null || modelCAR_FuelType.FuelTypeID == 0)
+            {
+                DataTable dt = dalCAR.PR_CAR_FuelType_Insert(modelCAR_FuelType);
+                TempData["FuelTypeInsertMsg"] = "Record Inserted Succesfully";
+            }
+            else
+            {
+                DataTable dt = dalCAR.PR_CAR_FuelType_UpdateByPK(modelCAR_FuelType);
+                TempData["FuelTypeInsertMsg"] = "Record Updated Succesfully";
+            }
+
+            return RedirectToAction("Index");
+
+            #endregion
+        }
+
+        public IActionResult Add(int? FuelTypeID)
+        {
+            #region SelectByPK
+            if (FuelTypeID != null)
+            {
+                string str = Configuration.GetConnectionString("myConnectionString");
+
+                CAR_DAL dalCAR = new CAR_DAL();
+                SqlDatabase sqlDB = new SqlDatabase(str);
+                DataTable dt = dalCAR.dbo_PR_CAR_FuelType_SelectByPK(FuelTypeID);
+                CAR_FuelTypeModel modelCAR_FuelType = new CAR_FuelTypeModel();
+
+
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    modelCAR_FuelType.FuelTypeID = Convert.ToInt32(dr["FuelTypeID"]);
+                    modelCAR_FuelType.FuelTypeName = dr["FuelTypeName"].ToString();
+                }
+
+
+                return View("CAR_FuelTypeAddEdit", modelCAR_FuelType);
+            }
+            #endregion
+
+            return View("CAR_FuelTypeAddEdit");
+        }
+
+        #region Delete
+        public IActionResult Delete(int FuelTypeID)
+        {
+            string str = Configuration.GetConnectionString("MyConnectionString");
+            CAR_DAL dalCAR = new CAR_DAL();
+            DataTable dt = dalCAR.PR_CAR_FuelType_DeleteByPK(FuelTypeID);
+
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }

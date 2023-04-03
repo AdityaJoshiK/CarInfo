@@ -6,6 +6,7 @@ namespace CarInfo.Areas.CAR_FuelType.Models
     public class CAR_FuelTypeModel
     {
         public int? FuelTypeID { get; set; }
+        public int? UserID { get; set; }
 
         [Required(ErrorMessage = "Please enter FuelType name"), MaxLength(50)]
         [DataType(DataType.Text)]

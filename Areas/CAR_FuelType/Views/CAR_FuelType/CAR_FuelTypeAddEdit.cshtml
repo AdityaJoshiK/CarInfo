@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "CAR_FuelTypeAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model CarInfo.Areas.CAR_FuelType.Models.CAR_FuelTypeModel
+
+<div id="main">
+    <div class="row" style="width:auto">
+        <div class="col-md-12">
+            <h3>@TempData["FuelTypeInsertMsg"]</h3>
+            <form method="post" asp-controller="CAR_FuelType" asp-action="Save">
+                @Html.HiddenFor(x=>x.FuelTypeID)
+                <div class="form-group">
+                    <label>FuelType Name</label>
+                    <input type="text" class="form-control" placeholder="Enter FuelType" asp-for="FuelTypeName" />
+                    <span asp-validation-for="FuelTypeName" class="text-danger"></span>
+                </div>
+                <hr />
+                <input type="submit" class="btn btn-outline-primary" />
+                <a asp-area="CAR_FuelType" asp-controller="CAR_FuelType" asp-action="Back">
+                    <button type="button" class="btn btn-success">Cancel</button>
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

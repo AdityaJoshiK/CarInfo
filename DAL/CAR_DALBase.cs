@@ -4,6 +4,7 @@ using System.Data;
 using CarInfo.BAL;
 using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.Areas.CAR_Review.Models;
+using CarInfo.Areas.CAR_FuelType.Models;
 
 namespace CarInfo.DAL
 {
@@ -244,12 +245,13 @@ namespace CarInfo.DAL
         
         #region PR_CAR_FuelType_SelctAll & Filter
 
-        public DataTable PR_CAR_FuelType_SelectAll(string FeatureName = null)
+        public DataTable PR_CAR_FuelType_SelectAll()
         {
             try
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_FuelType_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
 
@@ -267,8 +269,129 @@ namespace CarInfo.DAL
             }
         }
 
-        #endregion      
-        
+        #endregion
+
+        #region PR_CAR_FuelType_Insert
+
+        public DataTable PR_CAR_FuelType_Insert(CAR_FuelTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_FuelType_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "FuelTypeName", SqlDbType.NVarChar, model.FuelTypeName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_FuelType_SelectByPK
+
+        public DataTable dbo_PR_CAR_FuelType_SelectByPK(int? FuelTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_FuelType_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, FuelTypeID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_FuelType_UpdateByPK
+
+        public DataTable PR_CAR_FuelType_UpdateByPK(CAR_FuelTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_FuelType_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.FuelTypeID);
+                sqlDB.AddInParameter(dbCMD, "FuelTypeName", SqlDbType.NVarChar, model.FuelTypeName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_FuelType_DeleteByPK
+
+        public DataTable PR_CAR_FuelType_DeleteByPK(int FuelTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_FuelType_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, FuelTypeID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
         #region PR_CAR_Type_SelctAll & Filter
 
         public DataTable PR_CAR_Type_SelectAll()
@@ -323,6 +446,7 @@ namespace CarInfo.DAL
 
         #endregion
 
+        #region CAR_Review
         #region PR_CAR_Review_SelctAll & Filter
 
         public DataTable PR_CAR_Review_SelectAll()
@@ -473,6 +597,8 @@ namespace CarInfo.DAL
 
             }
         }
+        #endregion
+
         #endregion
 
         #region PR_CAR_Dealer_SelctAll & Filter
