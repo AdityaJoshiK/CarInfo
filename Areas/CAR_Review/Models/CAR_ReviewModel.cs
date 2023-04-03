@@ -6,6 +6,7 @@ namespace CarInfo.Areas.CAR_Review.Models
     public class CAR_ReviewModel
     {
         public int? ReviewID { get; set; }
+        public int? CarID { get; set; }
 
         [Required(ErrorMessage = "Please enter Review"), MaxLength(50)]
         [DataType(DataType.Text)]

@@ -23,4 +23,10 @@ namespace CarInfo.Areas.MST_Car.Models
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
     }
+
+    public class MST_CarDropDownModel
+    {
+        public int CarID { get; set; }
+        public string? CarName { get; set; }
+    }
 }

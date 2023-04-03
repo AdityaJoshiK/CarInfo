@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Data;
 using CarInfo.BAL;
 using CarInfo.Areas.CAR_Make.Models;
+using CarInfo.Areas.CAR_Review.Models;
 
 namespace CarInfo.DAL
 {
@@ -348,7 +349,132 @@ namespace CarInfo.DAL
         }
 
         #endregion
-        
+
+        #region PR_CAR_Review_Insert
+
+        public DataTable PR_CAR_Review_Insert(CAR_ReviewModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_Insert");
+                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "ReviewText", SqlDbType.NVarChar, model.ReviewText);
+                sqlDB.AddInParameter(dbCMD, "Rating", SqlDbType.Int, model.Rating);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Review_SelectByPK
+
+        public DataTable dbo_PR_CAR_Review_SelectByPK(string conn, int? ReviewID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(conn);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_SelectByPK");
+
+                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Review_UpdateByPK
+
+        public DataTable PR_CAR_Review_UpdateByPK(CAR_ReviewModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_UpdateByPK");
+                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, model.ReviewID);
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "ReviewText", SqlDbType.NVarChar, model.ReviewText);
+                sqlDB.AddInParameter(dbCMD, "Rating", SqlDbType.Int, model.Rating);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_Review_DeleteByPK
+
+        public DataTable PR_CAR_Review_DeleteByPK(int ReviewID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
+                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
         #region PR_CAR_Dealer_SelctAll & Filter
 
         public DataTable PR_CAR_Dealer_SelectAll(string DealerName = null)

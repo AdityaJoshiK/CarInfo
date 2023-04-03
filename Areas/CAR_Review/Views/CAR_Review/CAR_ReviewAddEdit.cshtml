@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "CAR_ReviewAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model CarInfo.Areas.CAR_Review.Models.CAR_ReviewModel
+
+<div id="main">
+    <div class="row" style="width:auto">
+        <div class="col-md-12">
+            <h3>@TempData["ReviewInsertMsg"]</h3>
+            <form method="post" asp-controller="CAR_Review" asp-action="Save">
+                @Html.HiddenFor(x=>x.ReviewID)
+                <div class="form-group">
+                <label>Car Name</label>
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                    <option value="">Select Car</option>
+                </select>
+                <span asp-validation-for="CarID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Review</label>
+                    <input type="text" class="form-control" placeholder="Enter Review" asp-for="ReviewText" />
+                    <span asp-validation-for="ReviewText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <input type="number" class="form-control" placeholder="Enter Rating" asp-for="Rating" />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+                <hr />
+                <input type="submit" class="btn btn-outline-primary" />
+                <a asp-area="CAR_Review" asp-controller="CAR_Review" asp-action="Back">
+                    <button type="button" class="btn btn-success">Cancel</button>
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
