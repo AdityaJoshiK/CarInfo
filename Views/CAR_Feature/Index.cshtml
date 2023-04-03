@@ -1,0 +1,13 @@
+﻿@model List<Car_Feature>
+
+    <div id="main">
+
+<h1>Car Features</h1>
+
+<ul>
+    @foreach (var carFeature in Model)
+    {
+        <li>@carFeature.FeatureName</li>
+    }
+</ul>
+    </div>

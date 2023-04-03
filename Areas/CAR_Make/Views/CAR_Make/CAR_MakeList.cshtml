@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "CAR_MakeList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data
+@model DataTable
+
+
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Car Maker</h3>
+                    <p class="text-subtitle text-muted">Gives Information About Car Makers</p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">CAR_Make</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row filters">
+            <div class="col-md-10">
+                <form method="post" class="form-inline">
+                    @*<input class="form-control mr-sm-2" name="CountryName" type="text" placeholder="Country Name" />*@
+                    <select class="form-control mr-sm-2 form-select"  id="countryDropdown" name="CountryName">
+                        <option value="">--Select Country--</option>
+                       @* @foreach (var item in ViewBag.CountryList)
+                        {
+                            <option value="@item.CountryName">@item.CountryName</option>
+                        }*@
+                    </select>
+                    @*<input class="form-control mr-sm-2" name="StateName" type="text" placeholder="State Name" />*@
+                    <select class="form-control mr-sm-2 form-select" id="stateDropdown" name="StateName">
+                        <option value="">--Select State--</option>
+                     @*   @foreach (var item in ViewBag.StateList)
+                        {
+                            <option value="@item.StateName">@item.StateName</option>
+                        }*@
+                    </select>
+                    @*<input class="form-control mr-sm-2" name="CityName" type="text" placeholder="City Name" />*@
+                    <select class="form-control mr-sm-2 form-select" id="cityDropdown" name="CityName">
+                        <option value="">--Select City--</option>
+                       @* @foreach (var item in ViewBag.CityList)
+                        {
+                            <option value="@item.CityName">@item.CityName</option>
+                        }*@
+                    </select>
+                   
+                    <button class="btn btn-success filterbtn" type="submit" asp-area="CAR_Make" asp-controller="CAR_Make" asp-action="Index">Apply Filters</button>
+                </form>
+            </div>
+            <div class="col-md-2 addbtns text-right">
+                <a asp-area="CAR_Make" asp-controller="CAR_Make" asp-action="Add" class="btn btn-outline btn-circle btn-primary"><i class="fa fa-plus"></i>&nbsp;Add</a>
+            </div>
+        </div>
+
+     @*   <div class="addbtns">
+           
+        </div>*@
+
+        <!-- Basic Tables start -->
+        <section class="section">
+            <div class="card">
+              @*  <div class="card-header">
+                    CAR_Make
+                </div>*@
+                <div class="card-body">
+                    <table class="table" id="table1">
+                        <thead>
+                            <tr>
+                                <th>Make Name</th>
+                                <th>Created</th>
+                                <th>Modified</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow dr in Model.Rows)
+                            {
+                                <tr>
+                                    @*<td>@dr["CountryID"]</td>*@
+                                    <td>@dr["MakeName"]</td>
+                                    <td>@dr["CreationDate"]</td>
+                                    <td>@dr["ModificationDate"]</td>
+                                    <td>
+                                        <form method="post">
+                                            <input type="hidden" name="MakeID" value="@Convert.ToInt32(dr["MakeID"].ToString())" />
+                                            <button class="btn btn-danger" type="submit" asp-area="CAR_Make" asp-controller="CAR_Make" asp-action="Delete"><i class="fa fa-close"></i></button>
+                                            <button class="btn btn-success" type="submit" asp-area="CAR_Make" asp-controller="CAR_Make" asp-action="Add"><i class="fa fa-edit"></i> </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+        <!-- Basic Tables end -->
+    </div>
+    </div>

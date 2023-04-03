@@ -1,0 +1,18 @@
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace CarInfo.Areas.CAR_Make.Models
+{
+    public class CAR_MakeModel
+    {
+        public int? MakeID { get; set; }
+
+        [Required(ErrorMessage = "Please enter Make name"), MaxLength(50)]
+        [DataType(DataType.Text)]
+        [DisplayName("Make Name")]
+        public string MakeName { get; set; }
+
+        public DateTime CreationDate { get; set; }
+        public DateTime ModificationDate { get; set; }
+    }
+}
