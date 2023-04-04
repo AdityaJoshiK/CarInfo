@@ -1,6 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "CAR_FeatureAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
+@model CarInfo.Areas.CAR_Feature.Models.CAR_FeatureModel
+
+<div class="row" style="width:auto">
+    <div class="col-md-12">
+        <h3>@TempData["FeatureInsertMsg"]</h3>
+        <form method="post" asp-controller="CAR_Feature" asp-action="Save">
+            @Html.HiddenFor(x=>x.FeatureID)
+            <div class="form-group">
+                <label>Car Name</label>
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                    <option value="">Select Car</option>
+                </select>
+                <span asp-validation-for="CarID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Feature</label>
+                <input type="text" class="form-control" placeholder="Enter Feature" asp-for="FeatureName" />
+                <span asp-validation-for="FeatureName" class="text-danger"></span>
+            </div>
+            <hr />
+            <input type="submit" class="btn btn-outline-primary" />
+            <a asp-area="CAR_Feature" asp-controller="CAR_Feature" asp-action="Back">
+                <button type="button" class="btn btn-success">Cancel</button>
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

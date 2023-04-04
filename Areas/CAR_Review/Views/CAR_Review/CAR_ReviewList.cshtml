@@ -105,10 +105,13 @@
                                     <td>@dr["CreationDate"]</td>
                                     <td>@dr["ModificationDate"]</td>
                                     <td>
-                                        <form method="post">
-                                            <input type="hidden" name="ReviewID" value="@Convert.ToInt32(dr["ReviewID"].ToString())" />
-                                            <button class="btn btn-danger" type="submit" asp-area="CAR_Review" asp-controller="CAR_Review" asp-action="Delete"><i class="fa fa-close"></i></button>
-                                            <button class="btn btn-success" type="submit" asp-area="CAR_Review" asp-controller="CAR_Review" asp-action="Add"><i class="fa fa-edit"></i> </button>
+                                    <form method="post" class="aeform" asp-area="CAR_Review" asp-controller="CAR_Review" asp-action="Delete" onsubmit="return confirmDelete(event)">
+                                        <input type="hidden" name="ReviewID" value="@Convert.ToInt32(dr["ReviewID"].ToString())" />
+                                        <button class="btn btn-danger" type="submit"><i class="fa fa-close"></i></button>
+                                    </form>
+                                    <form method="post" class="aeform" asp-area="CAR_Review" asp-controller="CAR_Review" asp-action="Add">
+                                        <input type="hidden" name="ReviewID" value="@Convert.ToInt32(dr["ReviewID"].ToString())" />
+                                            <button class="btn btn-success" type="submit"><i class="fa fa-edit"></i> </button>
                                         </form>
                                     </td>
                                 </tr>

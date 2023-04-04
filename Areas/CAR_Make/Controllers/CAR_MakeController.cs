@@ -60,7 +60,7 @@ namespace CarInfo.Areas.CAR_Make.Controllers
 
                 CAR_DAL dalCAR = new CAR_DAL();
                 SqlDatabase sqlDB = new SqlDatabase(str);
-                DataTable dt = dalCAR.dbo_PR_CAR_Make_SelectByPK(str, MakeID);
+                DataTable dt = dalCAR.dbo_PR_CAR_Make_SelectByPK(MakeID);
                 CAR_MakeModel modelCAR_Make = new CAR_MakeModel();
 
 

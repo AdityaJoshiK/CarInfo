@@ -6,7 +6,6 @@
 @using System.Data
 @model DataTable
 
-<div id="main">
     <header class="mb-3">
         <a href="#" class="burger-btn d-block d-xl-none">
             <i class="bi bi-justify fs-3"></i>
@@ -105,10 +104,13 @@
                                     <td>@dr["CreationDate"]</td>
                                     <td>@dr["ModificationDate"]</td>
                                     <td>
-                                        <form method="post">
+                                    <form method="post" class="aeform" asp-area="CAR_FuelType" asp-controller="CAR_FuelType" asp-action="Delete" onsubmit="return confirmDelete(event)">
                                             <input type="hidden" name="FuelTypeID" value="@Convert.ToInt32(dr["FuelTypeID"].ToString())" />
-                                            <button class="btn btn-danger" type="submit" asp-area="CAR_FuelType" asp-controller="CAR_FuelType" asp-action="Delete"><i class="fa fa-close"></i></button>
-                                            <button class="btn btn-success" type="submit" asp-area="CAR_FuelType" asp-controller="CAR_FuelType" asp-action="Add"><i class="fa fa-edit"></i> </button>
+                                            <button class="btn btn-danger" type="submit"><i class="fa fa-close"></i></button>
+                                    </form>
+                                    <form method="post" class="aeform" asp-area="CAR_FuelType" asp-controller="CAR_FuelType" asp-action="Add">
+                                            <input type="hidden" name="FuelTypeID" value="@Convert.ToInt32(dr["FuelTypeID"].ToString())" />
+                                            <button class="btn btn-success" type="submit"><i class="fa fa-edit"></i> </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -121,4 +123,3 @@
         </section>
         <!-- Basic Tables end -->
     </div>
-</div>

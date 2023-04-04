@@ -5,6 +5,7 @@ using CarInfo.BAL;
 using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.Areas.CAR_Review.Models;
 using CarInfo.Areas.CAR_FuelType.Models;
+using CarInfo.Areas.CAR_Feature.Models;
 
 namespace CarInfo.DAL
 {
@@ -20,6 +21,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Make_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
 
@@ -47,7 +49,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Make_Insert");
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeName", SqlDbType.NVarChar, model.MakeName);
 
                 DataTable dt = new DataTable();
@@ -71,14 +73,14 @@ namespace CarInfo.DAL
 
         #region PR_CAR_Make_SelectByPK
 
-        public DataTable dbo_PR_CAR_Make_SelectByPK(string conn, int? MakeID)
+        public DataTable dbo_PR_CAR_Make_SelectByPK(int? MakeID)
         {
             try
             {
-                SqlDatabase sqlDB = new SqlDatabase(conn);
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Make_SelectByPK");
 
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, MakeID);
 
@@ -110,7 +112,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Make_UpdateByPK");
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "MakeName", SqlDbType.NVarChar, model.MakeName);
 
@@ -142,7 +144,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Make_DeleteByPK");
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, MakeID);
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
                 using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
@@ -214,8 +216,9 @@ namespace CarInfo.DAL
             }
         }
 
-        #endregion        
-        
+        #endregion
+
+        #region CAR_Feature
         #region PR_CAR_Feature_SelctAll & Filter
 
         public DataTable PR_CAR_Feature_SelectAll(string FeatureName = null)
@@ -224,6 +227,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Feature_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
 
@@ -242,7 +246,133 @@ namespace CarInfo.DAL
         }
 
         #endregion
-        
+
+        #region PR_CAR_Feature_Insert
+
+        public DataTable PR_CAR_Feature_Insert(CAR_FeatureModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Feature_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "FeatureName", SqlDbType.NVarChar, model.FeatureName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Feature_SelectByPK
+
+        public DataTable dbo_PR_CAR_Feature_SelectByPK(string conn, int? FeatureID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(conn);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Feature_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "FeatureID", SqlDbType.Int, FeatureID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Feature_UpdateByPK
+
+        public DataTable PR_CAR_Feature_UpdateByPK(CAR_FeatureModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Feature_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "FeatureID", SqlDbType.Int, model.FeatureID);
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "FeatureName", SqlDbType.NVarChar, model.FeatureName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_Feature_DeleteByPK
+
+        public DataTable PR_CAR_Feature_DeleteByPK(int FeatureID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Feature_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "FeatureID", SqlDbType.Int, FeatureID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region CAR_FuelType
         #region PR_CAR_FuelType_SelctAll & Filter
 
         public DataTable PR_CAR_FuelType_SelectAll()
@@ -392,6 +522,8 @@ namespace CarInfo.DAL
         }
         #endregion
 
+        #endregion
+
         #region PR_CAR_Type_SelctAll & Filter
 
         public DataTable PR_CAR_Type_SelectAll()
@@ -456,6 +588,8 @@ namespace CarInfo.DAL
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectAll");
 
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
@@ -482,7 +616,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_Insert");
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
                 sqlDB.AddInParameter(dbCMD, "ReviewText", SqlDbType.NVarChar, model.ReviewText);
                 sqlDB.AddInParameter(dbCMD, "Rating", SqlDbType.Int, model.Rating);
@@ -515,7 +649,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(conn);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_SelectByPK");
 
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
 
@@ -547,7 +681,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_UpdateByPK");
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, model.ReviewID);
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
                 sqlDB.AddInParameter(dbCMD, "ReviewText", SqlDbType.NVarChar, model.ReviewText);
@@ -581,7 +715,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_DeleteByPK");
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
-                //sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
                 using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))

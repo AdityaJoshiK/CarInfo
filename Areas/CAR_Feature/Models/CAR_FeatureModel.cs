@@ -6,6 +6,7 @@ namespace CarInfo.Areas.CAR_Feature.Models
     public class CAR_FeatureModel
     {
         public int? FeatureID { get; set; }
+        public int? CarID { get; set; }
 
         [Required(ErrorMessage = "Please enter Feature name"), MaxLength(50)]
         [DataType(DataType.Text)]
