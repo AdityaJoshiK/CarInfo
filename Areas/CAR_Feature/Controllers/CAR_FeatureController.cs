@@ -38,31 +38,60 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
                 string connectionString = Configuration.GetConnectionString("MyConnectionString");
                 CAR_DAL dalCAR = new CAR_DAL();
 
-                // Insert the first feature
-                modelCAR_Feature.FeatureName = FeatureNames[0];
-                dalCAR.PR_CAR_Feature_Insert(modelCAR_Feature);
-
-                // Insert the remaining FeatureNames
-                for (int i = 1; i < FeatureNames.Count; i++)
+                if (modelCAR_Feature.FeatureID == null || modelCAR_Feature.FeatureID == 0)
                 {
-                    CAR_FeatureModel newFeature = new CAR_FeatureModel
-                    {
-                        CarID = modelCAR_Feature.CarID,
-                        FeatureName = FeatureNames[i],
-                        //UserID = modelCAR_Feature.UserID
-                    };
-                    dalCAR.PR_CAR_Feature_Insert(newFeature);
-                }
+                    // Insert new record
+                    // Insert the first feature
+                    modelCAR_Feature.FeatureName = FeatureNames[0];
+                    dalCAR.PR_CAR_Feature_Insert(modelCAR_Feature);
 
-                TempData["FeatureInsertMsg"] = "Record Inserted Succesfully";
+                    // Insert the remaining FeatureNames
+                    for (int i = 1; i < FeatureNames.Count; i++)
+                    {
+                        CAR_FeatureModel newFeature = new CAR_FeatureModel
+                        {
+                            CarID = modelCAR_Feature.CarID,
+                            FeatureName = FeatureNames[i],
+                            //UserID = modelCAR_Feature.UserID
+                        };
+                        dalCAR.PR_CAR_Feature_Insert(newFeature);
+                    }
+
+                    TempData["FeatureInsertMsg"] = "Record Inserted Succesfully";
+                }
+                else
+                {
+                    // Update existing record
+                    modelCAR_Feature.FeatureName = FeatureNames[0];
+                    dalCAR.PR_CAR_Feature_UpdateByPK(modelCAR_Feature);
+
+                    // Delete existing feature names for the record
+                    //dalCAR.PR_CAR_Feature_DeleteFeaturesByFeatureId(modelCAR_Feature.FeatureID);
+
+                    // Insert new feature names for the record
+                    //foreach (string featureName in FeatureNames)
+                    //{
+                    //    CAR_FeatureModel newFeature = new CAR_FeatureModel
+                    //    {
+                    //        CarID = modelCAR_Feature.CarID,
+                    //        FeatureName = featureName,
+                    //        FeatureID = modelCAR_Feature.FeatureID,
+                    //        //UserID = modelCAR_Feature.UserID
+                    //    };
+                    //    dalCAR.PR_CAR_Feature_Insert(newFeature);
+                    //}
+
+                    TempData["FeatureInsertMsg"] = "Record Updated Succesfully";
+                }
             }
             catch (Exception ex)
             {
-                TempData["FeatureInsertMsg"] = "Error occurred while inserting record. " + ex.Message;
+                TempData["FeatureInsertMsg"] = "Error occurred while saving record. " + ex.Message;
             }
 
             return RedirectToAction("Index");
         }
+
 
 
         public IActionResult Add(int? FeatureID)
