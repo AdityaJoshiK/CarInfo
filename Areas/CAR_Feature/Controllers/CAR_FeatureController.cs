@@ -31,28 +31,39 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
             return View("CAR_FeatureList",feature);
         }
 
-        public IActionResult Save(CAR_FeatureModel modelCAR_Feature)
+        public IActionResult Save(CAR_FeatureModel modelCAR_Feature, List<string> FeatureNames)
         {
-            #region Insert & Update
-
-            string str = Configuration.GetConnectionString("MyConnectionString");
-            CAR_DAL dalCAR = new CAR_DAL();
-
-            if (modelCAR_Feature.FeatureID == null || modelCAR_Feature.FeatureID == 0)
+            try
             {
-                DataTable dt = dalCAR.PR_CAR_Feature_Insert(modelCAR_Feature);
+                string connectionString = Configuration.GetConnectionString("MyConnectionString");
+                CAR_DAL dalCAR = new CAR_DAL();
+
+                // Insert the first feature
+                modelCAR_Feature.FeatureName = FeatureNames[0];
+                dalCAR.PR_CAR_Feature_Insert(modelCAR_Feature);
+
+                // Insert the remaining FeatureNames
+                for (int i = 1; i < FeatureNames.Count; i++)
+                {
+                    CAR_FeatureModel newFeature = new CAR_FeatureModel
+                    {
+                        CarID = modelCAR_Feature.CarID,
+                        FeatureName = FeatureNames[i],
+                        //UserID = modelCAR_Feature.UserID
+                    };
+                    dalCAR.PR_CAR_Feature_Insert(newFeature);
+                }
+
                 TempData["FeatureInsertMsg"] = "Record Inserted Succesfully";
             }
-            else
+            catch (Exception ex)
             {
-                DataTable dt = dalCAR.PR_CAR_Feature_UpdateByPK(modelCAR_Feature);
-                TempData["FeatureInsertMsg"] = "Record Updated Succesfully";
+                TempData["FeatureInsertMsg"] = "Error occurred while inserting record. " + ex.Message;
             }
 
             return RedirectToAction("Index");
-
-            #endregion
         }
+
 
         public IActionResult Add(int? FeatureID)
         {

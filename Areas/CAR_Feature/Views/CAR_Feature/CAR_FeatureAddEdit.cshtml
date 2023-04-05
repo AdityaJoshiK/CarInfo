@@ -1,14 +1,14 @@
-﻿@{
-    ViewData["Title"] = "CAR_FeatureAddEdit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿    @{
+        ViewData["Title"] = "CAR_FeatureAddEdit";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
 @model CarInfo.Areas.CAR_Feature.Models.CAR_FeatureModel
 
 <div class="row" style="width:auto">
     <div class="col-md-12">
         <h3>@TempData["FeatureInsertMsg"]</h3>
-        <form method="post" asp-controller="CAR_Feature" asp-action="Save">
+        <form method="post" asp-controller="CAR_Feature" asp-action="Save" id="feature-form">
             @Html.HiddenFor(x=>x.FeatureID)
             <div class="form-group">
                 <label>Car Name</label>
@@ -19,9 +19,14 @@
             </div>
             <div class="form-group">
                 <label>Feature</label>
-                <input type="text" class="form-control" placeholder="Enter Feature" asp-for="FeatureName" />
+                <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
                 <span asp-validation-for="FeatureName" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label>Add more features</label>
+                <input type="button" class="btn btn-outline-primary" value="Add Feature" onclick="addFeature()" />
+            </div>
+            <div id="additional-features"></div>
             <hr />
             <input type="submit" class="btn btn-outline-primary" />
             <a asp-area="CAR_Feature" asp-controller="CAR_Feature" asp-action="Back">
@@ -36,4 +41,11 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function addFeature() {
+            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" /><span class="text-danger"></span></div>');
+            $('#additional-features').append(div);
+        }
+    </script>
 }

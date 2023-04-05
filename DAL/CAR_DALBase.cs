@@ -6,6 +6,7 @@ using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.Areas.CAR_Review.Models;
 using CarInfo.Areas.CAR_FuelType.Models;
 using CarInfo.Areas.CAR_Feature.Models;
+using CarInfo.Areas.CAR_Type.Models;
 
 namespace CarInfo.DAL
 {
@@ -247,7 +248,7 @@ namespace CarInfo.DAL
 
         #endregion
 
-        #region PR_CAR_Feature_Insert
+        #region PR_CAR_Feature_Insertx`
 
         public DataTable PR_CAR_Feature_Insert(CAR_FeatureModel model)
         {
@@ -533,6 +534,8 @@ namespace CarInfo.DAL
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Type_SelectAll");
 
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
@@ -549,6 +552,127 @@ namespace CarInfo.DAL
             }
         }
 
+        #endregion
+
+        #region PR_CAR_Type_Insert
+
+        public DataTable PR_CAR_Type_Insert(CAR_TypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Type_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "TypeName", SqlDbType.NVarChar, model.TypeName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Type_SelectByPK
+
+        public DataTable dbo_PR_CAR_Type_SelectByPK(int? TypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Type_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, TypeID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Type_UpdateByPK
+
+        public DataTable PR_CAR_Type_UpdateByPK(CAR_TypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Type_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
+                sqlDB.AddInParameter(dbCMD, "TypeName", SqlDbType.NVarChar, model.TypeName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_Type_DeleteByPK
+
+        public DataTable PR_CAR_Type_DeleteByPK(int TypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Type_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, TypeID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
         #endregion
 
         #region PR_CAR_TransmissionType_SelctAll & Filter
@@ -762,6 +886,5 @@ namespace CarInfo.DAL
 
         #endregion
 
-       
     }
 }
