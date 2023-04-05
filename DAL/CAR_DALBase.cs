@@ -7,6 +7,7 @@ using CarInfo.Areas.CAR_Review.Models;
 using CarInfo.Areas.CAR_FuelType.Models;
 using CarInfo.Areas.CAR_Feature.Models;
 using CarInfo.Areas.CAR_Type.Models;
+using CarInfo.Areas.CAR_TransmissionType.Models;
 
 namespace CarInfo.DAL
 {
@@ -162,60 +163,6 @@ namespace CarInfo.DAL
             }
         }
         #endregion
-
-        #endregion
-
-        #region PR_CAR_Variant_SelctAll & Filter
-
-        public DataTable PR_CAR_Variant_SelectAll()
-        {
-            try
-            {
-                SqlDatabase sqldb = new SqlDatabase(connectionStr);
-                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Variant_SelectAll");
-
-                DataTable dt = new DataTable();
-
-                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
-                {
-                    dt.Load(dr);
-                    }
-
-                return dt;
-            }
-
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        #endregion
-
-        #region PR_MST_Car_SelctAll & Filter
-
-        public DataTable PR_MST_Car_SelectAll()
-        {
-            try
-            {
-                SqlDatabase sqldb = new SqlDatabase(connectionStr);
-                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_MST_Car_SelectAll");
-
-                DataTable dt = new DataTable();
-
-                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
-                {
-                    dt.Load(dr);
-                }
-
-                return dt;
-            }
-
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
 
         #endregion
 
@@ -525,6 +472,7 @@ namespace CarInfo.DAL
 
         #endregion
 
+        #region CAR_Type
         #region PR_CAR_Type_SelctAll & Filter
 
         public DataTable PR_CAR_Type_SelectAll()
@@ -674,32 +622,6 @@ namespace CarInfo.DAL
             }
         }
         #endregion
-
-        #region PR_CAR_TransmissionType_SelctAll & Filter
-
-        public DataTable PR_CAR_TransmissionType_SelectAll(string FeatureName = null)
-        {
-            try
-            {
-                SqlDatabase sqldb = new SqlDatabase(connectionStr);
-                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_TransmissionType_SelectAll");
-
-                DataTable dt = new DataTable();
-
-                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
-                {
-                    dt.Load(dr);
-                }
-
-                return dt;
-            }
-
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
         #endregion
 
         #region CAR_Review
@@ -885,6 +807,212 @@ namespace CarInfo.DAL
         }
 
         #endregion
+
+        #region PR_CAR_Variant_SelctAll & Filter
+
+        public DataTable PR_CAR_Variant_SelectAll()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Variant_SelectAll");
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PR_MST_Car_SelctAll & Filter
+
+        public DataTable PR_MST_Car_SelectAll()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_MST_Car_SelectAll");
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region CAR_TransmissionType
+        #region PR_CAR_TransmissionType_SelctAll & Filter
+
+        public DataTable PR_CAR_TransmissionType_SelectAll()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_TransmissionType_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_TransmissionType_Insert
+
+        public DataTable PR_CAR_TransmissionType_Insert(CAR_TransmissionTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_TransmissionType_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeName", SqlDbType.NVarChar, model.TransmissionTypeName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_TransmissionType_SelectByPK
+
+        public DataTable dbo_PR_CAR_TransmissionType_SelectByPK(int? TransmissionTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_TransmissionType_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeID", SqlDbType.Int,TransmissionTypeID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_TransmissionType_UpdateByPK
+
+        public DataTable PR_CAR_TransmissionType_UpdateByPK(CAR_TransmissionTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_TransmissionType_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeID", SqlDbType.Int, model.TransmissionTypeID);
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeName", SqlDbType.NVarChar, model.TransmissionTypeName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_TransmissionType_DeleteByPK
+
+        public DataTable PR_CAR_TransmissionType_DeleteByPK(int TransmissionTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_TransmissionType_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeID", SqlDbType.Int, TransmissionTypeID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+        #endregion
+
 
     }
 }

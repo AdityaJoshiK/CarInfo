@@ -113,7 +113,7 @@
                                             <input type="hidden" name="MakeID" value="@Convert.ToInt32(dr["MakeID"].ToString())" />
                                             <button class="btn btn-danger" type="submit" ><i class="fa fa-close"></i></button>
                                         </form>
-                                    <form method="post" class="aeform" asp-area="CAR_Make" asp-controller="CAR_Make" asp-action="Add">
+                                    <form method="get" class="aeform" asp-area="CAR_Make" asp-controller="CAR_Make" asp-action="Add">
                                     <input type="hidden" name="MakeID" value="@Convert.ToInt32(dr["MakeID"].ToString())" />
                                         <button class="btn btn-success" type="submit" ><i class="fa fa-edit"></i> </button>
                                 </form>
