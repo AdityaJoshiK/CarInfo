@@ -1,5 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "CAR_VariantAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model CarInfo.Areas.CAR_Variant.Models.CAR_VariantModel
+
+<div class="row" style="width:auto">
+    <div class="col-md-12">
+        <h3>@TempData["VariantInsertMsg"]</h3>
+        <form method="post" asp-controller="CAR_Variant" asp-action="Save" id="Variant-form">
+            @Html.HiddenFor(x=>x.VariantID)
+            <div class="form-group">
+                <label>Car Name</label>
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                    <option value="">Select Car</option>
+                </select>
+                <span asp-validation-for="CarID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Variant</label>
+                <input type="text" class="form-control" placeholder="Enter Variant" name="VariantNames" asp-for="VariantName" />
+                <span asp-validation-for="VariantName" class="text-danger"></span>
+            </div>
+            @if (Model == null || Model.VariantID == null || Model.VariantID == 0)
+            {
+                <div class="form-group">
+                    <label>Add more Variants</label>
+                    <input type="button" class="btn btn-outline-primary" value="Add Variant" onclick="addVariant()" />
+                </div>
+                @Html.HiddenFor(x => x.VariantID, new { @value = "0" })
+            }
+            <div id="additional-Variants"></div>
+            <hr />
+            <input type="submit" class="btn btn-outline-primary" />
+            <a asp-area="CAR_Variant" asp-controller="CAR_Variant" asp-action="Back">
+                <button type="button" class="btn btn-success">Cancel</button>
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function addVariant() {
+            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Variant" name="VariantNames" /><span class="text-danger"></span></div>');
+            $('#additional-Variants').append(div);
+        }
+    </script>
 }

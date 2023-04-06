@@ -7,6 +7,7 @@ namespace CarInfo.Areas.CAR_Variant.Models
     {
         public int? VariantID { get; set; }
         public int? CarID { get; set; }
+        public int? UserID { get; set; }
 
         [Required(ErrorMessage = "Please enter Variant name"), MaxLength(50)]
         [DataType(DataType.Text)]
