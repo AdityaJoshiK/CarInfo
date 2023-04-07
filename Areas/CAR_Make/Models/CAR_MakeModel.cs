@@ -15,4 +15,10 @@ namespace CarInfo.Areas.CAR_Make.Models
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
     }
+
+    public class CAR_MakeDropDownModel
+    {
+        public int MakeID { get; set; }
+        public string? MakeName { get; set; }
+    }
 }

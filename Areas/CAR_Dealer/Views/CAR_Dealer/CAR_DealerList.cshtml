@@ -30,6 +30,57 @@
             </div>
         </div>
 
+    @if (TempData["DealerInsertMsg"] != null)
+    {
+        <div id="Dealer-alert" class="alert alert-light-success color-success">
+            <i class="bi bi-check-circle"></i> @TempData["DealerInsertMsg"]
+        </div>
+
+        <script>
+            setTimeout(function () {
+                $('#Dealer-alert').fadeOut('fast');
+            }, 2000); // 2 seconds
+        </script>
+    }
+
+
+    <div class="row filters">
+        <div class="col-md-10">
+            <form method="post" class="form-inline">
+                @*<input class="form-control mr-sm-2" name="CountryName" type="text" placeholder="Country Name" />*@
+                <select class="form-control filter mr-sm-2 form-select" id="countryDropdown" name="CountryName">
+                    <option value="">--Select Country--</option>
+                    @* @foreach (var item in ViewBag.CountryList)
+                    {
+                    <option value="@item.CountryName">@item.CountryName</option>
+                    }*@
+                </select>
+                @*<input class="form-control mr-sm-2" name="StateName" type="text" placeholder="State Name" />*@
+                <select class="form-control filter mr-sm-2 form-select" id="stateDropdown" name="StateName">
+                    <option value="">--Select State--</option>
+                    @*   @foreach (var item in ViewBag.StateList)
+                    {
+                    <option value="@item.StateName">@item.StateName</option>
+                    }*@
+                </select>
+                @*<input class="form-control mr-sm-2" name="CityName" type="text" placeholder="City Name" />*@
+                <select class="form-control filter mr-sm-2 form-select" id="cityDropdown" name="CityName">
+                    <option value="">--Select City--</option>
+                    @* @foreach (var item in ViewBag.CityList)
+                    {
+                    <option value="@item.CityName">@item.CityName</option>
+                    }*@
+                </select>
+
+                <button class="btn btn-success filterbtn" type="submit" asp-area="CAR_Dealer" asp-controller="CAR_Dealer" asp-action="Index">Apply Filters</button>
+            </form>
+        </div>
+        <div class="col-md-2 addbtns text-right">
+            <a asp-area="CAR_Dealer" asp-controller="CAR_Dealer" asp-action="Add" class="btn btn-outline btn-circle btn-primary"><i class="fa fa-plus"></i>&nbsp;Add</a>
+        </div>
+    </div>
+
+
         <!-- Basic Tables start -->
         <section class="section">
             <div class="card">
@@ -67,11 +118,14 @@
                                     <td>@dr["CreationDate"]</td>
                                     <td>@dr["ModificationDate"]</td>
                                     <td>
-                                        <form method="post">
+                                    <form method="post" class="aeform" asp-area="CAR_Dealer" asp-controller="CAR_Dealer" asp-action="Delete" onsubmit="return confirmDelete(event)">
                                             <input type="hidden" name="DealerID" value="@Convert.ToInt32(dr["DealerID"].ToString())" />
-                                            <button class="btn btn-danger" type="submit" asp-area="LOC_Country" asp-controller="LOC_Country" asp-action="Delete"><i class="fa fa-close"></i></button>
-                                            <button class="btn btn-success" type="submit" asp-area="LOC_Country" asp-controller="LOC_Country" asp-action="Add"><i class="fa fa-edit"></i> </button>
+                                            <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-close"></i></button>
                                         </form>
+                                    <form method="post" asp-area="CAR_Dealer" asp-controller="CAR_Dealer" asp-action="Add" class="aeform">
+                                            <input type="hidden" name="DealerID" value="@Convert.ToInt32(dr["DealerID"].ToString())" />
+                                            <button class="btn btn-sm btn-success" type="submit"><i class="fa fa-edit"></i> </button>
+                                    </form>
                                     </td>
                                 </tr>
                             }

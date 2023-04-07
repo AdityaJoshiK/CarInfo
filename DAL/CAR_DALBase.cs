@@ -9,6 +9,8 @@ using CarInfo.Areas.CAR_Feature.Models;
 using CarInfo.Areas.CAR_Type.Models;
 using CarInfo.Areas.CAR_TransmissionType.Models;
 using CarInfo.Areas.CAR_Variant.Models;
+using CarInfo.Areas.CAR_Dealer.Models;
+using System.Reflection;
 
 namespace CarInfo.DAL
 {
@@ -791,6 +793,8 @@ namespace CarInfo.DAL
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Dealer_SelectAll");
 
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
@@ -807,6 +811,138 @@ namespace CarInfo.DAL
             }
         }
 
+        #endregion
+
+        #region PR_CAR_Dealer_Insert
+
+        public DataTable PR_CAR_Dealer_Insert(CAR_DealerModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Dealer_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
+                sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+                sqlDB.AddInParameter(dbCMD, "Address", SqlDbType.NVarChar, model.Address);
+                sqlDB.AddInParameter(dbCMD, "City", SqlDbType.NVarChar, model.City);
+                sqlDB.AddInParameter(dbCMD, "State", SqlDbType.NVarChar, model.State);
+                sqlDB.AddInParameter(dbCMD, "Country", SqlDbType.NVarChar, model.Country);
+                sqlDB.AddInParameter(dbCMD, "Phone", SqlDbType.NVarChar, model.Phone);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Dealer_SelectByPK
+
+        public DataTable dbo_PR_CAR_Dealer_SelectByPK(int? DealerID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Dealer_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "DealerID", SqlDbType.Int, DealerID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Dealer_UpdateByPK
+
+        public DataTable PR_CAR_Dealer_UpdateByPK(CAR_DealerModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Dealer_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "DealerID", SqlDbType.Int, model.DealerID);
+                sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
+                sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+                sqlDB.AddInParameter(dbCMD, "Address", SqlDbType.NVarChar, model.Address);
+                sqlDB.AddInParameter(dbCMD, "City", SqlDbType.NVarChar, model.City);
+                sqlDB.AddInParameter(dbCMD, "State", SqlDbType.NVarChar, model.State);
+                sqlDB.AddInParameter(dbCMD, "Country", SqlDbType.NVarChar, model.Country);
+                sqlDB.AddInParameter(dbCMD, "Phone", SqlDbType.NVarChar, model.Phone);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_Dealer_DeleteByPK
+
+        public DataTable PR_CAR_Dealer_DeleteByPK(int DealerID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Dealer_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "DealerID", SqlDbType.Int, DealerID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
         #endregion
 
         #region CAR_Variant

@@ -7,6 +7,7 @@ namespace CarInfo.Areas.CAR_Dealer.Models
     {
         public int? DealerID { get; set; }
         public int? MakeID { get; set; }
+        public int? UserID { get; set; }
 
         [Required(ErrorMessage = "Please enter Dealer name"), MaxLength(50)]
         [DataType(DataType.Text)]
