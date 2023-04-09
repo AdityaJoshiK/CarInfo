@@ -30,6 +30,55 @@
             </div>
         </div>
 
+    @if (TempData["VariantInsertMsg"] != null)
+    {
+        <div id="Variant-alert" class="alert alert-light-success color-success">
+            <i class="bi bi-check-circle"></i> @TempData["VariantInsertMsg"]
+        </div>
+
+        <script>
+            setTimeout(function () {
+                $('#Variant-alert').fadeOut('fast');
+            }, 2000); // 2 seconds
+        </script>
+    }
+
+    <div class="row filters">
+        <div class="col-md-10">
+            <form method="post" class="form-inline">
+                @*<input class="form-control mr-sm-2" name="CountryName" type="text" placeholder="Country Name" />*@
+                <select class="form-control filter mr-sm-2 form-select" id="countryDropdown" name="CountryName">
+                    <option value="">--Select Country--</option>
+                    @* @foreach (var item in ViewBag.CountryList)
+                    {
+                    <option value="@item.CountryName">@item.CountryName</option>
+                    }*@
+                </select>
+                @*<input class="form-control mr-sm-2" name="StateName" type="text" placeholder="State Name" />*@
+                <select class="form-control filter mr-sm-2 form-select" id="stateDropdown" name="StateName">
+                    <option value="">--Select State--</option>
+                    @*   @foreach (var item in ViewBag.StateList)
+                    {
+                    <option value="@item.StateName">@item.StateName</option>
+                    }*@
+                </select>
+                @*<input class="form-control mr-sm-2" name="CityName" type="text" placeholder="City Name" />*@
+                <select class="form-control filter mr-sm-2 form-select" id="cityDropdown" name="CityName">
+                    <option value="">--Select City--</option>
+                    @* @foreach (var item in ViewBag.CityList)
+                    {
+                    <option value="@item.CityName">@item.CityName</option>
+                    }*@
+                </select>
+
+                <button class="btn btn-success filterbtn" type="submit" asp-area="MST_Car" asp-controller="MST_Car" asp-action="Index">Apply Filters</button>
+            </form>
+        </div>
+        <div class="col-md-2 addbtns text-right">
+            <a asp-area="MST_Car" asp-controller="MST_Car" asp-action="Add" class="btn btn-outline btn-circle btn-primary"><i class="fa fa-plus"></i>&nbsp;Add</a>
+        </div>
+    </div>
+
         <!-- Basic Tables start -->
         <section class="section">
             <div class="card">
@@ -43,14 +92,14 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Maker</th>
-                                <th>Type</th>
+                              @*  <th>Type</th>
                                 <th>Variant</th>
                                 <th>Feature</th>
                                 <th>FuelType</th>
-                                <th>TransmissionType</th>
+                                <th>TransmissionType</th>*@
                                 <th>Year</th>
                                 <th>Price</th>
-                                <th>Image</th>
+                                @*<th>Image</th>*@
                                 <th>Created</th>
                                 <th>Modified</th>
                                 <th>Action</th>
@@ -63,21 +112,27 @@
                                     @*<td>@dr["CountryID"]</td>*@
                                     <td>@dr["Name"]</td>
                                     <td>@dr["MakeName"]</td>
-                                    <td>@dr["TypeName"]</td>
+                                @TempData["Make"]=@dr["MakeName"]
+                                  @*  <td>@dr["TypeName"]</td>
                                     <td>@dr["VariantName"]</td>
                                     <td>@dr["FeatureName"]</td>
                                     <td>@dr["FuelTypeName"]</td>
-                                    <td>@dr["TransmissionTypeName"]</td>
+                                    <td>@dr["TransmissionTypeName"]</td>*@
                                     <td>@dr["Year"]</td>
                                     <td>@dr["Price"]</td>
-                                    <td>@dr["Image"]</td>
+                                    @*<td>@dr["Image"]</td>*@
                                     <td>@dr["CreationDate"]</td>
                                     <td>@dr["ModificationDate"]</td>
                                     <td>
-                                        <form method="post">
+                                    <form method="post" class="aeform" asp-area="MST_Car" asp-controller="MST_Car" asp-action="Delete" onsubmit="return confirmDelete(event)">
                                             <input type="hidden" name="CarID" value="@Convert.ToInt32(dr["CarID"].ToString())" />
-                                            <button class="btn btn-danger" type="submit" asp-area="LOC_Country" asp-controller="LOC_Country" asp-action="Delete"><i class="fa fa-close"></i></button>
-                                            <button class="btn btn-success" type="submit" asp-area="LOC_Country" asp-controller="LOC_Country" asp-action="Add"><i class="fa fa-edit"></i> </button>
+                                            <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-close"></i></button>
+                                    </form>
+                                    <form method="post" class="aeform">
+                                            <input type="hidden" name="CarID" value="@Convert.ToInt32(dr["CarID"].ToString())" />
+                                        <button class="btn btn-sm btn-success" type="submit" asp-area="MST_Car" asp-controller="MST_Car" asp-action="Add"><i class="fa fa-edit"></i> </button>
+                                        <button class="btn btn-sm btn-info" type="submit" asp-area="MST_Car" asp-controller="MST_Car" asp-action="Detail"><span class="fa-fw select-all fas"></span></button>
+
                                         </form>
                                     </td>
                                 </tr>

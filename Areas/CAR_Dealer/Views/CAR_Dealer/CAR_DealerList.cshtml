@@ -121,12 +121,12 @@
                                     <form method="post" class="aeform" asp-area="CAR_Dealer" asp-controller="CAR_Dealer" asp-action="Delete" onsubmit="return confirmDelete(event)">
                                             <input type="hidden" name="DealerID" value="@Convert.ToInt32(dr["DealerID"].ToString())" />
                                             <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-close"></i></button>
-                                        </form>
+                                        </form> 
                                     <form method="post" asp-area="CAR_Dealer" asp-controller="CAR_Dealer" asp-action="Add" class="aeform">
                                             <input type="hidden" name="DealerID" value="@Convert.ToInt32(dr["DealerID"].ToString())" />
                                             <button class="btn btn-sm btn-success" type="submit"><i class="fa fa-edit"></i> </button>
                                     </form>
-                                    </td>
+                                    </td> 
                                 </tr>
                             }
                         </tbody>

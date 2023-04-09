@@ -11,13 +11,13 @@ namespace CarInfo.Areas.MST_Car.Models
         public int? FuelTypeID { get; set; }
         public int? TransmiTypeID { get; set; }
         public int? UserID { get; set; }
+        public int? ImageID { get; set; }
 
         [Required(ErrorMessage = "Please enter Car name"), MaxLength(50)]
         [DataType(DataType.Text)]
         [DisplayName("Car Name")]
         public string Name { get; set; }
-        public string Price { get; set; }
-        public string Image { get; set; }
+        public decimal Price { get; set; }
         public int Year { get; set; }
 
         public DateTime CreationDate { get; set; }

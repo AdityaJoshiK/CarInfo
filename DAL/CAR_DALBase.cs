@@ -11,6 +11,7 @@ using CarInfo.Areas.CAR_TransmissionType.Models;
 using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.CAR_Dealer.Models;
 using System.Reflection;
+using CarInfo.Areas.MST_Car.Models;
 
 namespace CarInfo.DAL
 {
@@ -784,6 +785,8 @@ namespace CarInfo.DAL
 
         #endregion
 
+        #region CAR_Dealer
+
         #region PR_CAR_Dealer_SelctAll & Filter
 
         public DataTable PR_CAR_Dealer_SelectAll(string DealerName = null)
@@ -944,6 +947,7 @@ namespace CarInfo.DAL
             }
         }
         #endregion
+        #endregion
 
         #region CAR_Variant
 
@@ -1100,33 +1104,6 @@ namespace CarInfo.DAL
 
         #endregion
 
-        #region PR_MST_Car_SelctAll & Filter
-
-        public DataTable PR_MST_Car_SelectAll()
-        {
-            try
-            {
-                SqlDatabase sqldb = new SqlDatabase(connectionStr);
-                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_MST_Car_SelectAll");
-
-                DataTable dt = new DataTable();
-
-                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
-                {
-                    dt.Load(dr);
-                }
-
-                return dt;
-            }
-
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        #endregion
-
         #region CAR_TransmissionType
         #region PR_CAR_TransmissionType_SelctAll & Filter
 
@@ -1278,6 +1255,165 @@ namespace CarInfo.DAL
         #endregion
         #endregion
 
+        #region MST_Car
+
+        #region PR_MST_Car_SelctAll & Filter
+
+        public DataTable PR_MST_Car_SelectAll()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_MST_Car_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion       
+
+        #region PR_MST_Car_Insert
+
+        public DataTable PR_MST_Car_Insert(MST_CarModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
+                sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+                sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
+                sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_MST_Car_SelectByPK
+
+        public DataTable dbo_PR_MST_Car_SelectByPK(int? CarID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_MST_Car_UpdateByPK
+
+        public DataTable PR_MST_Car_UpdateByPK(MST_CarModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
+                sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+                sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
+                sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_MST_Car_DeleteByPK
+
+        public DataTable PR_MST_Car_DeleteByPK(int CarID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+        #endregion
+
+      
 
     }
 }

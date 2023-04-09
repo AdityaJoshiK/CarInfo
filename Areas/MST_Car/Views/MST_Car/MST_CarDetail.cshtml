@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "MST_CarList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data
+@model DataTable
+
+<header class="mb-3">
+    <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+    </a>
+</header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>MST_Car</h3>
+                <p class="text-subtitle text-muted">Gives Information About Cars</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <a class="active" asp-controller="Home" asp-action="Index">Dashboard</a>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">MST_Car</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Basic List start -->
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                MST_Car
+            </div>
+            <div class="card-body" style="overflow:scroll">
+                <ul class="list-group">
+                    @foreach (DataRow dr in Model.Rows)
+                    {
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <strong>Name:</strong> @dr["Name"]
+                                </div>
+                              @*  <div class="col-md-3">
+                                    <strong>Maker:</strong>  @dr["MakeName"]
+                                </div>*@
+                              @*  <div class="col-md-3">
+                                    <strong>Type:</strong> @dr["TypeName"]
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Variant:</strong> @dr["VariantName"]
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <strong>Feature:</strong> @dr["FeatureName"]
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>FuelType:</strong> @dr["FuelTypeName"]
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>TransmissionType:</strong> @dr["TransmissionTypeName"]
+                                </div>*@
+                                <div class="col-md-3">
+                                    <strong>Year:</strong> @dr["Year"]
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <strong>Price:</strong> @dr["Price"]
+                                </div>
+                              @*  <div class="col-md-3">
+                                    <strong>Image:</strong> @dr["Image"]
+                                </div>*@
+                                <div class="col-md-3">
+                                    <strong>Created:</strong> @dr["CreationDate"]
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Modified:</strong> @dr["ModificationDate"]
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <form method="post">
+                                        @*<input type="hidden" name="carId" value="@dr["Id"]" />*@
+                                        <button type="submit" class="btn btn-danger float-end">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Basic List end -->
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Add your custom JavaScript code here
+        });
+    </script>
+}
+

@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "MST_CarAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model CarInfo.Areas.MST_Car.Models.MST_CarModel
+
+<div class="row" style="width:auto">
+    <div class="col-md-12">
+        <h3>@TempData["DealerInsertMsg"]</h3>
+        <form method="post" asp-controller="MST_Car" asp-action="Save">
+            @Html.HiddenFor(x=>x.CarID)
+            <div class="form-group">
+                <label>Maker</label>
+                <select class="form-control" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))">
+                    <option value="">Select Maker</option>
+                </select>
+                <span asp-validation-for="MakeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Car Name</label>
+                <input type="text" class="form-control" placeholder="Enter Name" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" class="form-control" placeholder="Enter Price" asp-for="Price" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Year</label>
+                <input type="text" class="form-control" placeholder="Enter Year" asp-for="Year" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <hr />
+            <input type="submit" class="btn btn-outline-primary" />
+            <a asp-area="MST_Car" asp-controller="MST_Car" asp-action="Back">
+                <button type="button" class="btn btn-success">Cancel</button>
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
