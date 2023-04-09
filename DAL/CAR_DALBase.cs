@@ -12,6 +12,7 @@ using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.CAR_Dealer.Models;
 using System.Reflection;
 using CarInfo.Areas.MST_Car.Models;
+using System.Data.SqlClient;
 
 namespace CarInfo.DAL
 {
@@ -1105,6 +1106,7 @@ namespace CarInfo.DAL
         #endregion
 
         #region CAR_TransmissionType
+
         #region PR_CAR_TransmissionType_SelctAll & Filter
 
         public DataTable PR_CAR_TransmissionType_SelectAll()
@@ -1253,6 +1255,7 @@ namespace CarInfo.DAL
             }
         }
         #endregion
+
         #endregion
 
         #region MST_Car
@@ -1411,9 +1414,81 @@ namespace CarInfo.DAL
             }
         }
         #endregion
+
         #endregion
 
-      
+        #region Dropdowns
 
+        #region CAR_MakeDropDown
+
+        public List<CAR_MakeDropDownModel> PR_CAR_Make_DropDown()
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Make_SelectForDropDown");
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                List<CAR_MakeDropDownModel> list = new List<CAR_MakeDropDownModel>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CAR_MakeDropDownModel vlst = new CAR_MakeDropDownModel();
+                    vlst.MakeID = Convert.ToInt32(dr["MakeID"]);
+                    vlst.MakeName = dr["MakeName"].ToString();
+                    list.Add(vlst);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+                return null;
+            }
+        }
+
+
+        #endregion
+
+        #region PR_MST_Car_DropDown
+        public List<MST_CarDropDownModel> PR_MST_Car_DropDown()
+        {
+            try
+            {
+                SqlConnection conn = new SqlConnection(connectionStr);
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "PR_MST_Car_SelectForDropDown";
+                //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = CV.UserID();
+                DataTable dt = new DataTable();
+                SqlDataReader reader = cmd.ExecuteReader();
+                dt.Load(reader);
+
+                List<MST_CarDropDownModel> list = new List<MST_CarDropDownModel>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    MST_CarDropDownModel car = new MST_CarDropDownModel();
+                    car.CarID = Convert.ToInt32(dr["CarID"]);
+                    car.CarName = dr["Name"].ToString();
+                    list.Add(car);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                // Handle exception as needed
+                return null;
+            }
+        }
+        #endregion
+
+        #endregion
     }
 }

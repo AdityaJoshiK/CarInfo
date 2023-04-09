@@ -97,32 +97,16 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
         public IActionResult Add(int? FeatureID)
         {
             string str = Configuration.GetConnectionString("myConnectionString");
-            #region CarDropdown
-            SqlConnection conn1 = new SqlConnection(str);
-            conn1.Open();
-            SqlCommand cmd = conn1.CreateCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "PR_MST_Car_SelectForDropDown";
-            //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = CV.UserID();
-            DataTable dt1 = new DataTable();
-            SqlDataReader sdr1 = cmd.ExecuteReader();
-            dt1.Load(sdr1);
+            CAR_DAL dalCAR = new CAR_DAL();
 
-            List<MST_CarDropDownModel> list = new List<MST_CarDropDownModel>();
-            foreach (DataRow dr in dt1.Rows)
-            {
-                MST_CarDropDownModel vlst = new MST_CarDropDownModel();
-                vlst.CarID = Convert.ToInt32(dr["CarID"]);
-                vlst.CarName = dr["Name"].ToString();
-                list.Add(vlst);
-            }
-            ViewBag.CarList = list;
+            #region CarDropdown
+            List<MST_CarDropDownModel> carList = dalCAR.PR_MST_Car_DropDown();
+            ViewBag.CarList = carList;
             #endregion
 
             #region SelectByPK
             if (FeatureID != null)
             {
-                CAR_DAL dalCAR = new CAR_DAL();
                 SqlDatabase sqlDB = new SqlDatabase(str);
                 DataTable dt = dalCAR.dbo_PR_CAR_Feature_SelectByPK(str, FeatureID);
                 CAR_FeatureModel modelCAR_Feature = new CAR_FeatureModel();

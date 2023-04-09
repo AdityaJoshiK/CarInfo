@@ -60,26 +60,13 @@ namespace CarInfo.Areas.CAR_Dealer.Controllers
         {
             string str = Configuration.GetConnectionString("myConnectionString");
 
-            #region MakeDropdown
-            SqlConnection conn1 = new SqlConnection(str);
-            conn1.Open();
-            SqlCommand cmd = conn1.CreateCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "PR_CAR_Make_SelectForDropDown";
-            //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = CV.UserID();
-            DataTable dt1 = new DataTable();
-            SqlDataReader sdr1 = cmd.ExecuteReader();
-            dt1.Load(sdr1);
+            CAR_DAL dalCAR = new CAR_DAL();
 
-            List<CAR_MakeDropDownModel> list = new List<CAR_MakeDropDownModel>();
-            foreach (DataRow dr in dt1.Rows)
-            {
-                CAR_MakeDropDownModel vlst = new CAR_MakeDropDownModel();
-                vlst.MakeID = Convert.ToInt32(dr["MakeID"]);
-                vlst.MakeName = dr["MakeName"].ToString();
-                list.Add(vlst);
-            }
+
+            #region MakeDropdown
+            List<CAR_MakeDropDownModel> list = dalCAR.PR_CAR_Make_DropDown();
             ViewBag.MakeList = list;
+
             #endregion
 
             #region SelectByPK
@@ -87,7 +74,6 @@ namespace CarInfo.Areas.CAR_Dealer.Controllers
             {
                 //string str = Configuration.GetConnectionString("myConnectionString");
 
-                CAR_DAL dalCAR = new CAR_DAL();
                 SqlDatabase sqlDB = new SqlDatabase(str);
                 DataTable dt = dalCAR.dbo_PR_CAR_Dealer_SelectByPK(DealerID);
                 CAR_DealerModel modelCAR_Dealer = new CAR_DealerModel();
