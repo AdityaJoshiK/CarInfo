@@ -24,6 +24,12 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Login}/{id?}");
 
 app.MapControllerRoute(
+    name: "admin",
+    pattern: "Admin/{action=Login}/{id?}",
+    defaults: new { controller = "SEC_User" }); // Update the pattern and defaults for admin panel
+
+
+app.MapControllerRoute(
     name: "Area",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
