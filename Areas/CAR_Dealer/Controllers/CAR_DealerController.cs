@@ -1,6 +1,4 @@
 ﻿using CarInfo.Areas.CAR_Dealer.Models;
-using CarInfo.Areas.CAR_Dealer.Models;
-using CarInfo.Areas.CAR_Dealer.Models;
 using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -71,7 +69,7 @@ namespace CarInfo.Areas.CAR_Dealer.Controllers
 
             #region SelectByPK
             if (DealerID != null)
-            {
+            {   
                 //string str = Configuration.GetConnectionString("myConnectionString");
 
                 SqlDatabase sqlDB = new SqlDatabase(str);

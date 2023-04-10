@@ -174,13 +174,37 @@ namespace CarInfo.DAL
         #region CAR_Feature
         #region PR_CAR_Feature_SelctAll & Filter
 
-        public DataTable PR_CAR_Feature_SelectAll(string FeatureName = null)
+        public DataTable PR_CAR_Feature_SelectAll(CAR_FeatureModel model)
         {
             try
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Feature_SelectAll");
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if(model.CarID != null || model.FeatureName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Feature_SelectByCarIDFeatureName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.FeatureName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@FeatureName", DbType.String, model.FeatureName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@FeatureName", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 

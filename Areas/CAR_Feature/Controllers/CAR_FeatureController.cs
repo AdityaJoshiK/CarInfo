@@ -26,7 +26,12 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
             DataTable feature = new DataTable();
             CAR_DALBase dalCar = new CAR_DALBase();
 
-            feature = dalCar.PR_CAR_Feature_SelectAll(model.FeatureName);
+            feature = dalCar.PR_CAR_Feature_SelectAll(model);
+
+            #region CarDropdown
+            List<MST_CarDropDownModel> carList = dalCar.PR_MST_Car_DropDown();
+            ViewBag.CarList = carList;
+            #endregion
 
             return View("CAR_FeatureList",feature);
         }
