@@ -14,7 +14,7 @@ namespace CarInfo.BAL
 
             if (filterContext.HttpContext.Session.GetString("UserID") == null)
             {
-                filterContext.Result = new RedirectResult("~/SEC_User/Index");
+                filterContext.Result = new RedirectResult("~/SEC_User/Login");
             }
         }
 

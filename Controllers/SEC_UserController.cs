@@ -18,6 +18,11 @@ namespace CarInfo.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult Login(SEC_UserModel modelSEC_User)
         {
@@ -35,7 +40,7 @@ namespace CarInfo.Controllers
             if (error != null)
             {
                 TempData["Error"] = error;
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
             else
             {
@@ -57,7 +62,7 @@ namespace CarInfo.Controllers
                 else
                 {
                     TempData["Error"] = "User Name or Password is invalid!";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Login");
                 }
                 if (HttpContext.Session.GetString("UserName") != null && HttpContext.Session.GetString("Password") != null)
                 {
@@ -70,7 +75,7 @@ namespace CarInfo.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
     }
 }
