@@ -656,7 +656,7 @@ namespace CarInfo.DAL
         #region CAR_Review
         #region PR_CAR_Review_SelctAll & Filter
 
-        public DataTable PR_CAR_Review_SelectAll()
+        public DataTable PR_CAR_Review_SelectAll(CAR_ReviewModel model)
         {
             try
             {
@@ -664,6 +664,38 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectAll");
 
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.CarID != null || model.ReviewText != null || model.Rating != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectByCarIDReviewTextRating");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.ReviewText != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@ReviewText", DbType.String, model.ReviewText);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@ReviewText", DbType.String, DBNull.Value);
+                    }
+                    if (model.Rating != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Rating", DbType.String, model.Rating);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Rating", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 

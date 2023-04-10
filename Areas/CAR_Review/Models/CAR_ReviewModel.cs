@@ -13,7 +13,7 @@ namespace CarInfo.Areas.CAR_Review.Models
         [DisplayName("Review Text")]
         public string ReviewText { get; set; }
 
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
 
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }

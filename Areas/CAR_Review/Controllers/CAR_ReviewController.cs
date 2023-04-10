@@ -20,14 +20,19 @@ namespace CarInfo.Areas.CAR_Review.Controllers
         {
             Configuration = configuration;
         }
-        public IActionResult Index()
+        public IActionResult Index(CAR_ReviewModel model)
         {
             String str = Configuration.GetConnectionString("myConnectionString");
 
             DataTable reviews = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            reviews = carDal.PR_CAR_Review_SelectAll();
+            reviews = carDal.PR_CAR_Review_SelectAll(model);
+
+            #region CarDropdown
+            List<MST_CarDropDownModel> carList = carDal.PR_MST_Car_DropDown();
+            ViewBag.CarList = carList;
+            #endregion
 
             return View("CAR_ReviewList", reviews);
         }
