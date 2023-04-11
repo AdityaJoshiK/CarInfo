@@ -1490,6 +1490,7 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_Insert");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
+                sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
                 sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
                 sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
                 sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
@@ -1555,6 +1556,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_UpdateByPK");
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
@@ -1801,6 +1803,42 @@ namespace CarInfo.DAL
                     CAR_MakeDropDownModel vlst = new CAR_MakeDropDownModel();
                     vlst.MakeID = Convert.ToInt32(dr["MakeID"]);
                     vlst.MakeName = dr["MakeName"].ToString();
+                    list.Add(vlst);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+                return null;
+            }
+        }
+
+
+        #endregion
+
+        #region CAR_TypeDropDown
+
+        public List<CAR_TypeDropDownModel> PR_CAR_Type_DropDown()
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Type_SelectForDropDown");
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                List<CAR_TypeDropDownModel> list = new List<CAR_TypeDropDownModel>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CAR_TypeDropDownModel vlst = new CAR_TypeDropDownModel();
+                    vlst.TypeID = Convert.ToInt32(dr["TypeID"]);
+                    vlst.TypeName = dr["TypeName"].ToString();
                     list.Add(vlst);
                 }
 

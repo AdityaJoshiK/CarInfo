@@ -15,4 +15,10 @@ namespace CarInfo.Areas.CAR_Type.Models
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
     }
+
+    public class CAR_TypeDropDownModel
+    {
+        public int TypeID { get; set; }
+        public string? TypeName { get; set; }
+    }
 }

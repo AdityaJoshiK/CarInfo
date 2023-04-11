@@ -1,4 +1,5 @@
 ﻿using CarInfo.Areas.CAR_Make.Models;
+using CarInfo.Areas.CAR_Type.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -69,27 +70,16 @@ namespace CarInfo.Areas.MST_Car.Controllers
         public IActionResult Add(int? CarID)
         {
             string str = Configuration.GetConnectionString("myConnectionString");
+                CAR_DAL dalCAR = new CAR_DAL();
 
-            #region MakeDropdown
-            SqlConnection conn1 = new SqlConnection(str);
-            conn1.Open();
-            SqlCommand cmd = conn1.CreateCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "PR_CAR_Make_SelectForDropDown";
-            //cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = CV.UserID();
-            DataTable dt1 = new DataTable();
-            SqlDataReader sdr1 = cmd.ExecuteReader();
-            dt1.Load(sdr1);
+            #region makeDropdown
+            List<CAR_MakeDropDownModel> makeList = dalCAR.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = makeList;
+            #endregion
 
-            List<CAR_MakeDropDownModel> list = new List<CAR_MakeDropDownModel>();
-            foreach (DataRow dr in dt1.Rows)
-            {
-                CAR_MakeDropDownModel vlst = new CAR_MakeDropDownModel();
-                vlst.MakeID = Convert.ToInt32(dr["MakeID"]);
-                vlst.MakeName = dr["MakeName"].ToString();
-                list.Add(vlst);
-            }
-            ViewBag.MakeList = list;
+            #region TypeDropdown
+            List<CAR_TypeDropDownModel> TypeList = dalCAR.PR_CAR_Type_DropDown();
+            ViewBag.TypeList = TypeList;
             #endregion
 
             #region SelectByPK
@@ -97,7 +87,6 @@ namespace CarInfo.Areas.MST_Car.Controllers
             {
                 //string str = Configuration.GetConnectionString("myConnectionString");
 
-                CAR_DAL dalCAR = new CAR_DAL();
                 SqlDatabase sqlDB = new SqlDatabase(str);
                 DataTable dt = dalCAR.dbo_PR_MST_Car_SelectByPK(CarID);
                 MST_CarModel modelMST_Car = new MST_CarModel();
@@ -107,6 +96,7 @@ namespace CarInfo.Areas.MST_Car.Controllers
                 foreach (DataRow dr in dt.Rows)
                 {
                     modelMST_Car.CarID = Convert.ToInt32(dr["CarID"]);
+                    modelMST_Car.TypeID = Convert.ToInt32(dr["TypeID"]);
                     modelMST_Car.MakeID = Convert.ToInt32(dr["MakeID"]);
                     modelMST_Car.Name = dr["Name"].ToString();
                     modelMST_Car.Price = Convert.ToDecimal(dr["Price"]);
