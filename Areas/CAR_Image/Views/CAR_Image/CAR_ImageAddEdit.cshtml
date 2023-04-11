@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "CAR_ImageAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model CarInfo.Areas.CAR_Image.Models.CAR_ImageModel
+
+<div class="row" style="width:auto">
+    <div class="col-md-12">
+        <h3>@TempData["ImageInsertMsg"]</h3>
+        <form method="post" asp-controller="CAR_Image" asp-action="Save" enctype="multipart/form-data">
+            @Html.HiddenFor(x=>x.ImageID)
+            @Html.HiddenFor(x=>x.PhotoPath)
+            <div class="form-group">
+                <label>Car Name</label>
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                    <option value="">Select Car</option>
+                </select>
+                <span asp-validation-for="CarID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>PhotoPath</label>
+                <input type="file" class="form-control" placeholder="Upload File" asp-for="File" />
+                @*<input type="text" class="form-control" readonly asp-for="PhotoPath" value="@Model.PhotoPath" />*@
+            </div>
+            <hr />
+            <input type="submit" class="btn btn-outline-primary" />
+            <a asp-area="CAR_Image" asp-controller="CAR_Image" asp-action="Back">
+                <button type="button" class="btn btn-success">Cancel</button>
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

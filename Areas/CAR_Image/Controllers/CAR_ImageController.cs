@@ -9,6 +9,8 @@ using System.Reflection;
 
 namespace CarInfo.Areas.CAR_Image.Controllers
 {
+    [Area("CAR_Image")]
+    [Route("CAR_Image/[controller]/[action]")]
     public class CAR_ImageController : Controller
     {
         private IConfiguration Configuration;
@@ -24,6 +26,11 @@ namespace CarInfo.Areas.CAR_Image.Controllers
             CAR_DALBase carDal = new CAR_DALBase();
 
             Image = carDal.PR_CAR_Image_SelectAll(model);
+
+            #region CarDropdown
+            List<MST_CarDropDownModel> carList = carDal.PR_MST_Car_DropDown();
+            ViewBag.CarList = carList;
+            #endregion
 
             return View("CAR_ImageList", Image);
         }

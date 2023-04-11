@@ -1620,9 +1620,9 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Image_SelectAll");
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
-                if (model.CarID != null || model.PhotoPath != null)
+                if (model.CarID != null)
                 {
-                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Image_SelectByCarIDPhotoPath");
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Image_SelectByCarID");
                     sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                     if (model.CarID != null)
@@ -1632,15 +1632,6 @@ namespace CarInfo.DAL
                     else
                     {
                         sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
-                    }
-
-                    if (model.PhotoPath != null)
-                    {
-                        sqldb.AddInParameter(dbCMD, "@PhotoPath", DbType.String, model.PhotoPath);
-                    }
-                    else
-                    {
-                        sqldb.AddInParameter(dbCMD, "@PhotoPath", DbType.String, DBNull.Value);
                     }
                 }
 
