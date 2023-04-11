@@ -1,5 +1,6 @@
 ﻿using CarInfo.Areas.CAR_Dealer.Models;
 using CarInfo.Areas.CAR_Make.Models;
+using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -26,7 +27,13 @@ namespace CarInfo.Areas.CAR_Dealer.Controllers
             DataTable make = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            make = carDal.PR_CAR_Dealer_SelectAll(model.Name);
+            make = carDal.PR_CAR_Dealer_SelectAll(model);
+
+            #region MakeDropdown
+            List<CAR_MakeDropDownModel> list = carDal.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = list;
+
+            #endregion
 
             return View("CAR_DealerList", make);
         }

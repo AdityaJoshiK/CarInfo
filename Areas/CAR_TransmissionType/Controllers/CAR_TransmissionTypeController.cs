@@ -24,7 +24,7 @@ namespace CarInfo.Areas.CAR_TransmissionType.Controllers
             DataTable make = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            make = carDal.PR_CAR_TransmissionType_SelectAll();
+            make = carDal.PR_CAR_TransmissionType_SelectAll(model);
 
             return View("CAR_TransmissionTypeList", make);
         }

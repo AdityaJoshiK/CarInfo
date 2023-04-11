@@ -17,14 +17,14 @@ namespace CarInfo.Areas.CAR_Type.Controllers
         {
             Configuration = configuration;
         }
-        public IActionResult Index()
+        public IActionResult Index(CAR_TypeModel model)
         {
             String str = Configuration.GetConnectionString("myConnectionString");
 
             DataTable Type = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            Type = carDal.PR_CAR_Type_SelectAll();
+            Type = carDal.PR_CAR_Type_SelectAll(model);
 
             return View("CAR_TypeList", Type);
         }

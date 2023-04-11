@@ -26,7 +26,7 @@ namespace CarInfo.Areas.CAR_FuelType.Controllers
             DataTable fueltype = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            fueltype = carDal.PR_CAR_FuelType_SelectAll();
+            fueltype = carDal.PR_CAR_FuelType_SelectAll(model);
 
             return View("CAR_FuelTypeList", fueltype);
         }

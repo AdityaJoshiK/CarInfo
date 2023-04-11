@@ -26,7 +26,12 @@ namespace CarInfo.Areas.CAR_Variant.Controllers
             DataTable variants = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            variants = carDal.PR_CAR_Variant_SelectAll();
+            variants = carDal.PR_CAR_Variant_SelectAll(model);
+
+            #region CarDropdown
+            List<MST_CarDropDownModel> carList = carDal.PR_MST_Car_DropDown();
+            ViewBag.CarList = carList;
+            #endregion
 
             return View("CAR_VariantList", variants);
         }

@@ -23,7 +23,7 @@ namespace CarInfo.Areas.CAR_Make.Controllers
             DataTable make = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            make = carDal.PR_CAR_Make_SelectAll();
+            make = carDal.PR_CAR_Make_SelectAll(model);
 
             return View("CAR_MakeList", make);
         }
@@ -38,12 +38,12 @@ namespace CarInfo.Areas.CAR_Make.Controllers
             if (modelCAR_Make.MakeID == null || modelCAR_Make.MakeID == 0)
             {
                 DataTable dt = dalCAR.PR_CAR_Make_Insert(modelCAR_Make);
-                TempData["MakeInsertMsg"] = "Record Inserted Succesfully";
+                TempData["MakeInsertMsg"] = "Record Inserted Successfully";
             }
             else
             {
                 DataTable dt = dalCAR.PR_CAR_Make_UpdateByPK(modelCAR_Make);
-                TempData["MakeInsertMsg"] = "Record Updated Succesfully";
+                TempData["MakeInsertMsg"] = "Record Updated Successfully";
             }
 
             return RedirectToAction("Index");

@@ -46,30 +46,7 @@
     <div class="row filters">
         <div class="col-md-10">
             <form method="post" class="form-inline">
-                @*<input class="form-control mr-sm-2" name="CountryName" type="text" placeholder="Country Name" />*@
-                <select class="form-control filter mr-sm-2 form-select" id="countryDropdown" name="CountryName">
-                    <option value="">--Select Country--</option>
-                    @* @foreach (var item in ViewBag.CountryList)
-                    {
-                    <option value="@item.CountryName">@item.CountryName</option>
-                    }*@
-                </select>
-                @*<input class="form-control mr-sm-2" name="StateName" type="text" placeholder="State Name" />*@
-                <select class="form-control filter mr-sm-2 form-select" id="stateDropdown" name="StateName">
-                    <option value="">--Select State--</option>
-                    @*   @foreach (var item in ViewBag.StateList)
-                    {
-                    <option value="@item.StateName">@item.StateName</option>
-                    }*@
-                </select>
-                @*<input class="form-control mr-sm-2" name="CityName" type="text" placeholder="City Name" />*@
-                <select class="form-control filter mr-sm-2 form-select" id="cityDropdown" name="CityName">
-                    <option value="">--Select City--</option>
-                    @* @foreach (var item in ViewBag.CityList)
-                    {
-                    <option value="@item.CityName">@item.CityName</option>
-                    }*@
-                </select>
+                <input class="form-control filter mr-sm-2" name="TypeName" type="text" placeholder="Car Type" />
 
                 <button class="btn btn-success filterbtn" type="submit" asp-area="CAR_Type" asp-controller="CAR_Type" asp-action="Index">Apply Filters</button>
             </form>

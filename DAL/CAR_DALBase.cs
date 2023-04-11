@@ -13,6 +13,7 @@ using CarInfo.Areas.CAR_Dealer.Models;
 using System.Reflection;
 using CarInfo.Areas.MST_Car.Models;
 using System.Data.SqlClient;
+using CarInfo.Areas.CAR_Image.Models;
 
 namespace CarInfo.DAL
 {
@@ -22,13 +23,28 @@ namespace CarInfo.DAL
 
         #region PR_CAR_Make_SelctAll & Filter
 
-        public DataTable PR_CAR_Make_SelectAll()
+        public DataTable PR_CAR_Make_SelectAll(CAR_MakeModel model)
         {
             try
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Make_SelectAll");
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.MakeName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Make_SelectByMakeName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.MakeName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@MakeName", DbType.String, model.MakeName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@MakeName", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 
@@ -352,13 +368,28 @@ namespace CarInfo.DAL
         #region CAR_FuelType
         #region PR_CAR_FuelType_SelctAll & Filter
 
-        public DataTable PR_CAR_FuelType_SelectAll()
+        public DataTable PR_CAR_FuelType_SelectAll(CAR_FuelTypeModel model)
         {
             try
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_FuelType_SelectAll");
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.FuelTypeName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_FuelType_SelectByFuelTypeName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.FuelTypeName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@FuelTypeName", DbType.String, model.FuelTypeName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@FuelTypeName", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 
@@ -504,7 +535,7 @@ namespace CarInfo.DAL
         #region CAR_Type
         #region PR_CAR_Type_SelctAll & Filter
 
-        public DataTable PR_CAR_Type_SelectAll()
+        public DataTable PR_CAR_Type_SelectAll(CAR_TypeModel model)
         {
             try
             {
@@ -512,6 +543,21 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Type_SelectAll");
 
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.TypeName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Type_SelectByTypeName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.TypeName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@TypeName", DbType.String, model.TypeName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@TypeName", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 
@@ -846,7 +892,7 @@ namespace CarInfo.DAL
 
         #region PR_CAR_Dealer_SelctAll & Filter
 
-        public DataTable PR_CAR_Dealer_SelectAll(string DealerName = null)
+        public DataTable PR_CAR_Dealer_SelectAll(CAR_DealerModel model)
         {
             try
             {
@@ -854,6 +900,57 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Dealer_SelectAll");
 
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.MakeID != null || model.Name != null || model.Country != null || model.State != null || model.City != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Dealer_SelectByMakeIDNameCountryStateCity");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.MakeID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@MakeID", DbType.Int32, model.MakeID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@MakeID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.Name != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Name", DbType.String, model.Name);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Name", DbType.String, DBNull.Value);
+                    }
+
+                    if (model.Country != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Country", DbType.String, model.Country);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Country", DbType.String, DBNull.Value);
+                    }
+
+                    if (model.State != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@State", DbType.String, model.State);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@State", DbType.String, DBNull.Value);
+                    }
+
+                    if (model.City != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@City", DbType.String, model.City);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@City", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 
@@ -1010,7 +1107,7 @@ namespace CarInfo.DAL
 
         #region PR_CAR_Variant_SelctAll & Filter
 
-        public DataTable PR_CAR_Variant_SelectAll()
+        public DataTable PR_CAR_Variant_SelectAll(CAR_VariantModel model)
         {
             try
             {
@@ -1018,6 +1115,30 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Variant_SelectAll");
 
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.CarID != null || model.VariantName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Variant_SelectByCarIDVariantName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.VariantName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@VariantName", DbType.String, model.VariantName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@VariantName", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 
@@ -1165,13 +1286,28 @@ namespace CarInfo.DAL
 
         #region PR_CAR_TransmissionType_SelctAll & Filter
 
-        public DataTable PR_CAR_TransmissionType_SelectAll()
+        public DataTable PR_CAR_TransmissionType_SelectAll(CAR_TransmissionTypeModel model)
         {
             try
             {
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_TransmissionType_SelectAll");
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.TransmissionTypeName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_TransmissionType_SelectByTransmissionTypeName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.TransmissionTypeName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@TransmissionTypeName", DbType.String, model.TransmissionTypeName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@TransmissionTypeName", DbType.String, DBNull.Value);
+                    }
+                }
 
                 DataTable dt = new DataTable();
 
@@ -1453,6 +1589,184 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_DeleteByPK");
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region CAR_Image
+        #region PR_CAR_Image_SelctAll & Filter
+
+        public DataTable PR_CAR_Image_SelectAll(CAR_ImageModel model)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Image_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.CarID != null || model.PhotoPath != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Image_SelectByCarIDPhotoPath");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.PhotoPath != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@PhotoPath", DbType.String, model.PhotoPath);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@PhotoPath", DbType.String, DBNull.Value);
+                    }
+                }
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Image_Insert
+
+        public DataTable PR_CAR_Image_Insert(CAR_ImageModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Image_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Image_SelectByPK
+
+        public DataTable dbo_PR_CAR_Image_SelectByPK(string conn, int? ImageID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(conn);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Image_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "ImageID", SqlDbType.Int, ImageID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_Image_UpdateByPK
+
+        public DataTable PR_CAR_Image_UpdateByPK(CAR_ImageModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Image_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "ImageID", SqlDbType.Int, model.ImageID);
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_Image_DeleteByPK
+
+        public DataTable PR_CAR_Image_DeleteByPK(int ImageID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Image_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "ImageID", SqlDbType.Int, ImageID);
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
