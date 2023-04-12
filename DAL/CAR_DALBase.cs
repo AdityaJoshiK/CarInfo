@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using CarInfo.Areas.CAR_Image.Models;
 using CarInfo.Areas.CAR_FuelType.Models;
 using CAR_CarWiseFuelTypeDropDownModel = CarInfo.Areas.CAR_CarWiseFuelType.Models.CAR_CarWiseFuelTypeDropDownModel;
+using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
 
 namespace CarInfo.DAL
 {
@@ -702,7 +703,6 @@ namespace CarInfo.DAL
         #endregion
 
         #endregion
-
 
         #region CAR_Type
         #region PR_CAR_Type_SelctAll & Filter
@@ -1622,6 +1622,185 @@ namespace CarInfo.DAL
 
         #endregion
 
+        #region CAR_CarWiseTransmissionType
+
+        #region PR_CAR_CarWiseTransmissionType_SelctAll & Filter
+
+        public DataTable PR_CAR_CarWiseTransmissionType_SelectAll(CAR_CarWiseTransmissionTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseTransmissionType_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.CarID != null || model.TransmissionTypeName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseTransmissionType_SelectByTransmissionTypeName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.TransmissionTypeName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@TransmissionTypeName", DbType.String, model.TransmissionTypeName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@TransmissionTypeName", DbType.String, DBNull.Value);
+                    }
+                }
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseTransmissionType_Insert
+
+        public DataTable PR_CAR_CarWiseTransmissionType_Insert(CAR_CarWiseTransmissionTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseTransmissionType_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeName", SqlDbType.NVarChar, model.TransmissionTypeName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseTransmissionType_SelectByPK
+
+        public DataTable dbo_PR_CAR_CarWiseTransmissionType_SelectByPK(int? TransmissionTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseTransmissionType_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeID", SqlDbType.Int, TransmissionTypeID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseTransmissionType_UpdateByPK
+
+        public DataTable PR_CAR_CarWiseTransmissionType_UpdateByPK(CAR_CarWiseTransmissionTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseTransmissionType_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeID", SqlDbType.Int, model.TransmissionTypeID);
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeName", SqlDbType.NVarChar, model.TransmissionTypeName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_CarWiseTransmissionType_DeleteByPK
+
+        public DataTable PR_CAR_CarWiseTransmissionType_DeleteByPK(int TransmissionTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseTransmissionType_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "TransmissionTypeID", SqlDbType.Int, TransmissionTypeID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #endregion
+
         #region MST_Car
 
         #region PR_MST_Car_SelctAll & Filter
@@ -2064,7 +2243,7 @@ namespace CarInfo.DAL
 
         #endregion
 
-        #region CAR_CarWiseFuelTypeDropDown
+        #region CAR_FuelTypeDropDown
 
         public List<CAR_FuelTypeDropDownModel> PR_CAR_FuelType_DropDown()
         {
@@ -2085,6 +2264,40 @@ namespace CarInfo.DAL
                     CAR_FuelTypeDropDownModel vlst = new CAR_FuelTypeDropDownModel();
                     vlst.FuelTypeID = Convert.ToInt32(dr["FuelTypeID"]);
                     vlst.FuelTypeName = dr["FuelTypeName"].ToString();
+                    list.Add(vlst);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+                return null;
+            }
+        }
+        #endregion
+
+        #region CAR_TransmissionTypeDropDown
+
+        public List<CAR_TransmissionTypeDropDownModel> PR_CAR_TransmissionType_DropDown()
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_TransmissionType_SelectForDropDown");
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                List<CAR_TransmissionTypeDropDownModel> list = new List<CAR_TransmissionTypeDropDownModel>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CAR_TransmissionTypeDropDownModel vlst = new CAR_TransmissionTypeDropDownModel();
+                    vlst.TransmissionTypeID = Convert.ToInt32(dr["TransmissionTypeID"]);
+                    vlst.TransmissionTypeName = dr["TransmissionTypeName"].ToString();
                     list.Add(vlst);
                 }
 

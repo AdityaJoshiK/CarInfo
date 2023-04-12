@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace CarInfo.Areas.CAR_TransmissionType.Models
+namespace CarInfo.Areas.CAR_CarWiseTransmissionType.Models
 {
-    public class CAR_TransmissionTypeModel
+    public class CAR_CarWiseTransmissionTypeModel
     {
         public int? TransmissionTypeID { get; set; }
+        public int? CarID { get; set; }
 
         [Required(ErrorMessage = "Please enter TransmissionType name"), MaxLength(50)]
         [DataType(DataType.Text)]
@@ -14,11 +15,5 @@ namespace CarInfo.Areas.CAR_TransmissionType.Models
 
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
-    }
-
-    public class CAR_TransmissionTypeDropDownModel
-    {
-        public int TransmissionTypeID { get; set; }
-        public string? TransmissionTypeName { get; set; }
     }
 }

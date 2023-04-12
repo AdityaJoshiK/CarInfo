@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "CAR_CarWiseTransmissionTypeAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model CarInfo.Areas.CAR_CarWiseTransmissionType.Models.CAR_CarWiseTransmissionTypeModel
+
+<div class="row" style="width:auto">
+    <div class="col-md-12">
+        <h3>@TempData["TransmissionTypeInsertMsg"]</h3>
+        <form method="post" asp-controller="CAR_CarWiseTransmissionType" asp-action="Save">
+            @Html.HiddenFor(x=>x.TransmissionTypeID)
+            <div class="form-group">
+                <label>Car Name</label>
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                    <option value="">Select Car</option>
+                </select>
+                <span asp-validation-for="CarID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>TransmissionType Name</label>
+                <input type="text" class="form-control" placeholder="Enter TransmissionType Name" asp-for="TransmissionTypeName" />
+                <span asp-validation-for="TransmissionTypeName" class="text-danger"></span>
+            </div>
+            <hr />
+            <input type="submit" class="btn btn-outline-primary" />
+            <a asp-area="CAR_CarWiseTransmissionType" asp-controller="CAR_CarWiseTransmissionType" asp-action="Back">
+                <button type="button" class="btn btn-success">Cancel</button>
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

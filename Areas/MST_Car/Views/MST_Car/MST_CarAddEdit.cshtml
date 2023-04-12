@@ -61,6 +61,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label>TransmissionType</label>
+                    <select class="choices form-select multiple-remove" multiple="multiple" name="TransmissionTypeNames" asp-items="@(new MultiSelectList(ViewBag.TransmissionTypeList, "TransmissionTypeName", "TransmissionTypeName"))">
+                        <option value="">Select TransmissionType</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>Feature</label>
                     <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
                     <span asp-validation-for="FeatureName" class="text-danger"></span>

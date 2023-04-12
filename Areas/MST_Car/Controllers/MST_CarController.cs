@@ -10,6 +10,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using CarInfo.Areas.CAR_FuelType.Models;
+using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
+using CarInfo.Areas.CAR_TransmissionType.Models;
 
 namespace CarInfo.Areas.MST_Car.Controllers
 {
@@ -70,7 +72,7 @@ namespace CarInfo.Areas.MST_Car.Controllers
         //    #endregion
         //}
 
-        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> FuelTypeNames)
+        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames)
         {
             try
             {
@@ -113,6 +115,19 @@ namespace CarInfo.Areas.MST_Car.Controllers
                     }
                     #endregion
 
+                    #region TransmissionType Add
+                    // Insert the TransmissionTypes into a separate table
+                    foreach (string TransmissionType in TransmissionTypeNames)
+                    {
+                        CAR_CarWiseTransmissionTypeModel newTransmissionType = new CAR_CarWiseTransmissionTypeModel
+                        {
+                            CarID = modelMST_Car.CarID,
+                            TransmissionTypeName = TransmissionType
+                        };
+                        dalCAR.PR_CAR_CarWiseTransmissionType_Insert(newTransmissionType);
+                    }
+                    #endregion
+
                 }
                 else
                 {
@@ -151,6 +166,11 @@ namespace CarInfo.Areas.MST_Car.Controllers
             #region FuelTypeDropdown
             List<CAR_FuelTypeDropDownModel> FuelTypeList = dalCAR.PR_CAR_FuelType_DropDown();
             ViewBag.FuelTypeList = FuelTypeList;
+            #endregion
+
+            #region TransmissionTypeDropdown
+            List<CAR_TransmissionTypeDropDownModel> TransmissionTypeList = dalCAR.PR_CAR_TransmissionType_DropDown();
+            ViewBag.TransmissionTypeList = TransmissionTypeList;
             #endregion
 
             #region SelectByPK
