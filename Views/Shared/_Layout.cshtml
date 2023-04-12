@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/assets/css/pages/fontawesome.css">
     <link rel="stylesheet" href="~/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="~/assets/css/pages/datatables.css">
+    <link rel="stylesheet" href="~/assets/extensions/choices.js/public/assets/styles/choices.css">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -113,10 +114,15 @@
                                         CAR_Review
                                     </a>
                                 </li>
-
-                                <li class="submenu-item ">
+                                 <li class="submenu-item ">
                                     <a asp-area="CAR_FuelType" asp-action="Index" asp-controller="CAR_FuelType">
                                         CAR_FuelType
+                                    </a>
+                                </li> 
+
+                                <li class="submenu-item ">
+                                    <a asp-area="CAR_CarWiseFuelType" asp-action="Index" asp-controller="CAR_CarWiseFuelType">
+                                        CAR_CarWiseFuelType
                                     </a>
                                 </li> 
                                 <li class="submenu-item ">
@@ -266,6 +272,8 @@
     <!-- Need: Apexcharts -->
     <script src="~/assets/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="~/assets/js/pages/dashboard.js"></script>
+    <script src="~/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+    <script src="~/assets/js/pages/form-element-select.js"></script>
     
     @await RenderSectionAsync("Scripts", required: false)
 </body>

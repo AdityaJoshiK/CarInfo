@@ -4,7 +4,7 @@ using System.Data;
 using CarInfo.BAL;
 using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.Areas.CAR_Review.Models;
-using CarInfo.Areas.CAR_FuelType.Models;
+using CarInfo.Areas.CAR_CarWiseFuelType.Models;
 using CarInfo.Areas.CAR_Feature.Models;
 using CarInfo.Areas.CAR_Type.Models;
 using CarInfo.Areas.CAR_TransmissionType.Models;
@@ -14,6 +14,8 @@ using System.Reflection;
 using CarInfo.Areas.MST_Car.Models;
 using System.Data.SqlClient;
 using CarInfo.Areas.CAR_Image.Models;
+using CarInfo.Areas.CAR_FuelType.Models;
+using CAR_CarWiseFuelTypeDropDownModel = CarInfo.Areas.CAR_CarWiseFuelType.Models.CAR_CarWiseFuelTypeDropDownModel;
 
 namespace CarInfo.DAL
 {
@@ -365,6 +367,175 @@ namespace CarInfo.DAL
 
         #endregion
 
+        #region CAR_CarWiseFuelType
+        #region PR_CAR_CarWiseFuelType_SelctAll & Filter
+
+        public DataTable PR_CAR_CarWiseFuelType_SelectAll(CAR_CarWiseFuelTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseFuelType_SelectAll");
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.FuelTypeName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseFuelType_SelectByFuelTypeName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.FuelTypeName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@FuelTypeName", DbType.String, model.FuelTypeName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@FuelTypeName", DbType.String, DBNull.Value);
+                    }
+                }
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseFuelType_Insert
+
+        public DataTable PR_CAR_CarWiseFuelType_Insert(CAR_CarWiseFuelTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseFuelType_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "FuelTypeName", SqlDbType.NVarChar, model.FuelTypeName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseFuelType_SelectByPK
+
+        public DataTable dbo_PR_CAR_CarWiseFuelType_SelectByPK(int? FuelTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseFuelType_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, FuelTypeID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseFuelType_UpdateByPK
+
+        public DataTable PR_CAR_CarWiseFuelType_UpdateByPK(CAR_CarWiseFuelTypeModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseFuelType_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.FuelTypeID);
+                sqlDB.AddInParameter(dbCMD, "FuelTypeName", SqlDbType.NVarChar, model.FuelTypeName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_CarWiseFuelType_DeleteByPK
+
+        public DataTable PR_CAR_CarWiseFuelType_DeleteByPK(int FuelTypeID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseFuelType_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, FuelTypeID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #endregion
+
         #region CAR_FuelType
         #region PR_CAR_FuelType_SelctAll & Filter
 
@@ -531,6 +702,7 @@ namespace CarInfo.DAL
         #endregion
 
         #endregion
+
 
         #region CAR_Type
         #region PR_CAR_Type_SelctAll & Filter
@@ -1478,39 +1650,78 @@ namespace CarInfo.DAL
             }
         }
 
-        #endregion       
+        #endregion
 
         #region PR_MST_Car_Insert
 
-        public DataTable PR_MST_Car_Insert(MST_CarModel model)
+        //public DataTable PR_MST_Car_Insert(MST_CarModel model)
+        //{
+        //    try
+        //    {
+        //        SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+        //        DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_Insert");
+        //        sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+        //        sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
+        //        sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
+        //        sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+        //        sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
+        //        sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
+
+        //        DataTable dt = new DataTable();
+
+        //        using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+        //        {
+        //            dt.Load(dr);
+
+        //        }
+        //        return dt;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return null;
+
+        //    }
+        //}
+
+        public DataTable PR_MST_Car_Insert(MST_CarModel model, out int carID)
         {
             try
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
-                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_Insert");
-                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_InsertCheck");
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
-                sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+                //sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.TypeID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
+                sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
                 sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
 
-                DataTable dt = new DataTable();
+                SqlParameter carIDParam = new SqlParameter("@CarID", SqlDbType.Int);
+                carIDParam.Direction = ParameterDirection.Output;
+                dbCMD.Parameters.Add(carIDParam); // Add the output parameter
 
+                DataTable dt = new DataTable();
                 using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
                 {
                     dt.Load(dr);
-
                 }
+
+                // Retrieve the output parameter value
+                carID = Convert.ToInt32(dbCMD.Parameters["@CarID"].Value);
+
                 return dt;
             }
             catch (Exception ex)
             {
-
+                // Handle exception as needed
+                carID = 0; // Set carID to default value
                 return null;
-
             }
         }
+
+
 
         #endregion
 
@@ -1851,7 +2062,40 @@ namespace CarInfo.DAL
             }
         }
 
+        #endregion
 
+        #region CAR_CarWiseFuelTypeDropDown
+
+        public List<CAR_FuelTypeDropDownModel> PR_CAR_FuelType_DropDown()
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_FuelType_SelectForDropDown");
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                List<CAR_FuelTypeDropDownModel> list = new List<CAR_FuelTypeDropDownModel>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CAR_FuelTypeDropDownModel vlst = new CAR_FuelTypeDropDownModel();
+                    vlst.FuelTypeID = Convert.ToInt32(dr["FuelTypeID"]);
+                    vlst.FuelTypeName = dr["FuelTypeName"].ToString();
+                    list.Add(vlst);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+                return null;
+            }
+        }
         #endregion
 
         #region PR_MST_Car_DropDown

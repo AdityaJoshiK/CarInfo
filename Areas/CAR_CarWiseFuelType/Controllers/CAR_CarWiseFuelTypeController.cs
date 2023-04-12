@@ -1,4 +1,4 @@
-﻿using CarInfo.Areas.CAR_FuelType.Models;
+﻿using CarInfo.Areas.CAR_CarWiseFuelType.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -6,45 +6,45 @@ using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data;
 using System.Reflection;
 
-namespace CarInfo.Areas.CAR_FuelType.Controllers
+namespace CarInfo.Areas.CAR_CarWiseFuelType.Controllers
 {
-    [Area("CAR_FuelType")]
-    [Route("CAR_FuelType/[controller]/[action]")]
-    public class CAR_FuelTypeController : Controller
+    [Area("CAR_CarWiseFuelType")]
+    [Route("CAR_CarWiseFuelType/[controller]/[action]")]
+    public class CAR_CarWiseFuelTypeController : Controller
     {
         private IConfiguration Configuration;
 
-        public CAR_FuelTypeController(IConfiguration configuration)
+        public CAR_CarWiseFuelTypeController(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        public IActionResult Index(CAR_FuelTypeModel model)
+        public IActionResult Index(CAR_CarWiseFuelTypeModel model)
         {
             String str = Configuration.GetConnectionString("myConnectionString");
 
             DataTable fueltype = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
-            fueltype = carDal.PR_CAR_FuelType_SelectAll(model);
+            fueltype = carDal.PR_CAR_CarWiseFuelType_SelectAll(model);
 
-            return View("CAR_FuelTypeList", fueltype);
+            return View("CAR_CarWiseFuelTypeList", fueltype);
         }
 
-        public IActionResult Save(CAR_FuelTypeModel modelCAR_FuelType)
+        public IActionResult Save(CAR_CarWiseFuelTypeModel modelCAR_CarWiseFuelType)
         {
             #region Insert & Update
 
             string str = Configuration.GetConnectionString("MyConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
 
-            if (modelCAR_FuelType.FuelTypeID == null || modelCAR_FuelType.FuelTypeID == 0)
+            if (modelCAR_CarWiseFuelType.FuelTypeID == null || modelCAR_CarWiseFuelType.FuelTypeID == 0)
             {
-                DataTable dt = dalCAR.PR_CAR_FuelType_Insert(modelCAR_FuelType);
+                DataTable dt = dalCAR.PR_CAR_CarWiseFuelType_Insert(modelCAR_CarWiseFuelType);
                 TempData["FuelTypeInsertMsg"] = "Record Inserted Succesfully";
             }
             else
             {
-                DataTable dt = dalCAR.PR_CAR_FuelType_UpdateByPK(modelCAR_FuelType);
+                DataTable dt = dalCAR.PR_CAR_CarWiseFuelType_UpdateByPK(modelCAR_CarWiseFuelType);
                 TempData["FuelTypeInsertMsg"] = "Record Updated Succesfully";
             }
 
@@ -67,23 +67,23 @@ namespace CarInfo.Areas.CAR_FuelType.Controllers
                 string str = Configuration.GetConnectionString("myConnectionString");
 
                 SqlDatabase sqlDB = new SqlDatabase(str);
-                DataTable dt = dalCAR.dbo_PR_CAR_FuelType_SelectByPK(FuelTypeID);
-                CAR_FuelTypeModel modelCAR_FuelType = new CAR_FuelTypeModel();
+                DataTable dt = dalCAR.dbo_PR_CAR_CarWiseFuelType_SelectByPK(FuelTypeID);
+                CAR_CarWiseFuelTypeModel modelCAR_CarWiseFuelType = new CAR_CarWiseFuelTypeModel();
 
 
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    modelCAR_FuelType.FuelTypeID = Convert.ToInt32(dr["FuelTypeID"]);
-                    modelCAR_FuelType.FuelTypeName = dr["FuelTypeName"].ToString();
+                    modelCAR_CarWiseFuelType.FuelTypeID = Convert.ToInt32(dr["FuelTypeID"]);
+                    modelCAR_CarWiseFuelType.FuelTypeName = dr["FuelTypeName"].ToString();
                 }
 
 
-                return View("CAR_FuelTypeAddEdit", modelCAR_FuelType);
+                return View("CAR_CarWiseFuelTypeAddEdit", modelCAR_CarWiseFuelType);
             }
             #endregion
 
-            return View("CAR_FuelTypeAddEdit");
+            return View("CAR_CarWiseFuelTypeAddEdit");
         }
 
         #region Delete
@@ -91,7 +91,7 @@ namespace CarInfo.Areas.CAR_FuelType.Controllers
         {
             string str = Configuration.GetConnectionString("MyConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
-            DataTable dt = dalCAR.PR_CAR_FuelType_DeleteByPK(FuelTypeID);
+            DataTable dt = dalCAR.PR_CAR_CarWiseFuelType_DeleteByPK(FuelTypeID);
 
             return RedirectToAction("Index");
         }

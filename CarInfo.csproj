@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Areas\CAR_Dealer\Data\" />
     <Folder Include="Areas\CAR_Feature\Data\" />
+    <Folder Include="Areas\CAR_CarWiseFuelType\Data\" />
     <Folder Include="Areas\CAR_FuelType\Data\" />
     <Folder Include="Areas\CAR_Image\Data\" />
     <Folder Include="Areas\CAR_Make\Data\" />

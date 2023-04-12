@@ -1,4 +1,6 @@
-﻿using CarInfo.Areas.CAR_Make.Models;
+﻿using CarInfo.Areas.CAR_Feature.Models;
+using CarInfo.Areas.CAR_CarWiseFuelType.Models;
+using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.Areas.CAR_Type.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
@@ -7,6 +9,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
+using CarInfo.Areas.CAR_FuelType.Models;
 
 namespace CarInfo.Areas.MST_Car.Controllers
 {
@@ -44,28 +47,91 @@ namespace CarInfo.Areas.MST_Car.Controllers
             return View("MST_CarDetail", detail);
         }
 
-        public IActionResult Save(MST_CarModel modelMST_Car)
+        //public IActionResult Save(MST_CarModel modelMST_Car)
+        //{
+        //    #region Insert & Update
+
+        //    string str = Configuration.GetConnectionString("MyConnectionString");
+        //    CAR_DAL dalCAR = new CAR_DAL();
+
+        //    if (modelMST_Car.CarID == null || modelMST_Car.CarID == 0)
+        //    {
+        //        DataTable dt = dalCAR.PR_MST_Car_Insert(modelMST_Car);
+        //        TempData["DealerInsertMsg"] = "Record Inserted Succesfully";
+        //    }
+        //    else
+        //    {
+        //        DataTable dt = dalCAR.PR_MST_Car_UpdateByPK(modelMST_Car);
+        //        TempData["DealerInsertMsg"] = "Record Updated Succesfully";
+        //    }
+
+        //    return RedirectToAction("Index");
+
+        //    #endregion
+        //}
+
+        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> FuelTypeNames)
         {
-            #region Insert & Update
-
-            string str = Configuration.GetConnectionString("MyConnectionString");
-            CAR_DAL dalCAR = new CAR_DAL();
-
-            if (modelMST_Car.CarID == null || modelMST_Car.CarID == 0)
+            try
             {
-                DataTable dt = dalCAR.PR_MST_Car_Insert(modelMST_Car);
-                TempData["DealerInsertMsg"] = "Record Inserted Succesfully";
+                string connectionString = Configuration.GetConnectionString("MyConnectionString");
+                CAR_DAL dalCAR = new CAR_DAL();
+
+                if (modelMST_Car.CarID == null || modelMST_Car.CarID == 0)
+                {
+                    // Insert new record
+                    int carID = 0;
+                    dalCAR.PR_MST_Car_Insert(modelMST_Car, out carID);
+                    TempData["DealerInsertMsg"] = "Record Inserted Successfully";
+
+                    // Fetch the CarID after inserting the record
+                    modelMST_Car.CarID = carID;
+
+                    #region Feature Add
+                    // Insert the FeatureNames into a separate table
+                    foreach (string featureName in FeatureNames)
+                    {
+                        CAR_FeatureModel newFeature = new CAR_FeatureModel
+                        {
+                            CarID = modelMST_Car.CarID,
+                            FeatureName = featureName
+                        };
+                        dalCAR.PR_CAR_Feature_Insert(newFeature);
+                    }
+                    #endregion
+
+                    #region FuelType Add
+                    // Insert the FuelTypes into a separate table
+                    foreach (string fuelType in FuelTypeNames)
+                    {
+                        CAR_CarWiseFuelTypeModel newFuelType = new CAR_CarWiseFuelTypeModel
+                        {
+                            CarID = modelMST_Car.CarID,
+                            FuelTypeName = fuelType
+                        };
+                        dalCAR.PR_CAR_CarWiseFuelType_Insert(newFuelType);
+                    }
+                    #endregion
+
+                }
+                else
+                {
+                    // Update existing record
+                    DataTable dt = dalCAR.PR_MST_Car_UpdateByPK(modelMST_Car);
+                    TempData["DealerInsertMsg"] = "Record Updated Successfully";
+
+                    // Update the FeatureNames in the separate table
+                    // You can implement the update logic here based on your requirements
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DataTable dt = dalCAR.PR_MST_Car_UpdateByPK(modelMST_Car);
-                TempData["DealerInsertMsg"] = "Record Updated Succesfully";
+                TempData["DealerInsertMsg"] = "Error occurred while saving record. " + ex.Message;
             }
 
             return RedirectToAction("Index");
-
-            #endregion
         }
+
 
         public IActionResult Add(int? CarID)
         {
@@ -80,6 +146,11 @@ namespace CarInfo.Areas.MST_Car.Controllers
             #region TypeDropdown
             List<CAR_TypeDropDownModel> TypeList = dalCAR.PR_CAR_Type_DropDown();
             ViewBag.TypeList = TypeList;
+            #endregion
+
+            #region FuelTypeDropdown
+            List<CAR_FuelTypeDropDownModel> FuelTypeList = dalCAR.PR_CAR_FuelType_DropDown();
+            ViewBag.FuelTypeList = FuelTypeList;
             #endregion
 
             #region SelectByPK

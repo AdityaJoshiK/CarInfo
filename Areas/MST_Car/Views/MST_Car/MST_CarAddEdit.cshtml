@@ -7,7 +7,6 @@
 
 <div class="row" style="width:auto">
     <div class="col-md-12">
-        <h3>@TempData["DealerInsertMsg"]</h3>
         <form method="post" asp-controller="MST_Car" asp-action="Save">
             @Html.HiddenFor(x=>x.CarID)
             <div class="form-group">
@@ -26,6 +25,14 @@
                 <span asp-validation-for="TypeID" class="text-danger"></span>
             </div>
 
+@*       <div class="form-group">
+                <label>FuelType</label>
+                <select class="form-control" asp-for="FuelTypeID" asp-items="@(new SelectList(ViewBag.FuelTypeList,"FuelTypeID","FuelTypeName"))">
+                    <option value="">Select FuelType</option>
+                </select>
+                <span asp-validation-for="FuelTypeID" class="text-danger"></span>
+            </div>*@
+
             <div class="form-group">
                 <label>Car Name</label>
                 <input type="text" class="form-control" placeholder="Enter Name" asp-for="Name" />
@@ -41,6 +48,29 @@
                 <input type="text" class="form-control" placeholder="Enter Year" asp-for="Year" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
+
+             @if (Model == null || Model.CarID == null || Model.CarID == 0)
+            {
+                <div class="form-group">
+                    <label>FuelType</label>
+                    <select class="choices form-select multiple-remove" multiple="multiple" name="FuelTypeNames" asp-items="@(new MultiSelectList(ViewBag.FuelTypeList, "FuelTypeName", "FuelTypeName"))">
+                        <option value="">Select FuelType</option>
+                    </select>
+
+                    <span asp-validation-for="FuelTypeID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Feature</label>
+                    <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
+                    <span asp-validation-for="FeatureName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Add more features</label>
+                    <input type="button" class="btn btn-outline-primary" value="Add Feature" onclick="addFeature()" />
+                </div>
+                <div id="additional-features"></div>
+            }
             <hr />
             <input type="submit" class="btn btn-outline-primary" />
             <a asp-area="MST_Car" asp-controller="MST_Car" asp-action="Back">
@@ -55,4 +85,11 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function addFeature() {
+            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" /><span class="text-danger"></span></div>');
+            $('#additional-features').append(div);
+        }
+    </script>
 }
