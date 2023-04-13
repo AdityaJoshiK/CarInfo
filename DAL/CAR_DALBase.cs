@@ -1289,18 +1289,18 @@ namespace CarInfo.DAL
 
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
-                if (model.CarID != null || model.VariantName != null)
+                if (model.MakeID != null || model.VariantName != null)
                 {
-                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Variant_SelectByCarIDVariantName");
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Variant_SelectByMakeIDVariantName");
                     sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
-                    if (model.CarID != null)
+                    if (model.MakeID != null)
                     {
-                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                        sqldb.AddInParameter(dbCMD, "@MakeID", DbType.Int32, model.MakeID);
                     }
                     else
                     {
-                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                        sqldb.AddInParameter(dbCMD, "@MakeID", DbType.Int32, DBNull.Value);
                     }
 
                     if (model.VariantName != null)
@@ -1330,6 +1330,7 @@ namespace CarInfo.DAL
         }
 
         #endregion
+
         #region PR_CAR_Variant_Insert
 
         public DataTable PR_CAR_Variant_Insert(CAR_VariantModel model)
@@ -1339,7 +1340,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Variant_Insert");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
-                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "VariantName", SqlDbType.NVarChar, model.VariantName);
 
                 DataTable dt = new DataTable();
@@ -1404,7 +1405,7 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Variant_UpdateByPK");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
-                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "VariantName", SqlDbType.NVarChar, model.VariantName);
 
 

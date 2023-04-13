@@ -1,5 +1,110 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "CAR_CarWiseVariantList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@using System.Data
+@model DataTable
+
+<header class="mb-3">
+    <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+    </a>
+</header>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>CAR_CarWiseVariant</h3>
+                <p class="text-subtitle text-muted">Gives Information About Car Variants</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">CAR_CarWiseVariant</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["VariantInsertMsg"] != null)
+    {
+        <div id="Variant-alert" class="alert alert-light-success color-success">
+            <i class="bi bi-check-circle"></i> @TempData["VariantInsertMsg"]
+        </div>
+
+        <script>
+            setTimeout(function () {
+                $('#Variant-alert').fadeOut('fast');
+            }, 2000); // 2 seconds
+        </script>
+    }
+
+    <div class="row filters">
+        <div class="col-md-10">
+            <form method="post" class="form-inline">
+                <select class="form-control filter mr-sm-2 form-select" id="CarDropdown" name="CarID">
+                    <option value="">--Select Car--</option>
+
+                    @foreach (var item in ViewBag.CarList)
+                    {
+                        <option value="@item.CarID">@item.CarName</option>
+                    }
+                </select>
+
+                <input class="form-control filter mr-sm-2" name="VariantName" type="text" placeholder="Variant Name" />
+
+                <button class="btn btn-success filterbtn" type="submit" asp-area="CAR_CarWiseVariant" asp-controller="CAR_CarWiseVariant" asp-action="Index">Apply Filters</button>
+            </form>
+        </div>
+        <div class="col-md-2 addbtns text-right">
+            <a asp-area="CAR_CarWiseVariant" asp-controller="CAR_CarWiseVariant" asp-action="Add" class="btn btn-outline btn-circle btn-primary"><i class="fa fa-plus"></i>&nbsp;Add</a>
+        </div>
+    </div>
+
+    <!-- Basic Tables start -->
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <table class="table" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Car</th>
+                            <th>Variant</th>
+                            <th>Created</th>
+                            <th>Modified</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow dr in Model.Rows)
+                        {
+                            <tr>
+                                @*<td>@dr["CountryID"]</td>*@
+                                <td>@dr["Name"]</td>
+                                <td>@dr["VariantName"]</td>
+                                <td>@dr["CreationDate"]</td>
+                                <td>@dr["ModificationDate"]</td>
+                                <td>
+                                    <form method="post" class="aeform" asp-area="CAR_CarWiseVariant" asp-controller="CAR_CarWiseVariant" asp-action="Delete" onsubmit="return confirmDelete(event)">
+                                        <input type="hidden" name="VariantID" value="@Convert.ToInt32(dr["VariantID"].ToString())" />
+                                        <button class="btn btn-danger" type="submit"><i class="fa fa-close"></i></button>
+                                    </form>
+                                    <form method="post" class="aeform" asp-area="CAR_CarWiseVariant" asp-controller="CAR_CarWiseVariant" asp-action="Add">
+                                        <input type="hidden" name="VariantID" value="@Convert.ToInt32(dr["VariantID"].ToString())" />
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-edit"></i> </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+    <!-- Basic Tables end -->
+</div>

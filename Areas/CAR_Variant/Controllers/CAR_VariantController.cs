@@ -1,4 +1,5 @@
-﻿using CarInfo.Areas.CAR_Variant.Models;
+﻿using CarInfo.Areas.CAR_Make.Models;
+using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace CarInfo.Areas.CAR_Variant.Controllers
                     {
                         CAR_VariantModel newVariant = new CAR_VariantModel
                         {
-                            CarID = modelCAR_Variant.CarID,
+                            MakeID = modelCAR_Variant.MakeID,
                             VariantName = VariantNames[i],
                             //UserID = modelCAR_Variant.UserID
                         };
@@ -105,9 +106,9 @@ namespace CarInfo.Areas.CAR_Variant.Controllers
             
             CAR_DAL dalCAR = new CAR_DAL();
 
-            #region CarDropdown
-            List<MST_CarDropDownModel> carList = dalCAR.PR_MST_Car_DropDown();
-            ViewBag.CarList = carList;
+            #region makeDropdown
+            List<CAR_MakeDropDownModel> makeList = dalCAR.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = makeList;
             #endregion
 
             #region SelectByPK
@@ -123,7 +124,7 @@ namespace CarInfo.Areas.CAR_Variant.Controllers
                 {
                     modelCAR_Variant.VariantID = Convert.ToInt32(dr["VariantID"]);
                     modelCAR_Variant.VariantName = dr["VariantName"].ToString();
-                    modelCAR_Variant.CarID = Convert.ToInt32(dr["CarID"]);
+                    //modelCAR_Variant.CarID = Convert.ToInt32(dr["CarID"]);
                 }
 
 

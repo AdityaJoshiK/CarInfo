@@ -7,6 +7,8 @@ using System.Data;
 
 namespace CarInfo.Areas.CAR_CarWiseVariant.Controllers
 {
+    [Area("CAR_CarWiseVariant")]
+    [Route("CAR_CarWiseVariant/[controller]/[action]")]
     public class CAR_CarWiseVariantController : Controller
     {
         private IConfiguration Configuration;
