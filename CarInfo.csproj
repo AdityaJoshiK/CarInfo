@@ -8,6 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Areas\CAR_CarWiseTransmissionType\Data\" />
+    <Folder Include="Areas\CAR_CarWiseVariant\Controllers\" />
+    <Folder Include="Areas\CAR_CarWiseVariant\Data\" />
+    <Folder Include="Areas\CAR_CarWiseVariant\Models\" />
+    <Folder Include="Areas\CAR_CarWiseVariant\Views\" />
     <Folder Include="Areas\CAR_Dealer\Data\" />
     <Folder Include="Areas\CAR_Feature\Data\" />
     <Folder Include="Areas\CAR_CarWiseFuelType\Data\" />

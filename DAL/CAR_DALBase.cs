@@ -17,6 +17,7 @@ using CarInfo.Areas.CAR_Image.Models;
 using CarInfo.Areas.CAR_FuelType.Models;
 using CAR_CarWiseFuelTypeDropDownModel = CarInfo.Areas.CAR_CarWiseFuelType.Models.CAR_CarWiseFuelTypeDropDownModel;
 using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
+using CarInfo.Areas.CAR_CarWiseVariant.Models;
 
 namespace CarInfo.DAL
 {
@@ -1433,6 +1434,185 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Variant_DeleteByPK");
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, VariantID);
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region CAR_CarWiseVariant
+
+        #region PR_CAR_CarWiseVariant_SelctAll & Filter
+
+        public DataTable PR_CAR_CarWiseVariant_SelectAll(CAR_CarWiseVariantModel model)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseVariant_SelectAll");
+
+                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                if (model.CarID != null || model.VariantName != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseVariant_SelectByCarIDVariantName");
+                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.VariantName != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@VariantName", DbType.String, model.VariantName);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@VariantName", DbType.String, DBNull.Value);
+                    }
+                }
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+        #region PR_CAR_CarWiseVariant_Insert
+
+        public DataTable PR_CAR_CarWiseVariant_Insert(CAR_CarWiseVariantModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_Insert");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "VariantName", SqlDbType.NVarChar, model.VariantName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseVariant_SelectByPK
+
+        public DataTable dbo_PR_CAR_CarWiseVariant_SelectByPK(string conn, int? VariantID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(conn);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_SelectByPK");
+
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, VariantID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseVariant_UpdateByPK
+
+        public DataTable PR_CAR_CarWiseVariant_UpdateByPK(CAR_CarWiseVariantModel model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_UpdateByPK");
+                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "VariantName", SqlDbType.NVarChar, model.VariantName);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
+        }
+        #endregion
+
+        #region PR_CAR_CarWiseVariant_DeleteByPK
+
+        public DataTable PR_CAR_CarWiseVariant_DeleteByPK(int VariantID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_DeleteByPK");
                 sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, VariantID);
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
