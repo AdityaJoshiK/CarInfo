@@ -9,8 +9,8 @@
     <div class="col-md-12">
         <h3>@TempData["ImageInsertMsg"]</h3>
         <form method="post" asp-controller="CAR_Image" asp-action="Save" enctype="multipart/form-data">
-            @Html.HiddenFor(x=>x.ImageID)
-            @Html.HiddenFor(x=>x.PhotoPath)
+            @Html.HiddenFor(x => x.ImageID)
+            @Html.HiddenFor(x => x.PhotoPath)
             <div class="form-group">
                 <label>Car Name</label>
                 <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
@@ -20,18 +20,19 @@
             </div>
             <div class="form-group">
                 <label>PhotoPath</label>
-                <input type="file" class="form-control" name="images" placeholder="Upload File" asp-for="File" />
-                @*<input type="text" class="form-control" readonly asp-for="PhotoPath" value="@Model.PhotoPath" />*@
+                @if (Model==null || Model.ImageID == null || Model.ImageID == 0)
+                {
+                    <input type="file" class="form-control" multiple placeholder="Upload Files" asp-for="Files" />
+                    <span asp-validation-for="Files" class="text-danger"></span>
+                }
+                else
+                {
+                    <input type="file" class="form-control" placeholder="Upload File" asp-for="File" />
+                    <span asp-validation-for="File" class="text-danger"></span> 
+                }
             </div>
-            @if (Model == null || Model.ImageID == null || Model.ImageID == 0)
-            {
-                <div class="form-group">
-                    <label>Add more Images</label>
-                    <input type="button" class="btn btn-outline-primary" value="Add Image" onclick="addImage()" />
-                </div>
-                @Html.HiddenFor(x => x.ImageID, new { @value = "0" })
-            }
-            <div id="additional-Images"></div>
+
+
             <hr />
             <input type="submit" class="btn btn-outline-primary" />
             <a asp-area="CAR_Image" asp-controller="CAR_Image" asp-action="Back">
@@ -41,16 +42,3 @@
         </form>
     </div>
 </div>
-
-@section Scripts{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
-    <script>
-        function addImage() {
-            var div = $('<div class="form-group"><input type="file" class="form-control" placeholder="Upload File" name="images" asp-for="File" /><span class="text-danger"></span></div>');
-            $('#additional-Images').append(div);
-        }
-    </script>
-}

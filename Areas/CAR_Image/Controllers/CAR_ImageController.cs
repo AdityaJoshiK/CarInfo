@@ -1,5 +1,4 @@
 ﻿using CarInfo.Areas.CAR_Image.Models;
-using CarInfo.Areas.CAR_Image.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +35,10 @@ namespace CarInfo.Areas.CAR_Image.Controllers
             return View("CAR_ImageList", Image);
         }
 
-        public IActionResult Save(CAR_ImageModel modelCAR_Image,List<string> images)
+        [HttpPost]
+        public async Task<IActionResult> Save(CAR_ImageModel modelCAR_Image)
         {
-            if (modelCAR_Image.File != null)
+            if (modelCAR_Image.Files != null && modelCAR_Image.Files.Count > 0)
             {
                 string FilePath = "wwwroot\\Upload";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
@@ -48,74 +48,70 @@ namespace CarInfo.Areas.CAR_Image.Controllers
                     Directory.CreateDirectory(path);
                 }
 
-                string fileNameWithPath = Path.Combine(path, modelCAR_Image.File.FileName);
-                //model.PhotoPath = "~" + FilePath.Replace("wwwroot\\","/") + "/" + model.File.FileName;
-                modelCAR_Image.PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + modelCAR_Image.File.FileName;
+                CAR_DAL dalCAR = new CAR_DAL();
 
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                foreach (var file in modelCAR_Image.Files)
                 {
-                    modelCAR_Image.File.CopyTo(stream);
-                }
-            }
-            try { 
+                    string fileNameWithPath = Path.Combine(path, file.FileName);
 
-            CAR_DAL dalCAR = new CAR_DAL();
-
-            if (modelCAR_Image.ImageID == null || modelCAR_Image.ImageID == 0)
-            {
-                // Insert new record
-                // Insert the first Image
-                modelCAR_Image.PhotoPath = images[0];
-                dalCAR.PR_CAR_Image_Insert(modelCAR_Image);
-
-                // Insert the remaining images
-                for (int i = 1; i < images.Count; i++)
-                {
-                    CAR_ImageModel newImage = new CAR_ImageModel
+                    var newImage = new CAR_ImageModel
                     {
                         CarID = modelCAR_Image.CarID,
-                        PhotoPath = images[i],
-                        //UserID = modelCAR_Image.UserID
+                        PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + file.FileName,
                     };
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
                     dalCAR.PR_CAR_Image_Insert(newImage);
                 }
 
-                TempData["ImageInsertMsg"] = "Record Inserted Succesfully";
+                TempData["ImageInsertMsg"] = "Records Saved Successfully";
+            }
+            else if (modelCAR_Image.File != null)
+            {
+                string FilePath = "wwwroot\\Upload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                var file = modelCAR_Image.File; // Get the file
+
+                string fileNameWithPath = Path.Combine(path, file.FileName);
+
+                var newImage = new CAR_ImageModel
+                {
+                    CarID = modelCAR_Image.CarID,
+                    PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + file.FileName,
+                };
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                CAR_DAL dalCAR = new CAR_DAL();
+                    // Update existing record
+                    newImage.ImageID = modelCAR_Image.ImageID;
+                    dalCAR.PR_CAR_Image_UpdateByPK(newImage);
+                
+
+                TempData["ImageInsertMsg"] = "Records Updated Successfully";
             }
             else
             {
-                // Update existing record
-                modelCAR_Image.PhotoPath = images[0];
-                dalCAR.PR_CAR_Image_UpdateByPK(modelCAR_Image);
-
-                // Delete existing Image names for the record
-                //dalCAR.PR_CAR_Image_DeleteImagesByImageId(modelCAR_Image.ImageID);
-
-                // Insert new Image names for the record
-                //foreach (string PhotoPath in images)
-                //{
-                //    CAR_ImageModel newImage = new CAR_ImageModel
-                //    {
-                //        CarID = modelCAR_Image.CarID,
-                //        PhotoPath = PhotoPath,
-                //        ImageID = modelCAR_Image.ImageID,
-                //        //UserID = modelCAR_Image.UserID
-                //    };
-                //    dalCAR.PR_CAR_Image_Insert(newImage);
-                //}
-
-                TempData["ImageInsertMsg"] = "Record Updated Succesfully";
-            }
-        }
-            catch (Exception ex)
-            {
-                TempData["ImageInsertMsg"] = "Error occurred while saving record. " + ex.Message;
+                TempData["ImageInsertMsg"] = "No file selected for upload";
             }
 
             return RedirectToAction("Index");
-
-           
         }
+
+
 
         public IActionResult Add(int? ImageID)
         {
