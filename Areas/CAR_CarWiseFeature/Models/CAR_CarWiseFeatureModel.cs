@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace CarInfo.Areas.CAR_Feature.Models
+namespace CarInfo.Areas.CAR_CarWiseFeature.Models
 {
-    public class CAR_FeatureModel
+    public class CAR_CarWiseFeatureModel
     {
         public int? FeatureID { get; set; }
+        public int? CarID { get; set; }
         public int? UserID { get; set; }
 
         [Required(ErrorMessage = "Please enter Feature name"), MaxLength(50)]
@@ -15,11 +16,5 @@ namespace CarInfo.Areas.CAR_Feature.Models
 
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
-    }
-
-    public class CAR_FeatureDropDownModel
-    {
-        public int FeatureID { get; set; }
-        public string? FeatureName { get; set; }
     }
 }

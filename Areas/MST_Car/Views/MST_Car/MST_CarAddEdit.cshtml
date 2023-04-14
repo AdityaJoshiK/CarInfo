@@ -56,8 +56,6 @@
                     <select class="choices form-select multiple-remove" multiple="multiple" name="FuelTypeNames" asp-items="@(new MultiSelectList(ViewBag.FuelTypeList, "FuelTypeName", "FuelTypeName"))">
                         <option value="">Select FuelType</option>
                     </select>
-
-                    <span asp-validation-for="FuelTypeID" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -67,28 +65,6 @@
                     </select>
                 </div>
 
-          @*               <div class="form-group">
-                <label>Variant Name</label>
-                <select class="form-control" asp-for="VariantID" asp-items="@(new SelectList(ViewBag.VariantList,"VariantID","VariantName"))">
-                    <option value="">Select Variant</option>
-                </select>
-                <span asp-validation-for="VariantID" class="text-danger"></span>
-            </div>*@
-           @*     <div class="form-group">
-                    <label>Variant</label>
-                    <select class="choices form-select multiple-remove" asp-for="VariantID" multiple="multiple" name="VariantNames" asp-items="@(new MultiSelectList(ViewBag.VariantList, "VariantID", "VariantName"))">
-                        <option value="">Select Variant</option>
-                    </select>
-                </div>*@
-
-            @*    <div class="form-group">
-    <label>Variant Name</label>
-                    <select id="VariantID" class="choices form-select" asp-for="VariantID" asp-items="@(new MultiSelectList(ViewBag.VariantList,"VariantID","VariantName"))" multiple>
-        <option value="">Select Variant</option>
-    </select>
-    <span asp-validation-for="VariantID" class="text-danger"></span>
-</div>
-*@
                 <div class="form-group">
                     <label>Variant Name</label>
                     <select id="VariantID" class="form-control" asp-for="VariantID" multiple>
@@ -99,8 +75,9 @@
 
                 <div class="form-group">
                     <label>Feature</label>
-                    <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
-                    <span asp-validation-for="FeatureName" class="text-danger"></span>
+                    <select class="choices form-select multiple-remove" multiple="multiple" name="FeatureNames" asp-items="@(new MultiSelectList(ViewBag.FeatureList, "FeatureName", "FeatureName"))">
+                        <option value="">Select Feature</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Add more features</label>
@@ -140,7 +117,7 @@
 });
 
         function addFeature() {
-            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" /><span class="text-danger"></span></div>');
+            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="NewFeatureNames" /><span class="text-danger"></span></div>');
             $('#additional-features').append(div);
         }
 

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\CAR_CarWiseFeature\Data\" />
     <Folder Include="Areas\CAR_CarWiseTransmissionType\Data\" />
     <Folder Include="Areas\CAR_CarWiseVariant\Data\" />
     <Folder Include="Areas\CAR_Dealer\Data\" />

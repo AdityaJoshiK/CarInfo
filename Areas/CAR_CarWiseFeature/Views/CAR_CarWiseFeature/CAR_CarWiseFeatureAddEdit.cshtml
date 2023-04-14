@@ -1,15 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "CAR_FeatureAddEdit";
+    ViewData["Title"] = "CAR_CarWiseFeatureAddEdit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model CarInfo.Areas.CAR_Feature.Models.CAR_FeatureModel
+@model CarInfo.Areas.CAR_CarWiseFeature.Models.CAR_CarWiseFeatureModel
 
 <div class="row" style="width:auto">
     <div class="col-md-12">
         <h3>@TempData["FeatureInsertMsg"]</h3>
-        <form method="post" asp-controller="CAR_Feature" asp-action="Save" id="feature-form">
+        <form method="post" asp-controller="CAR_CarWiseFeature" asp-action="Save" id="feature-form">
             @Html.HiddenFor(x=>x.FeatureID)
-           
+            <div class="form-group">
+                <label>Car Name</label>
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                    <option value="">Select Car</option>
+                </select>
+                <span asp-validation-for="CarID" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label>Feature</label>
                 <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
@@ -26,7 +32,7 @@
             <div id="additional-features"></div>
             <hr />
             <input type="submit" class="btn btn-outline-primary" />
-            <a asp-area="CAR_Feature" asp-controller="CAR_Feature" asp-action="Back">
+            <a asp-area="CAR_CarWiseFeature" asp-controller="CAR_CarWiseFeature" asp-action="Back">
                 <button type="button" class="btn btn-success">Cancel</button>
             </a>
 

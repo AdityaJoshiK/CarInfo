@@ -14,6 +14,7 @@ using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
 using CarInfo.Areas.CAR_TransmissionType.Models;
 using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.CAR_CarWiseVariant.Models;
+using CarInfo.Areas.CAR_CarWiseFeature.Models;
 
 namespace CarInfo.Areas.MST_Car.Controllers
 {
@@ -74,7 +75,7 @@ namespace CarInfo.Areas.MST_Car.Controllers
         //    #endregion
         //}
 
-        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames, List<string> VariantNames)
+        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> NewFeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames, List<string> VariantNames)
         {
             try
             {
@@ -95,12 +96,30 @@ namespace CarInfo.Areas.MST_Car.Controllers
                     // Insert the FeatureNames into a separate table
                     foreach (string featureName in FeatureNames)
                     {
-                        CAR_FeatureModel newFeature = new CAR_FeatureModel
+                        CAR_CarWiseFeatureModel newFeature = new CAR_CarWiseFeatureModel
                         {
                             CarID = modelMST_Car.CarID,
                             FeatureName = featureName
                         };
-                        dalCAR.PR_CAR_Feature_Insert(newFeature);
+                        dalCAR.PR_CAR_CarWiseFeature_Insert(newFeature);
+                    }
+                    #endregion
+
+                    #region Feature Add
+                    // Insert the FeatureNames into a separate table
+                    foreach (string featureName in NewFeatureNames)
+                    {
+                        CAR_CarWiseFeatureModel newFeature = new CAR_CarWiseFeatureModel
+                        {
+                            CarID = modelMST_Car.CarID,
+                            FeatureName = featureName
+                        };
+                        CAR_FeatureModel addFeature = new CAR_FeatureModel
+                        {
+                            FeatureName = featureName
+                        };
+                        dalCAR.PR_CAR_CarWiseFeature_Insert(newFeature);
+                        dalCAR.PR_CAR_Feature_Insert(addFeature);
                     }
                     #endregion
 
@@ -188,10 +207,10 @@ namespace CarInfo.Areas.MST_Car.Controllers
             ViewBag.TransmissionTypeList = TransmissionTypeList;
             #endregion
 
-            //#region VariantDropdown
-            //List<CAR_VariantDropDownModel> VariantList = dalCAR.PR_CAR_Variant_DropDown();
-            //ViewBag.VariantList = VariantList;
-            //#endregion
+            #region FeatureDropdown
+            List<CAR_FeatureDropDownModel> FeatureList = dalCAR.PR_CAR_Feature_DropDown();
+            ViewBag.FeatureList = FeatureList;
+            #endregion
 
             #region VariantDropdown
             List<CAR_VariantDropDownModel> list1 = new List<CAR_VariantDropDownModel>();

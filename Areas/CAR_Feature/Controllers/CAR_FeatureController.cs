@@ -28,10 +28,6 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
 
             feature = dalCar.PR_CAR_Feature_SelectAll(model);
 
-            #region CarDropdown
-            List<MST_CarDropDownModel> carList = dalCar.PR_MST_Car_DropDown();
-            ViewBag.CarList = carList;
-            #endregion
 
             return View("CAR_FeatureList",feature);
         }
@@ -55,7 +51,6 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
                     {
                         CAR_FeatureModel newFeature = new CAR_FeatureModel
                         {
-                            CarID = modelCAR_Feature.CarID,
                             FeatureName = FeatureNames[i],
                             //UserID = modelCAR_Feature.UserID
                         };
@@ -104,11 +99,6 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
             string str = Configuration.GetConnectionString("myConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
 
-            #region CarDropdown
-            List<MST_CarDropDownModel> carList = dalCAR.PR_MST_Car_DropDown();
-            ViewBag.CarList = carList;
-            #endregion
-
             #region SelectByPK
             if (FeatureID != null)
             {
@@ -122,7 +112,6 @@ namespace CarInfo.Areas.CAR_Feature.Controllers
                 {
                     modelCAR_Feature.FeatureID = Convert.ToInt32(dr["FeatureID"]);
                     modelCAR_Feature.FeatureName = dr["FeatureName"].ToString();
-                    modelCAR_Feature.CarID = Convert.ToInt32(dr["CarID"]);
                 }
 
 
