@@ -1,4 +1,5 @@
 ﻿using CarInfo.Areas.CAR_Image.Models;
+using CarInfo.Areas.CAR_Image.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,9 @@ namespace CarInfo.Areas.CAR_Image.Controllers
             return View("CAR_ImageList", Image);
         }
 
-        public IActionResult Save(CAR_ImageModel model)
+        public IActionResult Save(CAR_ImageModel modelCAR_Image,List<string> images)
         {
-            if (model.File != null)
+            if (modelCAR_Image.File != null)
             {
                 string FilePath = "wwwroot\\Upload";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
@@ -47,35 +48,73 @@ namespace CarInfo.Areas.CAR_Image.Controllers
                     Directory.CreateDirectory(path);
                 }
 
-                string fileNameWithPath = Path.Combine(path, model.File.FileName);
+                string fileNameWithPath = Path.Combine(path, modelCAR_Image.File.FileName);
                 //model.PhotoPath = "~" + FilePath.Replace("wwwroot\\","/") + "/" + model.File.FileName;
-                model.PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + model.File.FileName;
+                modelCAR_Image.PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + modelCAR_Image.File.FileName;
 
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
-                    model.File.CopyTo(stream);
+                    modelCAR_Image.File.CopyTo(stream);
                 }
             }
+            try { 
 
-            #region Insert & Update
-
-            string str = Configuration.GetConnectionString("MyConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
 
-            if (model.ImageID == null || model.ImageID == 0)
+            if (modelCAR_Image.ImageID == null || modelCAR_Image.ImageID == 0)
             {
-                DataTable dt = dalCAR.PR_CAR_Image_Insert(model);
+                // Insert new record
+                // Insert the first Image
+                modelCAR_Image.PhotoPath = images[0];
+                dalCAR.PR_CAR_Image_Insert(modelCAR_Image);
+
+                // Insert the remaining images
+                for (int i = 1; i < images.Count; i++)
+                {
+                    CAR_ImageModel newImage = new CAR_ImageModel
+                    {
+                        CarID = modelCAR_Image.CarID,
+                        PhotoPath = images[i],
+                        //UserID = modelCAR_Image.UserID
+                    };
+                    dalCAR.PR_CAR_Image_Insert(newImage);
+                }
+
                 TempData["ImageInsertMsg"] = "Record Inserted Succesfully";
             }
             else
             {
-                DataTable dt = dalCAR.PR_CAR_Image_UpdateByPK(model);
+                // Update existing record
+                modelCAR_Image.PhotoPath = images[0];
+                dalCAR.PR_CAR_Image_UpdateByPK(modelCAR_Image);
+
+                // Delete existing Image names for the record
+                //dalCAR.PR_CAR_Image_DeleteImagesByImageId(modelCAR_Image.ImageID);
+
+                // Insert new Image names for the record
+                //foreach (string PhotoPath in images)
+                //{
+                //    CAR_ImageModel newImage = new CAR_ImageModel
+                //    {
+                //        CarID = modelCAR_Image.CarID,
+                //        PhotoPath = PhotoPath,
+                //        ImageID = modelCAR_Image.ImageID,
+                //        //UserID = modelCAR_Image.UserID
+                //    };
+                //    dalCAR.PR_CAR_Image_Insert(newImage);
+                //}
+
                 TempData["ImageInsertMsg"] = "Record Updated Succesfully";
+            }
+        }
+            catch (Exception ex)
+            {
+                TempData["ImageInsertMsg"] = "Error occurred while saving record. " + ex.Message;
             }
 
             return RedirectToAction("Index");
 
-            #endregion
+           
         }
 
         public IActionResult Add(int? ImageID)

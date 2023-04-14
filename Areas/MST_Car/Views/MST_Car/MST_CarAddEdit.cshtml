@@ -11,7 +11,7 @@
             @Html.HiddenFor(x=>x.CarID)
             <div class="form-group">
                 <label>Maker</label>
-                <select class="form-control" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))">
+                <select class="form-control" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();">
                     <option value="">Select Maker</option>
                 </select>
                 <span asp-validation-for="MakeID" class="text-danger"></span>
@@ -67,6 +67,36 @@
                     </select>
                 </div>
 
+          @*               <div class="form-group">
+                <label>Variant Name</label>
+                <select class="form-control" asp-for="VariantID" asp-items="@(new SelectList(ViewBag.VariantList,"VariantID","VariantName"))">
+                    <option value="">Select Variant</option>
+                </select>
+                <span asp-validation-for="VariantID" class="text-danger"></span>
+            </div>*@
+           @*     <div class="form-group">
+                    <label>Variant</label>
+                    <select class="choices form-select multiple-remove" asp-for="VariantID" multiple="multiple" name="VariantNames" asp-items="@(new MultiSelectList(ViewBag.VariantList, "VariantID", "VariantName"))">
+                        <option value="">Select Variant</option>
+                    </select>
+                </div>*@
+
+            @*    <div class="form-group">
+    <label>Variant Name</label>
+                    <select id="VariantID" class="choices form-select" asp-for="VariantID" asp-items="@(new MultiSelectList(ViewBag.VariantList,"VariantID","VariantName"))" multiple>
+        <option value="">Select Variant</option>
+    </select>
+    <span asp-validation-for="VariantID" class="text-danger"></span>
+</div>
+*@
+                <div class="form-group">
+                    <label>Variant Name</label>
+                    <select id="VariantID" class="form-control" asp-for="VariantID" multiple>
+                    </select>
+                    <span asp-validation-for="VariantID" class="text-danger"></span>
+                </div>
+
+
                 <div class="form-group">
                     <label>Feature</label>
                     <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
@@ -94,9 +124,141 @@
     }
 
     <script>
+        $(document).ready(function() {
+    $("#VariantID").append($("<option></option>").val("").html("Select Variant"));
+            // Initialize Choices on #VariantID select element
+            //const choices = new Choices('#VariantID', {
+            //    removeItems: true,
+            //    removeItemButton: true
+            //});
+
+            // Reset choices before updating with new data
+            choices.reset();
+            choices.setChoices(choicesData, 'value', 'label', true);
+
+
+});
+
         function addFeature() {
             var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" /><span class="text-danger"></span></div>');
             $('#additional-features').append(div);
         }
+
+
+    // Initialize the Choices plugin on the select element
+    //var variantSelect = new Choices('#VariantID', {removeItemButton: true});
+        function fnOnMakeChange() {
+            var makeID = $("#MakeID").val();
+
+            if (makeID !== "") {
+
+                $("#VariantID").empty();
+                $("#VariantID").append($("<option></option>").val("").html("Select Variant"));
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.Action("DropDownByMake","MST_Car")" + "?&MakeID=" + makeID,
+                    data: {},
+                    dataType: "json",
+                    success: function (result) {
+                        var choicesData = [];
+                        $.each(result, function (key, value) {
+                            choicesData.push({
+                                value: value.variantID,
+                                label: value.variantName
+                            });
+                        });
+
+                        // Update Choices with retrieved data
+                        const choices = new Choices('#VariantID', {
+                            choices: choicesData,
+                            removeItems: true,
+                            removeItemButton: true
+                        });
+                    },
+                    error: function (r) {
+                        alert("Error While Loading Dropdown!");
+                    }
+                });
+            } else {
+                // Clear Choices and display "Select Variant" option by default
+                const choices = new Choices('#VariantID', {
+                    items: [],
+                    removeItems: true,
+                    removeItemButton: true
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+        //function fnOnMakeChange() {
+        //    var MakeID = $("#MakeID").val();
+
+        //    if (MakeID !== "") {
+        //        $("#VariantID").empty();
+        //        $.ajax({
+        //            type: "POST",
+        //            contentType: "application/json; charset=utf-8",
+        @*//            url: "@Url.Action("DropDownByMake","MST_Car")" + "?&MakeID=" + MakeID,*@
+        //            data: {},
+        //            dataType: "json",
+        //            success: function (Result) {
+        //                $.each(Result,
+        //                    function (key, value) {
+        //                        $("#VariantID").append($("<option></option>").val(value.variantID).html(value.variantName));
+        //                    }
+        //                );
+        //            },
+        //            error: function (r) {
+        //                alert("Error While Loading Dropdown!");
+        //            }
+        //        });
+        //    } else {
+        //        $("#VariantID").empty();
+        //    }
+        //}
+
+
+            //function fnOnMakeChange() {
+
+            //    var MakeID = $("#MakeID").val();
+
+            //    if (MakeID !== "") {
+            //        $("#VariantID").empty();
+            //        $("#VariantID").append($("<option></option>").val("").html("Select Variant"));
+            //        $.ajax(
+            //            {
+            //                type: "POST",
+            //                contentType: "application/json; charset=utf-8",
+          @*  //                url: "@Url.Action("DropDownByMake","MST_Car")" + "?&MakeID=" + MakeID,*@
+            //                data: {},
+            //                datatType: "json",
+            //                success: function (Result) {
+            //                    $.each(Result,
+            //                        function (key, value) {
+            //                            $("#VariantID").append($("<option></option>").val(value.variantID).html(value.variantName));
+            //                        }
+            //                    );
+            //                },
+            //                error: function (r) {
+            //                    alert("Error While Loading Dropdown!");
+            //                }
+            //            }
+            //        );
+            //    }
+            //    else {
+            //        $("VariantID").empty();
+            //        $("VariantID").append($("<option></option>").val("").html("Select Variant"));
+            //    }
+            //}
+
+          
+
     </script>
 }

@@ -12,7 +12,7 @@
             <div class="form-group">
                 <label>Maker</label>
                 <select class="form-control" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))">
-                    <option value="">Select Car</option>
+                    <option value="">Select Maker</option>
                 </select>
                 <span asp-validation-for="MakeID" class="text-danger"></span>
             </div>

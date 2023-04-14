@@ -22,5 +22,7 @@ namespace CarInfo.Areas.CAR_Variant.Models
     {
         public int VariantID { get; set; }
         public string? VariantName { get; set; }
+
+        public bool isSelected { get; set; } // Add isSelected property
     }
 }

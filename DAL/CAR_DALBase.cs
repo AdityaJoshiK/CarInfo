@@ -2526,6 +2526,42 @@ namespace CarInfo.DAL
         }
         #endregion
 
+        #region CAR_VariantDropDown
+
+        public List<CAR_VariantDropDownModel> PR_CAR_Variant_DropDown()
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Variant_SelectForDropDown");
+
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                List<CAR_VariantDropDownModel> list = new List<CAR_VariantDropDownModel>();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CAR_VariantDropDownModel vlst = new CAR_VariantDropDownModel();
+                    vlst.VariantID = Convert.ToInt32(dr["VariantID"]);
+                    vlst.VariantName = dr["VariantName"].ToString();
+                    list.Add(vlst);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+                return null;
+            }
+        }
+
+
+        #endregion
+
         #endregion
     }
 }

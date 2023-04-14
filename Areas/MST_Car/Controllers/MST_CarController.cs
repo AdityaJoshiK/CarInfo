@@ -12,6 +12,8 @@ using System.Reflection;
 using CarInfo.Areas.CAR_FuelType.Models;
 using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
 using CarInfo.Areas.CAR_TransmissionType.Models;
+using CarInfo.Areas.CAR_Variant.Models;
+using CarInfo.Areas.CAR_CarWiseVariant.Models;
 
 namespace CarInfo.Areas.MST_Car.Controllers
 {
@@ -72,7 +74,7 @@ namespace CarInfo.Areas.MST_Car.Controllers
         //    #endregion
         //}
 
-        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames)
+        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames, List<string> VariantNames)
         {
             try
             {
@@ -128,6 +130,19 @@ namespace CarInfo.Areas.MST_Car.Controllers
                     }
                     #endregion
 
+                    #region Variant Add
+                    // Insert the Variants into a separate table
+                    foreach (string Variant in VariantNames)
+                    {
+                        CAR_CarWiseVariantModel newVariant = new CAR_CarWiseVariantModel
+                        {
+                            CarID = modelMST_Car.CarID,
+                            VariantName = Variant
+                        };
+                        dalCAR.PR_CAR_CarWiseVariant_Insert(newVariant);
+                    }
+                    #endregion
+
                 }
                 else
                 {
@@ -171,6 +186,16 @@ namespace CarInfo.Areas.MST_Car.Controllers
             #region TransmissionTypeDropdown
             List<CAR_TransmissionTypeDropDownModel> TransmissionTypeList = dalCAR.PR_CAR_TransmissionType_DropDown();
             ViewBag.TransmissionTypeList = TransmissionTypeList;
+            #endregion
+
+            //#region VariantDropdown
+            //List<CAR_VariantDropDownModel> VariantList = dalCAR.PR_CAR_Variant_DropDown();
+            //ViewBag.VariantList = VariantList;
+            //#endregion
+
+            #region VariantDropdown
+            List<CAR_VariantDropDownModel> list1 = new List<CAR_VariantDropDownModel>();
+            ViewBag.VariantList = list1;
             #endregion
 
             #region SelectByPK
@@ -217,6 +242,33 @@ namespace CarInfo.Areas.MST_Car.Controllers
         public IActionResult Back()
         {
             return RedirectToAction("Index");
+        }
+
+        public IActionResult DropDownByMake(int MakeID, List<CAR_VariantDropDownModel> Variant_list)
+        {
+            string str = Configuration.GetConnectionString("myConnectionString");
+            SqlConnection conn = new SqlConnection(str);
+            DataTable dt = new DataTable();
+            conn.Open();
+            SqlCommand cmd1 = conn.CreateCommand();
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.CommandText = "PR_CAR_Variant_SelectForDropDownByMakeID";
+            cmd1.Parameters.AddWithValue("@MakeID", MakeID);
+            SqlDataReader sdr1 = cmd1.ExecuteReader();
+            dt.Load(sdr1);
+            conn.Close();
+
+            List<CAR_VariantDropDownModel> list1 = new List<CAR_VariantDropDownModel>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                CAR_VariantDropDownModel vlst1 = new CAR_VariantDropDownModel();
+                vlst1.VariantID = Convert.ToInt32(dr["VariantID"]);
+                vlst1.VariantName = dr["VariantName"].ToString();
+                Variant_list.Add(vlst1);
+            }
+
+            var vModel = Variant_list;
+            return Json(vModel);
         }
 
     }

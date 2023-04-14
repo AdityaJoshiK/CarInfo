@@ -29,9 +29,9 @@ namespace CarInfo.Areas.CAR_Variant.Controllers
 
             variants = carDal.PR_CAR_Variant_SelectAll(model);
 
-            #region CarDropdown
-            List<MST_CarDropDownModel> carList = carDal.PR_MST_Car_DropDown();
-            ViewBag.CarList = carList;
+            #region makeDropdown
+            List<CAR_MakeDropDownModel> makeList = carDal.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = makeList;
             #endregion
 
             return View("CAR_VariantList", variants);

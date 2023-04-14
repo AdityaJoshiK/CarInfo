@@ -8,7 +8,7 @@ namespace CarInfo.Areas.MST_Car.Models
         public int? CarID { get; set; }
         public int? MakeID { get; set; }
         public int? TypeID { get; set; }
-        //public int? FuelTypeID { get; set; }
+        public int? VariantID { get; set; }
         public List<int> FuelTypeID { get; set; }
 
         public int? TransmiTypeID { get; set; }
