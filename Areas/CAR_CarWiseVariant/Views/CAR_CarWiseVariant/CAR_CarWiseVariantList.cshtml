@@ -51,7 +51,7 @@
 
                     @foreach (var item in ViewBag.CarList)
                     {
-                        <option value="@item.CarID">@item.CarName</option>
+                        <option value="@item.CarID">@item.Name</option>
                     }
                 </select>
 
@@ -74,6 +74,7 @@
                         <tr>
                             <th>Car</th>
                             <th>Variant</th>
+                            <th>Price</th>
                             <th>Created</th>
                             <th>Modified</th>
                             <th>Action</th>
@@ -86,15 +87,16 @@
                                 @*<td>@dr["CountryID"]</td>*@
                                 <td>@dr["Name"]</td>
                                 <td>@dr["VariantName"]</td>
+                                <td>@dr["Price"]</td>
                                 <td>@dr["CreationDate"]</td>
                                 <td>@dr["ModificationDate"]</td>
                                 <td>
                                     <form method="post" class="aeform" asp-area="CAR_CarWiseVariant" asp-controller="CAR_CarWiseVariant" asp-action="Delete" onsubmit="return confirmDelete(event)">
-                                        <input type="hidden" name="VariantID" value="@Convert.ToInt32(dr["VariantID"].ToString())" />
+                                        <input type="hidden" name="CarWiseVariantID" value="@Convert.ToInt32(dr["CarWiseVariantID"].ToString())" />
                                         <button class="btn btn-danger" type="submit"><i class="fa fa-close"></i></button>
                                     </form>
                                     <form method="post" class="aeform" asp-area="CAR_CarWiseVariant" asp-controller="CAR_CarWiseVariant" asp-action="Add">
-                                        <input type="hidden" name="VariantID" value="@Convert.ToInt32(dr["VariantID"].ToString())" />
+                                        <input type="hidden" name="CarWiseVariantID" value="@Convert.ToInt32(dr["CarWiseVariantID"].ToString())" />
                                         <button class="btn btn-success" type="submit"><i class="fa fa-edit"></i> </button>
                                     </form>
                                 </td>

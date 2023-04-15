@@ -75,7 +75,7 @@ namespace CarInfo.Areas.MST_Car.Controllers
         //    #endregion
         //}
 
-        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> NewFeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames, List<string> VariantNames)
+        public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> NewFeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames, List<int> VariantNames)
         {
             try
             {
@@ -151,12 +151,12 @@ namespace CarInfo.Areas.MST_Car.Controllers
 
                     #region Variant Add
                     // Insert the Variants into a separate table
-                    foreach (string Variant in VariantNames)
+                    foreach (int Variant in VariantNames)
                     {
                         CAR_CarWiseVariantModel newVariant = new CAR_CarWiseVariantModel
                         {
                             CarID = modelMST_Car.CarID,
-                            VariantName = Variant
+                            VariantID = Variant
                         };
                         dalCAR.PR_CAR_CarWiseVariant_Insert(newVariant);
                     }

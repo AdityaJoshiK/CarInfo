@@ -1638,7 +1638,7 @@ namespace CarInfo.DAL
 
                 sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
-                if (model.CarID != null || model.VariantName != null)
+                if (model.CarID != null || model.CarWiseVariantID != null)
                 {
                     dbCMD = sqldb.GetStoredProcCommand("PR_CAR_CarWiseVariant_SelectByCarIDVariantName");
                     sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
@@ -1652,13 +1652,13 @@ namespace CarInfo.DAL
                         sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
                     }
 
-                    if (model.VariantName != null)
+                    if (model.CarWiseVariantID != null)
                     {
-                        sqldb.AddInParameter(dbCMD, "@VariantName", DbType.String, model.VariantName);
+                        sqldb.AddInParameter(dbCMD, "@CarWiseVariantID", DbType.String, model.CarWiseVariantID);
                     }
                     else
                     {
-                        sqldb.AddInParameter(dbCMD, "@VariantName", DbType.String, DBNull.Value);
+                        sqldb.AddInParameter(dbCMD, "@CarWiseVariantID", DbType.String, DBNull.Value);
                     }
                 }
 
@@ -1689,7 +1689,8 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_Insert");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
-                sqlDB.AddInParameter(dbCMD, "VariantName", SqlDbType.NVarChar, model.VariantName);
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
+                sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
 
                 DataTable dt = new DataTable();
 
@@ -1712,7 +1713,7 @@ namespace CarInfo.DAL
 
         #region PR_CAR_CarWiseVariant_SelectByPK
 
-        public DataTable dbo_PR_CAR_CarWiseVariant_SelectByPK(string conn, int? VariantID)
+        public DataTable dbo_PR_CAR_CarWiseVariant_SelectByPK(string conn, int? CarWiseVariantID)
         {
             try
             {
@@ -1721,7 +1722,7 @@ namespace CarInfo.DAL
 
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
-                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, VariantID);
+                sqlDB.AddInParameter(dbCMD, "CarWiseVariantID", SqlDbType.Int, CarWiseVariantID);
 
 
                 DataTable dt = new DataTable();
@@ -1752,9 +1753,10 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_UpdateByPK");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
-                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
+                sqlDB.AddInParameter(dbCMD, "CarWiseVariantID", SqlDbType.Int, model.CarWiseVariantID);
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
-                sqlDB.AddInParameter(dbCMD, "VariantName", SqlDbType.NVarChar, model.VariantName);
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
+                sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
 
 
                 DataTable dt = new DataTable();
@@ -1777,13 +1779,13 @@ namespace CarInfo.DAL
 
         #region PR_CAR_CarWiseVariant_DeleteByPK
 
-        public DataTable PR_CAR_CarWiseVariant_DeleteByPK(int VariantID)
+        public DataTable PR_CAR_CarWiseVariant_DeleteByPK(int CarWiseVariantID)
         {
             try
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseVariant_DeleteByPK");
-                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, VariantID);
+                sqlDB.AddInParameter(dbCMD, "CarWiseVariantID", SqlDbType.Int, CarWiseVariantID);
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
 
                 DataTable dt = new DataTable();
@@ -2681,7 +2683,7 @@ namespace CarInfo.DAL
                 {
                     MST_CarDropDownModel car = new MST_CarDropDownModel();
                     car.CarID = Convert.ToInt32(dr["CarID"]);
-                    car.CarName = dr["Name"].ToString();
+                    car.Name = dr["Name"].ToString();
                     list.Add(car);
                 }
 
