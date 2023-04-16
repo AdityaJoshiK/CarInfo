@@ -2225,7 +2225,7 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_InsertCheck");
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
-                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.TypeID);
+                //sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.TypeID);
 
                 sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());

@@ -114,71 +114,116 @@
                                         CAR_Review
                                     </a>
                                 </li>
-                                 <li class="submenu-item ">
-                                    <a asp-area="CAR_FuelType" asp-action="Index" asp-controller="CAR_FuelType">
-                                        CAR_FuelType
-                                    </a>
-                                </li> 
-
-                                <li class="submenu-item ">
-                                    <a asp-area="CAR_CarWiseFuelType" asp-action="Index" asp-controller="CAR_CarWiseFuelType">
-                                        CAR_CarWiseFuelType
-                                    </a>
-                                </li> 
+                                 
                                 <li class="submenu-item ">
                                     <a asp-area="CAR_Type" asp-action="Index" asp-controller="CAR_Type">
                                         CAR_Type
                                     </a>
-                                </li> <li class="submenu-item ">
-                                    <a asp-area="CAR_TransmissionType" asp-action="Index" asp-controller="CAR_TransmissionType">
-                                        CAR_TransmissionType
-                                    </a>
-                                </li>
-                        </li>
-                        <li class="submenu-item ">
-                            <a asp-area="CAR_CarWiseTransmissionType" asp-action="Index" asp-controller="CAR_CarWiseTransmissionType">
-                                CAR_CarWiseTransmissionType
-                            </a>
-                        </li>
-                                <li class="submenu-item ">
-                                    <a asp-area="CAR_Variant" asp-action="Index" asp-controller="CAR_Variant">
-                                        CAR_Variant
-                                    </a>
-                                </li>
-                        <li class="submenu-item ">
-                            <a asp-area="CAR_CarWiseVariant" asp-action="Index" asp-controller="CAR_CarWiseVariant">
-                                CAR_CarWiseVariant
-                            </a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a asp-area="CAR_CarWiseFeature" asp-action="Index" asp-controller="CAR_CarWiseFeature">
-                                CAR_CarWiseFeature
-                            </a>
-                        </li>
-                                <li class="submenu-item ">
-                                    <a asp-area="CAR_Feature" asp-action="Index" asp-controller="CAR_Feature">
-                                        CAR_Feature
-                                    </a>
-                                </li>
+                                </li> 
                                 <li class="submenu-item ">
                                     <a asp-area="CAR_Image" asp-action="Index" asp-controller="CAR_Image">
                                         CAR_Image
                                     </a>
                                 </li>
-                                
-                                <li class="submenu-item ">
-                                    <a asp-area="CAR_Dealer" asp-action="Index" asp-controller="CAR_Dealer">
-                                        CAR_Dealer
-                                    </a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a asp-controller="CAR_Feature" asp-action="Index">
-                                        CAR_Dealer
-                                    </a>
-                                </li>
-                            </ul>
+                             </ul>
+                        </li>
+                  
 
-                    </ul>
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                            <span>Variants</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_Variant" asp-action="Index" asp-controller="CAR_Variant">
+                                    CAR_Variant
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_CarWiseVariant" asp-action="Index" asp-controller="CAR_CarWiseVariant">
+                                    CAR_CarWiseVariant
+                                </a>
+                            </li>
+                        </ul>
+                     </li>
+
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                            <span>Features</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_Feature" asp-action="Index" asp-controller="CAR_Feature">
+                                    CAR_Feature
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_CarWiseFeature" asp-action="Index" asp-controller="CAR_CarWiseFeature">
+                                    CAR_CarWiseFeature
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                            <span>TransmissionType</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_TransmissionType" asp-action="Index" asp-controller="CAR_TransmissionType">
+                                    CAR_TransmissionType
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_CarWiseTransmissionType" asp-action="Index" asp-controller="CAR_CarWiseTransmissionType">
+                                    CAR_CarWiseTransmissionType
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                            <span>FuelType</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_FuelType" asp-action="Index" asp-controller="CAR_FuelType">
+                                    CAR_FuelType
+                                </a>
+                            </li>
+
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_CarWiseFuelType" asp-action="Index" asp-controller="CAR_CarWiseFuelType">
+                                    CAR_CarWiseFuelType
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                            <span>Dealer</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a asp-area="CAR_Dealer" asp-action="Index" asp-controller="CAR_Dealer">
+                                    CAR_Dealer
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a asp-controller="CAR_Feature" asp-action="Index">
+                                    CAR_Dealer
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </div>
             </div>
         </div>
