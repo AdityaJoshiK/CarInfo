@@ -77,6 +77,25 @@ namespace CarInfo.Areas.MST_Car.Controllers
 
         public IActionResult Save(MST_CarModel modelMST_Car, List<string> FeatureNames, List<string> NewFeatureNames, List<string> FuelTypeNames, List<string> TransmissionTypeNames, List<int> VariantNames)
         {
+            if (modelMST_Car.File != null)
+            {
+                string FilePath = "wwwroot\\Upload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                string fileNameWithPath = Path.Combine(path, modelMST_Car.File.FileName);
+                //modelMST_Car.PhotoPath = "~" + FilePath.Replace("wwwroot\\","/") + "/" + modelMST_Car.File.FileName;
+                modelMST_Car.PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + modelMST_Car.File.FileName;
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    modelMST_Car.File.CopyTo(stream);
+                }
+            }
             try
             {
                 string connectionString = Configuration.GetConnectionString("MyConnectionString");
@@ -87,7 +106,7 @@ namespace CarInfo.Areas.MST_Car.Controllers
                     // Insert new record
                     int carID = 0;
                     dalCAR.PR_MST_Car_Insert(modelMST_Car, out carID);
-                    TempData["DealerInsertMsg"] = "Record Inserted Successfully";
+                    TempData["CarInsertMsg"] = "Record Inserted Successfully";
 
                     // Fetch the CarID after inserting the record
                     modelMST_Car.CarID = carID;
@@ -234,7 +253,6 @@ namespace CarInfo.Areas.MST_Car.Controllers
                     modelMST_Car.TypeID = Convert.ToInt32(dr["TypeID"]);
                     modelMST_Car.MakeID = Convert.ToInt32(dr["MakeID"]);
                     modelMST_Car.Name = dr["Name"].ToString();
-                    modelMST_Car.Price = Convert.ToDecimal(dr["Price"]);
                     modelMST_Car.Year = Convert.ToInt32(dr["Year"]);
                 }
 

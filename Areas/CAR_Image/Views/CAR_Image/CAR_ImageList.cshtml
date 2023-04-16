@@ -52,7 +52,7 @@
 
                     @foreach (var item in ViewBag.CarList)
                     {
-                        <option value="@item.CarID">@item.CarName</option>
+                        <option value="@item.CarID">@item.Name</option>
                     }
                 </select>
                 <button class="btn btn-success filterbtn" type="submit" asp-area="CAR_Image" asp-controller="CAR_Image" asp-action="Index">Apply Filters</button>

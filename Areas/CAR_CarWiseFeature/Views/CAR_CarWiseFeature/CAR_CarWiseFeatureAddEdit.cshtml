@@ -9,25 +9,56 @@
         <h3>@TempData["FeatureInsertMsg"]</h3>
         <form method="post" asp-controller="CAR_CarWiseFeature" asp-action="Save" id="feature-form">
             @Html.HiddenFor(x=>x.FeatureID)
+
+            <div class="form-group">
+                <label>Maker</label>
+                <select class="form-control" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();">
+                    <option value="">Select Maker</option>
+                </select>
+                <span asp-validation-for="MakeID" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label>Car Name</label>
-                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                <select class="form-control" asp-for="CarID" onchange="fnOnCarChange();">
                     <option value="">Select Car</option>
                 </select>
                 <span asp-validation-for="CarID" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label>Feature</label>
-                <input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" asp-for="FeatureName" />
-                <span asp-validation-for="FeatureName" class="text-danger"></span>
+                <label>Variant Name</label>
+                <select class="form-control" asp-for="VariantID">
+                    <option value="">Select Variant</option>
+                </select>
+                <span asp-validation-for="VariantID" class="text-danger"></span>
             </div>
+
+            
+
+
             @if (Model == null || Model.FeatureID == null || Model.FeatureID == 0)
             {
+                <div class="form-group">
+                    <label>Feature</label>
+                    <select class="choices form-select multiple-remove" multiple="multiple" name="FeatureNames" asp-items="@(new MultiSelectList(ViewBag.FeatureList, "FeatureName", "FeatureName"))">
+                        <option value="">Select Feature</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>Add more features</label>
                     <input type="button" class="btn btn-outline-primary" value="Add Feature" onclick="addFeature()" />
                 </div>
                 @Html.HiddenFor(x => x.FeatureID, new { @value = "0" })
+            }
+            else {
+@*                <div class="form-group">
+                    <label>Variant Name</label>
+                    <select class="form-control" asp-for="VariantID" name="VariantID">
+                        <option value="">Select Variant</option>
+                    </select>
+                    <span asp-validation-for="VariantID" class="text-danger"></span>
+                </div>*@
             }
             <div id="additional-features"></div>
             <hr />
@@ -47,8 +78,75 @@
 
     <script>
         function addFeature() {
-            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="FeatureNames" /><span class="text-danger"></span></div>');
+            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="NewFeatureNames" /><span class="text-danger"></span></div>');
             $('#additional-features').append(div);
+        }
+
+        function fnOnMakeChange() {
+
+            var MakeID = $("#MakeID").val();
+
+            if (MakeID !== "") {
+                $("select[name=CarID]").empty();
+                $("select[name=CarID]").append($("<option></option>").val("").html("Select Car"));
+                $.ajax(
+                    {
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: "@Url.Action("DropDownByMakeCar","CAR_CarWiseFeature")" + "?&MakeID=" + MakeID,
+                        data: {},
+                        dataType: "json",
+                        success: function (Result) {
+                            $.each(Result,
+                                function (key, value) {
+                                    console.log(value)
+                                    $("select[name=CarID]").append($("<option></option>").val(value.carID).text(value.name));
+                                }
+                            );
+                        },
+                        error: function (r) {
+                            alert("Error While Loading Dropdown!");
+                        }
+                    }
+                );
+            }
+            else {
+                $("select[name=CarID]").empty();
+                $("select[name=CarID]").append($("<option></option>").val("").html("Select Car"));
+            }
+        }
+
+        function fnOnCarChange()
+        {
+            var CarID = $("#CarID").val();
+
+            if (CarID !== "") {
+                $("select[name=VariantID]").empty();
+                $("select[name=VariantID]").append($("<option></option>").val("").html("Select Variant"));
+
+                // Set selected value to empty initially
+                $("select[name=VariantID]").val("");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.Action("DropDownByMake","CAR_CarWiseFeature")" + "?&CarID=" + CarID,
+                    data: {},
+                    dataType: "json",
+                    success: function (Result) {
+                        $.each(Result, function (key, value) {
+                            console.log(value);
+                            $("select[name=VariantID]").append($("<option></option>").val(value.variantID).text(value.variantName));
+                        });
+                    },
+                    error: function (r) {
+                        alert("Error While Loading Dropdown!");
+                    }
+                });
+            } else {
+                $("select[name=VariantID]").empty();
+                $("select[name=VariantID]").append($("<option></option>").val("").html("Select Variant"));
+            }
         }
     </script>
 }

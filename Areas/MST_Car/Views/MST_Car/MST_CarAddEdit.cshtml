@@ -7,14 +7,21 @@
 
 <div class="row" style="width:auto">
     <div class="col-md-12">
-        <form method="post" asp-controller="MST_Car" asp-action="Save">
+        <form method="post" asp-controller="MST_Car" asp-action="Save" enctype="multipart/form-data">
             @Html.HiddenFor(x=>x.CarID)
+            @Html.HiddenFor(x=>x.PhotoPath)
             <div class="form-group">
                 <label>Maker</label>
                 <select class="form-control" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();">
                     <option value="">Select Maker</option>
                 </select>
                 <span asp-validation-for="MakeID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>PhotoPath</label>
+                <input type="file" class="form-control" placeholder="Upload File" asp-for="File" />
+                @*<input type="text" class="form-control" readonly asp-for="PhotoPath" value="@Model.PhotoPath" />*@
             </div>
 
               <div class="form-group">
@@ -38,18 +45,16 @@
                 <input type="text" class="form-control" placeholder="Enter Name" asp-for="Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label>Price</label>
-                <input type="text" class="form-control" placeholder="Enter Price" asp-for="Price" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label>Year</label>
                 <input type="text" class="form-control" placeholder="Enter Year" asp-for="Year" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
 
-             @if (Model == null || Model.CarID == null || Model.CarID == 0)
+
+
+            @if (Model == null || Model.CarID == null || Model.CarID == 0)
             {
                 <div class="form-group">
                     <label>FuelType</label>

@@ -12,7 +12,7 @@
                 @Html.HiddenFor(x=>x.FuelTypeID)
             <div class="form-group">
                 <label>Car Name</label>
-                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","CarName"))">
+                <select class="form-control" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","Name"))">
                     <option value="">Select Car</option>
                 </select>
                 <span asp-validation-for="CarID" class="text-danger"></span>

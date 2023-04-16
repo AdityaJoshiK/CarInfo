@@ -8,6 +8,8 @@ namespace CarInfo.Areas.CAR_CarWiseFeature.Models
         public int? FeatureID { get; set; }
         public int? CarID { get; set; }
         public int? UserID { get; set; }
+        public int? MakeID { get; set; }
+        public int? VariantID { get; set; }
 
         [Required(ErrorMessage = "Please enter Feature name"), MaxLength(50)]
         [DataType(DataType.Text)]

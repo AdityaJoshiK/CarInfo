@@ -1,4 +1,7 @@
 ﻿using CarInfo.Areas.CAR_CarWiseFeature.Models;
+using CarInfo.Areas.CAR_Feature.Models;
+using CarInfo.Areas.CAR_Make.Models;
+using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +39,7 @@ namespace CarInfo.Areas.CAR_CarWiseFeature.Controllers
             return View("CAR_CarWiseFeatureList", feature);
         }
 
-        public IActionResult Save(CAR_CarWiseFeatureModel modelCAR_CarWiseFeature, List<string> FeatureNames)
+        public IActionResult Save(CAR_CarWiseFeatureModel modelCAR_CarWiseFeature, List<string> FeatureNames, List<string> NewFeatureNames)
         {
             try
             {
@@ -45,48 +48,45 @@ namespace CarInfo.Areas.CAR_CarWiseFeature.Controllers
 
                 if (modelCAR_CarWiseFeature.FeatureID == null || modelCAR_CarWiseFeature.FeatureID == 0)
                 {
-                    // Insert new record
-                    // Insert the first feature
-                    modelCAR_CarWiseFeature.FeatureName = FeatureNames[0];
-                    dalCAR.PR_CAR_CarWiseFeature_Insert(modelCAR_CarWiseFeature);
 
-                    // Insert the remaining FeatureNames
-                    for (int i = 1; i < FeatureNames.Count; i++)
+                    #region Feature Add
+                    // Insert the FeatureNames into a separate table
+                    foreach (string featureName in FeatureNames)
                     {
                         CAR_CarWiseFeatureModel newFeature = new CAR_CarWiseFeatureModel
                         {
                             CarID = modelCAR_CarWiseFeature.CarID,
-                            FeatureName = FeatureNames[i],
-                            //UserID = modelCAR_CarWiseFeature.UserID
+                            VariantID = modelCAR_CarWiseFeature.VariantID,
+                            FeatureName = featureName
                         };
                         dalCAR.PR_CAR_CarWiseFeature_Insert(newFeature);
                     }
+                    #endregion
 
-                    TempData["FeatureInsertMsg"] = "Record Inserted Succesfully";
+                    #region Feature Add
+                    // Insert the FeatureNames into a separate table
+                    foreach (string featureName in NewFeatureNames)
+                    {
+                        CAR_CarWiseFeatureModel newFeature = new CAR_CarWiseFeatureModel
+                        {
+                            CarID = modelCAR_CarWiseFeature.CarID,
+                            VariantID = modelCAR_CarWiseFeature.VariantID,
+                            FeatureName = featureName
+                        };
+                        CAR_FeatureModel addFeature = new CAR_FeatureModel
+                        {
+                            FeatureName = featureName
+                        };
+                        dalCAR.PR_CAR_CarWiseFeature_Insert(newFeature);
+                        dalCAR.PR_CAR_Feature_Insert(addFeature);
+                    }
+                    #endregion
                 }
+
                 else
                 {
-                    // Update existing record
-                    modelCAR_CarWiseFeature.FeatureName = FeatureNames[0];
-                    dalCAR.PR_CAR_CarWiseFeature_UpdateByPK(modelCAR_CarWiseFeature);
-
-                    // Delete existing feature names for the record
-                    //dalCAR.PR_CAR_CarWiseFeature_DeleteFeaturesByFeatureId(modelCAR_CarWiseFeature.FeatureID);
-
-                    // Insert new feature names for the record
-                    //foreach (string featureName in FeatureNames)
-                    //{
-                    //    CAR_CarWiseFeatureModel newFeature = new CAR_CarWiseFeatureModel
-                    //    {
-                    //        CarID = modelCAR_CarWiseFeature.CarID,
-                    //        FeatureName = featureName,
-                    //        FeatureID = modelCAR_CarWiseFeature.FeatureID,
-                    //        //UserID = modelCAR_CarWiseFeature.UserID
-                    //    };
-                    //    dalCAR.PR_CAR_CarWiseFeature_Insert(newFeature);
-                    //}
-
-                    TempData["FeatureInsertMsg"] = "Record Updated Succesfully";
+                    DataTable dt = dalCAR.PR_CAR_CarWiseFeature_UpdateByPK(modelCAR_CarWiseFeature);
+                    TempData["FeatureInsertMsg"] = "Record Updated Successfully";
                 }
             }
             catch (Exception ex)
@@ -104,9 +104,19 @@ namespace CarInfo.Areas.CAR_CarWiseFeature.Controllers
             string str = Configuration.GetConnectionString("myConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
 
+            #region makeDropdown
+            List<CAR_MakeDropDownModel> makeList = dalCAR.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = makeList;
+            #endregion
+
             #region CarDropdown
-            List<MST_CarDropDownModel> carList = dalCAR.PR_MST_Car_DropDown();
+            List<MST_CarDropDownModel> carList = new List<MST_CarDropDownModel>();
             ViewBag.CarList = carList;
+            #endregion
+
+            #region FeatureDropdown
+            List<CAR_FeatureDropDownModel> FeatureList = dalCAR.PR_CAR_Feature_DropDown();
+            ViewBag.FeatureList = FeatureList;
             #endregion
 
             #region SelectByPK
@@ -120,9 +130,11 @@ namespace CarInfo.Areas.CAR_CarWiseFeature.Controllers
 
                 foreach (DataRow dr in dt.Rows)
                 {
+                    DropDownByMakeCar(Convert.ToInt32(dr["CarID"]), carList);
                     modelCAR_CarWiseFeature.FeatureID = Convert.ToInt32(dr["FeatureID"]);
                     modelCAR_CarWiseFeature.FeatureName = dr["FeatureName"].ToString();
                     modelCAR_CarWiseFeature.CarID = Convert.ToInt32(dr["CarID"]);
+                    modelCAR_CarWiseFeature.VariantID = Convert.ToInt32(dr["VariantID"]);
                 }
 
 
@@ -144,6 +156,60 @@ namespace CarInfo.Areas.CAR_CarWiseFeature.Controllers
         }
 
         #endregion
+
+        public IActionResult DropDownByMakeCar(int MakeID, List<MST_CarDropDownModel> Make_list)
+        {
+            string str = Configuration.GetConnectionString("myConnectionString");
+            SqlConnection conn = new SqlConnection(str);
+            DataTable dt = new DataTable();
+            conn.Open();
+            SqlCommand cmd1 = conn.CreateCommand();
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.CommandText = "PR_MST_Car_SelectForDropDownMakeID";
+            cmd1.Parameters.AddWithValue("@MakeID", MakeID);
+            SqlDataReader sdr1 = cmd1.ExecuteReader();
+            dt.Load(sdr1);
+            conn.Close();
+
+            List<MST_CarDropDownModel> list1 = new List<MST_CarDropDownModel>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                MST_CarDropDownModel vlst1 = new MST_CarDropDownModel();
+                vlst1.CarID = Convert.ToInt32(dr["CarID"]);
+                vlst1.Name = dr["Name"].ToString();
+                Make_list.Add(vlst1);
+            }
+
+            var vModel = Make_list;
+            return Json(vModel);
+        }
+
+        public IActionResult DropDownByMake(int CarID, List<CAR_VariantDropDownModel> variant_list)
+        {
+            string str = Configuration.GetConnectionString("myConnectionString");
+            SqlConnection conn = new SqlConnection(str);
+            DataTable dt = new DataTable();
+            conn.Open();
+            SqlCommand cmd1 = conn.CreateCommand();
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.CommandText = "PR_CAR_CarWiseVariant_SelectForDropDownByCarID";
+            cmd1.Parameters.AddWithValue("@CarID", CarID);
+            SqlDataReader sdr1 = cmd1.ExecuteReader();
+            dt.Load(sdr1);
+            conn.Close();
+
+            List<CAR_VariantDropDownModel> list1 = new List<CAR_VariantDropDownModel>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                CAR_VariantDropDownModel vlst1 = new CAR_VariantDropDownModel();
+                vlst1.VariantID = Convert.ToInt32(dr["VariantID"]);
+                vlst1.VariantName = dr["VariantName"].ToString();
+                variant_list.Add(vlst1);
+            }
+
+            var vModel = variant_list;
+            return Json(vModel);
+        }
 
         public IActionResult Back()
         {

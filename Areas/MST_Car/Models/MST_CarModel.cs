@@ -21,7 +21,8 @@ namespace CarInfo.Areas.MST_Car.Models
         public string Name { get; set; }
         public string FeatureName { get; set; }
         public List<string> FuelTypeName { get; set; }
-        public decimal Price { get; set; }
+        public IFormFile? File { get; set; }
+        public string? PhotoPath { get; set; }
         public int Year { get; set; }
 
         public DateTime CreationDate { get; set; }

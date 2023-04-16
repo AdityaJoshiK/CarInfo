@@ -47,13 +47,13 @@
     <div class="row filters">
         <div class="col-md-10">
             <form method="post" class="form-inline">
-                @*<input class="form-control mr-sm-2" name="CarName" type="text" placeholder="Car Name" />*@
+                @*<input class="form-control mr-sm-2" name="Name" type="text" placeholder="Car Name" />*@
                 <select class="form-control filter mr-sm-2 form-select" id="CarDropdown" name="CarID">
                     <option value="">--Select Car--</option>
 
                     @foreach (var item in ViewBag.CarList)
                     {
-                        <option value="@item.CarID">@item.CarName</option>
+                        <option value="@item.CarID">@item.Name</option>
                     }
                 </select>
 
@@ -78,6 +78,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Variant</th>
                             <th>Feature Name</th>
                             <th>Created</th>
                             <th>Modified</th>
@@ -89,6 +90,7 @@
                         {
                             <tr>
                                 <td>@dr["Name"]</td>
+                                <td>@dr["VariantName"]</td>
                                 <td>@dr["FeatureName"]</td>
                                 <td>@dr["CreationDate"]</td>
                                 <td>@dr["ModificationDate"]</td>

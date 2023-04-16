@@ -87,7 +87,8 @@
                            width="100%">
                         <thead>
                             <tr>
-                                <th>Maker</th>
+                            <th>Image</th>
+                            <th>Maker</th>
                                 <th>Name</th>
                             <th>Type</th>
                             @*<th>FuelType</th>*@
@@ -96,7 +97,6 @@
                                 <th>FuelType</th>
                                 <th>TransmissionType</th>*@
                                 <th>Year</th>
-                                <th>Price</th>
                                 @*<th>Image</th>*@
                                 <th>Created</th>
                                 <th>Modified</th>
@@ -107,7 +107,9 @@
                             @foreach (DataRow dr in Model.Rows)
                             {
                                 <tr>
-                                    @*<td>@dr["CountryID"]</td>*@
+                                <td>
+                                    <img src="@dr["PhotoPath"]" style="height:150px;width:150px" class="img img-responsive" />
+                                </td>
                                     <td>@dr["MakeName"]</td>
                                     <td>@dr["Name"]</td>
 
@@ -118,7 +120,6 @@
                                     <td>@dr["FuelTypeName"]</td>
                                     <td>@dr["TransmissionTypeName"]</td>*@
                                     <td>@dr["Year"]</td>
-                                    <td>@dr["Price"]</td>
                                     @*<td>@dr["Image"]</td>*@
                                     <td>@dr["CreationDate"]</td>
                                     <td>@dr["ModificationDate"]</td>

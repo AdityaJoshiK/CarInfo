@@ -37,7 +37,7 @@ namespace CarInfo.Areas.CAR_CarWiseVariant.Controllers
             return View("CAR_CarWiseVariantList", variants);
         }
 
-        public IActionResult Save(CAR_CarWiseVariantModel modelCAR_CarWiseVariant, List<int> VariantID, List<string> NewVariantNames)
+        public IActionResult Save(CAR_CarWiseVariantModel modelCAR_CarWiseVariant, List<int> VariantID)
         {
             try
             {

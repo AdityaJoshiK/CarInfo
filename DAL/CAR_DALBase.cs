@@ -423,6 +423,7 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarWiseFeature_Insert");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
                 sqlDB.AddInParameter(dbCMD, "FeatureName", SqlDbType.NVarChar, model.FeatureName);
 
                 DataTable dt = new DataTable();
@@ -488,6 +489,7 @@ namespace CarInfo.DAL
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "FeatureID", SqlDbType.Int, model.FeatureID);
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+                sqlDB.AddInParameter(dbCMD, "VariantID", SqlDbType.Int, model.VariantID);
                 sqlDB.AddInParameter(dbCMD, "FeatureName", SqlDbType.NVarChar, model.FeatureName);
 
 
@@ -2223,11 +2225,12 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_MST_Car_InsertCheck");
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, model.TypeID);
-                //sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.TypeID);
+                sqlDB.AddInParameter(dbCMD, "FuelTypeID", SqlDbType.Int, model.TypeID);
+
+                sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
                 sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
-                sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
 
                 SqlParameter carIDParam = new SqlParameter("@CarID", SqlDbType.Int);
                 carIDParam.Direction = ParameterDirection.Output;
@@ -2302,8 +2305,8 @@ namespace CarInfo.DAL
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "Name", SqlDbType.NVarChar, model.Name);
+                sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
                 sqlDB.AddInParameter(dbCMD, "Year", SqlDbType.Int, model.Year);
-                sqlDB.AddInParameter(dbCMD, "Price", SqlDbType.Decimal, model.Price);
 
 
                 DataTable dt = new DataTable();
