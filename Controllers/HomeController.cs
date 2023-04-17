@@ -1,6 +1,8 @@
 ﻿using CarInfo.BAL;
+using CarInfo.DAL;
 using CarInfo.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Diagnostics;
 
 namespace CarInfo.Controllers
@@ -17,6 +19,12 @@ namespace CarInfo.Controllers
 
         public IActionResult Index()
         {
+            CAR_DAL carDal = new CAR_DAL();
+
+            int Records = carDal.PR_MST_Car_TotalRecords();
+
+            ViewBag.Records=Records;
+
             return View();
         }
 

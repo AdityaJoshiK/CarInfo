@@ -1,6 +1,8 @@
-﻿using CarInfo.Models;
+﻿using CarInfo.DAL;
+using CarInfo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace CarInfo.Controllers
@@ -16,29 +18,33 @@ namespace CarInfo.Controllers
         public IActionResult Index()
         {
             string connectionString = this.Configuration.GetConnectionString("myConnectionString");
-            List<Car_Feature> carFeatures = new List<Car_Feature>();
+            //List<Car_Feature> carFeatures = new List<Car_Feature>();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
+            //using (SqlConnection connection = new SqlConnection(connectionString))
+            //{
+            //    connection.Open();
 
-                SqlCommand command = new SqlCommand("SELECT * FROM Car_Feature", connection);
+            //    SqlCommand command = new SqlCommand("SELECT * FROM Car_Feature", connection);
 
-                SqlDataReader reader = command.ExecuteReader();
+            //    SqlDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    Car_Feature carFeature = new Car_Feature();
-                    carFeature.FeatureID = (int)reader["FeatureID"];
-                    carFeature.FeatureName = reader["FeatureName"].ToString();
-                    carFeatures.Add(carFeature);
-                }
+            //    while (reader.Read())
+            //    {
+            //        Car_Feature carFeature = new Car_Feature();
+            //        carFeature.FeatureID = (int)reader["FeatureID"];
+            //        carFeature.FeatureName = reader["FeatureName"].ToString();
+            //        carFeatures.Add(carFeature);
+            //    }
 
-                reader.Close();
-            }
+            //    reader.Close();
+            //}
 
-            //List<CarFeature> carFeatures = carFeatureRepository.GetAllCarFeatures();
-            return View(carFeatures);
+            DataTable make = new DataTable();
+            CLIENT_DALBase carDal = new CLIENT_DALBase();
+
+            make = carDal.PR_Client_Car_Detail(1025);
+
+            return View("Index", make);
         }
     }
 }

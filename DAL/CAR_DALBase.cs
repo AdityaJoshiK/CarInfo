@@ -2770,6 +2770,35 @@ namespace CarInfo.DAL
         }
         #endregion
 
+        #region PR_MST_Car_TotalRecords
+
+        public int PR_MST_Car_TotalRecords()
+        {
+            int totalRecords = 0;
+            string connectionString = connectionStr; // Replace with your actual connection string
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("PR_MST_Car_TotalRecords", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            totalRecords = Convert.ToInt32(reader["TotalRecords"]);
+                        }
+                    }
+                }
+            }
+
+            return totalRecords;
+        }
+
+        #endregion
+
         #endregion
     }
 }

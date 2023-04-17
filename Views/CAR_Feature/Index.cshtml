@@ -1,13 +1,27 @@
-﻿@model List<Car_Feature>
+﻿@{
+    ViewData["Title"] = "MST_CarList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
+@using System.Data
+@model DataTable
 
+@foreach (DataRow dr in Model.Rows)
+{
+    <ul>
+        <li>Make Name: @dr["MakeName"]</li>
+        <li>Car Name: @dr["Name"]</li>
+        <li>Photo Path: @dr["CarPhotoPath"]</li>
+        <li>Price: @dr["Price"]</li>
+        <li>Features:</li>
+        <ul>
+            <ul>
+                @foreach (var imagePath in @dr["ImagePhotoPath"].ToString().Split(','))
+                {
+                    <li>@imagePath.Trim()</li>
+                }
+            </ul>
 
-<h1>Car Features</h1>
-
-<ul>
-    @foreach (var carFeature in Model)
-    {
-        <li>@carFeature.FeatureName</li>
-    }
-</ul>
-
+        </ul>
+    </ul>
+}
