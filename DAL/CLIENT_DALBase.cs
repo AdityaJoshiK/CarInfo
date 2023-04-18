@@ -62,5 +62,61 @@ namespace CarInfo.DAL
         }
 
         #endregion
+
+        #region Category
+
+        public DataTable PR_Client_Car_Categories()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_Car_Categories");
+                //sqldb.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region CarType
+
+        public DataTable PR_Client_CarByType(int TypeID)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_CarByType");
+                sqldb.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, TypeID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
     }
 }

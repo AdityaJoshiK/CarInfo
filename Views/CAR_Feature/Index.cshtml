@@ -3,25 +3,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model Car_Feature
 @using System.Data
-@model DataTable
 
-@foreach (DataRow dr in Model.Rows)
+<!-- Display car categories -->
+<h3>Car Categories</h3>
+@foreach (DataRow dr in Model.CarCategories.Rows)
 {
     <ul>
-        <li>Make Name: @dr["MakeName"]</li>
-        <li>Car Name: @dr["Name"]</li>
-        <li>Photo Path: @dr["CarPhotoPath"]</li>
-        <li>Price: @dr["Price"]</li>
-        <li>Features:</li>
-        <ul>
-            <ul>
-                @foreach (var imagePath in @dr["ImagePhotoPath"].ToString().Split(','))
-                {
-                    <li>@imagePath.Trim()</li>
-                }
-            </ul>
+        <li>@dr["TypeID"]</li>
+        <li>@dr["TypeName"]</li>
+        <li>@dr["FuelTypeID"]</li>
+        <li>@dr["FuelTypeName"]</li>
+        <li>@dr["TransmissionTypeID"]</li>
+        <li>@dr["TransmissionTypeName"]</li>
+    </ul>
+}
 
-        </ul>
+<!-- Display cars by type -->
+<h3>Cars by Type</h3>
+@foreach (DataRow dr in Model.CarsByType.Rows)
+{
+    <ul>
+        <li>@dr["CarID"]</li>
+        <li>@dr["PhotoPath"]</li>
+        <li>@dr["Name"]</li>
     </ul>
 }

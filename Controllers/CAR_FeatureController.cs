@@ -17,34 +17,20 @@ namespace CarInfo.Controllers
 
         public IActionResult Index()
         {
-            string connectionString = this.Configuration.GetConnectionString("myConnectionString");
-            //List<Car_Feature> carFeatures = new List<Car_Feature>();
-
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    connection.Open();
-
-            //    SqlCommand command = new SqlCommand("SELECT * FROM Car_Feature", connection);
-
-            //    SqlDataReader reader = command.ExecuteReader();
-
-            //    while (reader.Read())
-            //    {
-            //        Car_Feature carFeature = new Car_Feature();
-            //        carFeature.FeatureID = (int)reader["FeatureID"];
-            //        carFeature.FeatureName = reader["FeatureName"].ToString();
-            //        carFeatures.Add(carFeature);
-            //    }
-
-            //    reader.Close();
-            //}
-
-            DataTable make = new DataTable();
             CLIENT_DALBase carDal = new CLIENT_DALBase();
 
-            make = carDal.PR_Client_Car_Detail(1025);
+            DataTable carCategories = carDal.PR_Client_Car_Categories();
+            DataTable carsByType = carDal.PR_Client_CarByType(7);
 
-            return View("Index", make);
+            Car_Feature viewModel = new Car_Feature
+            {
+                CarCategories = carCategories,
+                CarsByType = carsByType
+            };
+
+            return View("Index", viewModel);
         }
+
+
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using CarInfo.DAL;
 using System.Data;
+using CarInfo.Models;
 
 namespace CarInfo.Controllers
 {
@@ -25,8 +26,8 @@ namespace CarInfo.Controllers
 
             make = carDal.PR_Client_SelectRecentCars();
 
-            //return View("Index", make);
-            return View("CAR_List");
+            return View("Index", make);
+            //return View("CAR_List");
         }
 
         public IActionResult Details(int CarID)
@@ -37,6 +38,22 @@ namespace CarInfo.Controllers
             make = carDal.PR_Client_Car_Detail(CarID);
 
             return View("CAR_Detail",make);
+        }
+
+        public IActionResult CarList(int TypeID)
+        {
+            CLIENT_DALBase carDal = new CLIENT_DALBase();
+
+            DataTable carCategories = carDal.PR_Client_Car_Categories();
+            DataTable carsByType = carDal.PR_Client_CarByType(TypeID);
+
+            CLIENT_Model viewModel = new CLIENT_Model
+            {
+                CarCategories = carCategories,
+                CarsByType = carsByType
+            };
+
+            return View("CAR_List", viewModel);
         }
     }
 }

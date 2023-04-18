@@ -1,4 +1,6 @@
-﻿namespace CarInfo.Models
+﻿using System.Data;
+
+namespace CarInfo.Models
 {
     public class Car_Feature
     {
@@ -8,6 +10,9 @@
 
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
+
+        public DataTable CarCategories { get; set; }
+        public DataTable CarsByType { get; set; }
     }
 
 }
