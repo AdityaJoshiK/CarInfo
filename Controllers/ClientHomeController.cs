@@ -25,7 +25,8 @@ namespace CarInfo.Controllers
 
             make = carDal.PR_Client_SelectRecentCars();
 
-            return View("Index", make);
+            //return View("Index", make);
+            return View("CAR_List");
         }
 
         public IActionResult Details(int CarID)

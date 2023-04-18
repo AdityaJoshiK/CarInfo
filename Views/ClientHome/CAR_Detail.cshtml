@@ -54,13 +54,15 @@
                                             <div id="gallery_02" class="product-flexslider hidden-buttons product-img-thumb">
                                                 <div class="slider-items slider-width-col4 block-content">
                                                         @{
-                                                            int i = 0;
+                                                            int i = 1;
                                                         }
+
                                                         @foreach (var imagePath in @dr["ImagePhotoPath"].ToString().Split(','))
                                                         {
                                                             <div class="more-views-items"> <a href="#" data-image="@imagePath.Trim()" data-zoom-image="@imagePath.Trim()"> <img id="product-zoom@(i)" src="@imagePath.Trim()" alt="product-image" /> </a></div>
                                                             i++;
                                                         }
+                                                        <div class="more-views-items"> <a href="#" data-image="@dr["CarPhotoPath"]" data-zoom-image="@dr["CarPhotoPath"]"> <img id="product-zoom@(i)" src="@dr["CarPhotoPath"]" alt="product-image" /> </a></div>
 @*                                                    <div class="more-views-items"> <a href="#" data-image="products-images/p2.jpg" data-zoom-image="products-images/p2.jpg"> <img id="product-zoom1" src="products-images/p2.jpg" alt="product-image" /> </a></div>
                                                     <div class="more-views-items"> <a href="#" data-image="products-images/p3.jpg" data-zoom-image="products-images/p3.jpg"> <img id="product-zoom2" src="products-images/p3.jpg" alt="product-image" /> </a></div>
                                                     <div class="more-views-items"> <a href="#" data-image="products-images/p4.jpg" data-zoom-image="products-images/p4.jpg"> <img id="product-zoom3" src="products-images/p4.jpg" alt="product-image" /> </a> </div>

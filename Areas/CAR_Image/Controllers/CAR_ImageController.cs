@@ -52,12 +52,23 @@ namespace CarInfo.Areas.CAR_Image.Controllers
 
                 foreach (var file in modelCAR_Image.Files)
                 {
-                    string fileNameWithPath = Path.Combine(path, file.FileName);
+                    string fileName = file.FileName;
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+                    string fileExtension = Path.GetExtension(fileName);
+                    string uniqueFileName = fileName;
+
+                    int counter = 1;
+                    while (System.IO.File.Exists(Path.Combine(path, uniqueFileName)))
+                    {
+                        uniqueFileName = $"{fileNameWithoutExtension}({counter++}){fileExtension}";
+                    }
+
+                    string fileNameWithPath = Path.Combine(path, uniqueFileName);
 
                     var newImage = new CAR_ImageModel
                     {
                         CarID = modelCAR_Image.CarID,
-                        PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + file.FileName,
+                        PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + uniqueFileName,
                     };
 
                     using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
@@ -82,12 +93,23 @@ namespace CarInfo.Areas.CAR_Image.Controllers
 
                 var file = modelCAR_Image.File; // Get the file
 
-                string fileNameWithPath = Path.Combine(path, file.FileName);
+                string fileName = file.FileName;
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+                string fileExtension = Path.GetExtension(fileName);
+                string uniqueFileName = fileName;
+
+                int counter = 1;
+                while (System.IO.File.Exists(Path.Combine(path, uniqueFileName)))
+                {
+                    uniqueFileName = $"{fileNameWithoutExtension}({counter++}){fileExtension}";
+                }
+
+                string fileNameWithPath = Path.Combine(path, uniqueFileName);
 
                 var newImage = new CAR_ImageModel
                 {
                     CarID = modelCAR_Image.CarID,
-                    PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + file.FileName,
+                    PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + uniqueFileName,
                 };
 
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
@@ -96,10 +118,9 @@ namespace CarInfo.Areas.CAR_Image.Controllers
                 }
 
                 CAR_DAL dalCAR = new CAR_DAL();
-                    // Update existing record
-                    newImage.ImageID = modelCAR_Image.ImageID;
-                    dalCAR.PR_CAR_Image_UpdateByPK(newImage);
-                
+                // Update existing record
+                newImage.ImageID = modelCAR_Image.ImageID;
+                dalCAR.PR_CAR_Image_UpdateByPK(newImage);
 
                 TempData["ImageInsertMsg"] = "Records Updated Successfully";
             }
@@ -107,6 +128,7 @@ namespace CarInfo.Areas.CAR_Image.Controllers
             {
                 TempData["ImageInsertMsg"] = "No file selected for upload";
             }
+
 
             return RedirectToAction("Index");
         }
