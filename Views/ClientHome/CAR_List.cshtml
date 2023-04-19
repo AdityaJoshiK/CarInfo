@@ -43,7 +43,7 @@
                                 @*<div class="view-mode"> <span title="Grid" class="button button-active button-grid">&nbsp;</span><a href="list.html" title="List" class="button-list">&nbsp;</a> </div>*@
                             </div>
                             <div id="sort-by">
-                                <label class="left">Sort By: </label>
+                                <lab class="left">Sort By: </lab  el>
                                 <ul>
                                     <li>
                                         <a href="#">Position<span class="right-arrow"></span></a>
@@ -268,40 +268,34 @@
                 <div class="section-filter">
                     <div class="b-filter__inner bg-grey">
                         <h2>Find your right car</h2>
-                        <form class="b-filter">
-                            <div class="btn-group bootstrap-select" style="width: 100%;">
-                                <select class="selectpicker" data-width="100%" tabindex="-98">
+                        <form class="b-filter" asp-controller="ClientHome" asp-action="CarFilter">
+                          <div class="btn-group bootstrap-select" style="width: 100%;">
+                                <select class="selectpicker" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();" data-width="100%" tabindex="-98">
                                     <option>Select Make</option>
-                                    <option>Make 1</option>
-                                    <option>Make 2</option>
-                                    <option>Make 3</option>
                                 </select>
                             </div>
                             <div class="btn-group bootstrap-select" style="width: 100%;">
-                                <select class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option>Select Car Status</option>
-                                    <option>Status 1</option>
-                                    <option>Status 2</option>
-                                    <option>Status 3</option>
+                                <select class="selectpicker" id="MyCarID" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","Name"))" data-width="100%" tabindex="-98">
+                                    <option value="Select Car"></option>
+                                </select>
+                            </div>
+
+                            <div class="btn-group bootstrap-select" style="width: 100%;">
+                                <select class="selectpicker" asp-for="TypeID" asp-items="@(new SelectList(ViewBag.TypeList,"TypeID","TypeName"))" data-width="100%" tabindex="-98">
+                                    <option>Select Type</option>
                                 </select>
                             </div>
                             <div class="btn-group bootstrap-select" style="width: 100%;">
-                                <select class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option>Select Model</option>
-                                    <option>Model 1</option>
-                                    <option>Model 2</option>
-                                    <option>Model 3</option>
+                                <select class="selectpicker" asp-for="FuelTypeName" asp-items="@(new SelectList(ViewBag.FuelTypeList,"FuelTypeName","FuelTypeName"))" data-width="100%" tabindex="-98">
+                                    <option>Select FuelType</option>
                                 </select>
                             </div>
                             <div class="btn-group bootstrap-select" style="width: 100%;">
-                                <select class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option>Select All Locations</option>
-                                    <option>Location 1</option>
-                                    <option>Location 2</option>
-                                    <option>Location 3</option>
+                                <select class="selectpicker" asp-for="TransmissionTypeName" asp-items="@(new SelectList(ViewBag.TransmissionTypeList,"TransmissionTypeName","TransmissionTypeName"))" data-width="100%" tabindex="-98">
+                                    <option>Select TransmissionType</option>
                                 </select>
                             </div>
-                            <div class="btn-group bootstrap-select" style="width: 100%;">
+                        @*    <div class="btn-group bootstrap-select" style="width: 100%;">
                                 <select class="selectpicker" data-width="100%" tabindex="-98">
                                     <option>Select Year</option>
                                     <option>2017</option>
@@ -317,12 +311,14 @@
                                     </div>
                                     <!-- /.price-range-holder -->
                                 </div>
-                            </div>
+                            </div>*@
                             <div>
-                                <div class="b-filter__btns">
-                                    <button class="btn btn-lg btn-primary">search vehicle</button>
-                                </div>
+                                @*<div class="b-filter__btns">*@
+                                    @*<button type="submit" >search vehicle</button>*@
+                                @*</div>*@
                             </div>
+                                  <button type="submit" class="search-btn"> <span class="glyphicon glyphicon-search"> <span class="sr-only">Search</span> </span> </button>
+                  
                         </form>
                     </div>
                 </div>
@@ -336,4 +332,98 @@
     </div>
     <!--container-->
 </section>
-<!--main-container col2-left-layout--> 
+<!--main-container col2-left-layout-->
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+    <script>
+        function addFeature() {
+            var div = $('<div class="form-group"><input type="text" class="form-control" placeholder="Enter Feature" name="NewFeatureNames" /><span class="text-danger"></span></div>');
+            $('#additional-features').append(div);
+        }
+
+
+        $(document).ready(function () {
+    // Initialize selectpicker on page load
+    $('.selectpicker').selectpicker();
+});
+function fnOnMakeChange() {
+    var MakeID = $("#MakeID").val();
+    if (MakeID !== "") {
+        $("#MyCarID").empty();
+        $("#MyCarID").append($("<option></option>").val("").html("Select Car"));
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("DropDownByMakeCar","ClientHome")" + "?&MakeID=" + MakeID,
+            data: {},
+            dataType: "json",
+            success: function (Result) {
+    var MyCarID = $("#MyCarID");
+    MyCarID.empty();
+    MyCarID.append($("<option></option>").val("").html("Select Car"));
+    $.each(Result, function (key, value) {
+        console.log(value);
+        MyCarID.append($("<option></option>").val(value.carID).text(value.name));
+    });
+
+    // Refresh the selectpicker
+    MyCarID.selectpicker("refresh");
+
+    // Update the 'Select Car' text inside the dropdown
+    var selectPickerUl = MyCarID.next().find('.inner.selectpicker');
+    selectPickerUl.empty();
+    selectPickerUl.append($('<li data-original-index="0" class="selected"><a tabindex="0" class="" data-normalized-text="Select Car"><span class="text">Select Car</span><span class="glyphicon glyphicon-ok icon-ok check-mark"></span></a></li>'));
+},
+
+            error: function (r) {
+                alert("Error While Loading Dropdown!");
+            }
+        });
+    }
+    else {
+        $("#MyCarID").empty();
+        $("#MyCarID").append($("<option></option>").val("").html("Select Car"));
+        
+        // Update the selected option in the dropdown menu
+        $(".selectpicker li[data-original-index='0']").addClass("selected");
+        $(".selectpicker span.filter-option").text("Select Car");
+    }
+}
+
+        function fnOnCarChange() {
+            var CarID = $("#CarID").val();
+
+            if (CarID !== "") {
+                $("select[name=VariantID]").empty();
+                $("select[name=VariantID]").append($("<option></option>").val("").html("Select Variant"));
+
+                // Set selected value to empty initially
+                $("select[name=VariantID]").val("");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.Action("DropDownByMake","CAR_CarWiseFeature")" + "?&CarID=" + CarID,
+                    data: {},
+                    dataType: "json",
+                    success: function (Result) {
+                        $.each(Result, function (key, value) {
+                            console.log(value);
+                            $("select[name=VariantID]").append($("<option></option>").val(value.variantID).text(value.variantName));
+                        });
+                    },
+                    error: function (r) {
+                        alert("Error While Loading Dropdown!");
+                    }
+                });
+            } else {
+                $("select[name=VariantID]").empty();
+                $("select[name=VariantID]").append($("<option></option>").val("").html("Select Variant"));
+            }
+        }
+    </script>
+}
