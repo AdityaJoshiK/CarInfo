@@ -40,7 +40,7 @@
                     <article class="col-main">
                         <div class="toolbar">
                             <div class="sorter">
-                                <div class="view-mode"> <span title="Grid" class="button button-active button-grid">&nbsp;</span><a href="list.html" title="List" class="button-list">&nbsp;</a> </div>
+                                @*<div class="view-mode"> <span title="Grid" class="button button-active button-grid">&nbsp;</span><a href="list.html" title="List" class="button-list">&nbsp;</a> </div>*@
                             </div>
                             <div id="sort-by">
                                 <label class="left">Sort By: </label>
@@ -107,7 +107,7 @@
                                         </div>
                                         <div class="item-info">
                                             <div class="info-inner">
-                                                <div class="item-title"><a href="product-detail.html" title="Retis lapen casen">@dr["MakeName"] @dr["Name"]</a> </div>
+                                                    <div class="item-title"><a asp-controller="ClientHome" asp-action="Details" asp-route-CarID="@Convert.ToInt32(dr["CarID"].ToString())" title="Retis lapen casen">@dr["MakeName"] @dr["Name"]</a> </div>
                                                 <div class="item-content">
                                                     <div class="rating">
                                                         <div class="ratings">
@@ -221,7 +221,7 @@
                                         if (!string.IsNullOrEmpty(dr["FuelTypeName"].ToString()))
                                         {
                                             <li>
-                                                <a>@dr["FuelTypeName"]</a>
+                                                <a asp-controller="ClientHome" asp-action="CarList" asp-route-FuelTypeName="@dr["FuelTypeName"].ToString()"> @dr["FuelTypeName"]</a>
                                                 <span class=""></span>
                                                 <!--level1-->
                                             </li>
@@ -243,7 +243,7 @@
                                         if (!string.IsNullOrEmpty(dr["TransmissionTypeName"].ToString()))
                                         {
                                             <li>
-                                                <a href="grid.html">@dr["TransmissionTypeName"]</a>
+                                                <a asp-controller="ClientHome" asp-action="CarList" asp-route-TransmissionTypeName="@dr["TransmissionTypeName"].ToString()">@dr["TransmissionTypeName"]</a>
                                                 <span class=""></span>
                                                 <!--level1-->
                                             </li>

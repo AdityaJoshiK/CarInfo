@@ -7,6 +7,34 @@ namespace CarInfo.DAL
 {
     public class CLIENT_DALBase:DALHelper
     {
+        #region AllCars
+
+        public DataTable PR_Client_AllCars()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_AllCars");
+                //sqldb.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
         #region SelectRecentCars
 
         public DataTable PR_Client_SelectRecentCars()
@@ -91,7 +119,7 @@ namespace CarInfo.DAL
 
         #endregion
 
-        #region CarType
+        #region CarByType
 
         public DataTable PR_Client_CarByType(int TypeID)
         {
@@ -100,6 +128,62 @@ namespace CarInfo.DAL
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_CarByType");
                 sqldb.AddInParameter(dbCMD, "TypeID", SqlDbType.Int, TypeID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region CarByFuelType
+
+        public DataTable PR_Client_CarByFuelType(string FuelTypeName)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_CarByFuelType");
+                sqldb.AddInParameter(dbCMD, "FuelTypeName", SqlDbType.NVarChar, FuelTypeName);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region CarByTransmissionType
+
+        public DataTable PR_Client_CarByTransmissionType(string TransmissionTypeName)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_CarByTransmissionType");
+                sqldb.AddInParameter(dbCMD, "TransmissionTypeName   ", SqlDbType.NVarChar, TransmissionTypeName);
 
                 DataTable dt = new DataTable();
 

@@ -40,12 +40,27 @@ namespace CarInfo.Controllers
             return View("CAR_Detail",make);
         }
 
-        public IActionResult CarList(int TypeID)
+        public IActionResult CarList(int TypeID,string FuelTypeName,string TransmissionTypeName)
         {
             CLIENT_DALBase carDal = new CLIENT_DALBase();
 
             DataTable carCategories = carDal.PR_Client_Car_Categories();
-            DataTable carsByType = carDal.PR_Client_CarByType(TypeID);
+            DataTable carsByType = carDal.PR_Client_AllCars();
+
+            if (TypeID != 0)
+            {
+                  carsByType = carDal.PR_Client_CarByType(TypeID);
+            }
+
+            else if (FuelTypeName != null)
+            {
+                carsByType = carDal.PR_Client_CarByFuelType(FuelTypeName);
+            }
+
+            else if (TransmissionTypeName != null)
+            {
+                carsByType = carDal.PR_Client_CarByTransmissionType(TransmissionTypeName);
+            }
 
             CLIENT_Model viewModel = new CLIENT_Model
             {
