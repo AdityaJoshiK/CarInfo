@@ -1,4 +1,5 @@
-﻿using CarInfo.Models;
+﻿using CarInfo.BAL;
+using CarInfo.Models;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -59,8 +60,8 @@ namespace CarInfo.Controllers
             }
             catch (FirebaseAuthException ex)
             {
-                //var firebaseEx = JsonConvert.DeserializeObject<Error>(ex.ResponseData);
-                //ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+                var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
+                ModelState.AddModelError(String.Empty, firebaseEx.error.message);
                 return View(loginModel);
             }
 
@@ -80,6 +81,7 @@ namespace CarInfo.Controllers
                 //save the token to a session variable
                 if (token != null)
                 {
+                    ClientCV.SetUserEmail(loginModel.Email);
                     HttpContext.Session.SetString("_UserToken", token);
 
                     return RedirectToAction("Index");
@@ -88,8 +90,8 @@ namespace CarInfo.Controllers
             }
             catch (FirebaseAuthException ex)
             {
-                //var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
-                //ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+                var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
+                ModelState.AddModelError(String.Empty, firebaseEx.error.message);
                 return View(loginModel);
             }
 

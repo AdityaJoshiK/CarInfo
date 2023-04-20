@@ -11,11 +11,5 @@ namespace CarInfo.Models
         public string Password { get; set; }
     }
 
-    public class Error
-    {
-        public int code { get; set; }
-        public string message { get; set; }
-        public string error { get; set; }
-        public List<Error> errors { get; set; }
-    }
+   
 }

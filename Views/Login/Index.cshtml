@@ -1,4 +1,6 @@
 ﻿@model CarInfo.Models.LoginModel
+@using CarInfo.BAL;
+
 
 @{
     ViewData["Title"] = "SignIn";
@@ -6,7 +8,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome you have succesfully signed in</h1>
+    <h1 class="display-4">Welcome @ClientCV.UserEmail() you have succesfully signed in</h1>
 
     <a asp-action="LogOut">Sign Out</a>
 </div>

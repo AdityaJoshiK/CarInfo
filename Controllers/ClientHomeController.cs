@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using CarInfo.DAL;
+using CarInfo.BAL;
 using System.Data;
 using CarInfo.Models;
 using CarInfo.Areas.MST_Car.Models;
@@ -12,6 +13,7 @@ using System.Data.SqlClient;
 
 namespace CarInfo.Controllers
 {
+
     public class ClientHomeController : Controller
     {
         private IConfiguration Configuration;
@@ -36,6 +38,7 @@ namespace CarInfo.Controllers
             //return View("CAR_List");
         }
 
+        [ClientCheckAccess]
         public IActionResult Details(int CarID)
         {
             DataTable make = new DataTable();
