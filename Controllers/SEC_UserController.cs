@@ -45,7 +45,12 @@ namespace CarInfo.Controllers
             else
             {
                 SEC_DAL dal = new SEC_DAL();
+
                 DataTable dt = dal.PR_MST_User_SelectByUserNamePassword(connstr, modelSEC_User.UserName, modelSEC_User.Password);
+
+                if (modelSEC_User.Email != "")
+                {
+                    
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow dr in dt.Rows)
@@ -67,6 +72,8 @@ namespace CarInfo.Controllers
                 if (HttpContext.Session.GetString("UserName") != null && HttpContext.Session.GetString("Password") != null)
                 {
                     return RedirectToAction("Index", "Home");
+                }
+
                 }
             }
             return RedirectToAction("Index");

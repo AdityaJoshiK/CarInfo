@@ -69,6 +69,35 @@ namespace CarInfo.Controllers
 
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> SignIn(LoginModel loginModel)
+        //{
+        //    try
+        //    {
+        //        //log in an existing user
+        //        var fbAuthLink = await auth
+        //                        .SignInWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
+        //        string token = fbAuthLink.FirebaseToken;
+        //        //save the token to a session variable
+        //        if (token != null)
+        //        {
+        //            ClientCV.SetUserEmail(loginModel.Email);
+        //            HttpContext.Session.SetString("_UserToken", token);
+
+        //            return RedirectToAction("Index");
+        //        }
+
+        //    }
+        //    catch (FirebaseAuthException ex)
+        //    {
+        //        var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(ex.ResponseData);
+        //        ModelState.AddModelError(String.Empty, firebaseEx.error.message);
+        //        return View(loginModel);
+        //    }
+
+        //    return View();
+        //}
+
         [HttpPost]
         public async Task<IActionResult> SignIn(LoginModel loginModel)
         {
