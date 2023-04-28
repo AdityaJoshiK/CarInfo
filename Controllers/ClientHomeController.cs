@@ -38,7 +38,7 @@ namespace CarInfo.Controllers
             //return View("CAR_List");
         }
 
-        [ClientCheckAccess]
+      
         public IActionResult Details(int CarID)
         {
             DataTable make = new DataTable();

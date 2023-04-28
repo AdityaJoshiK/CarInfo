@@ -1053,12 +1053,12 @@ namespace CarInfo.DAL
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectAll");
 
-                sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
 
                 if (model.CarID != null || model.ReviewText != null || model.Rating != null)
                 {
                     dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectByCarIDReviewTextRating");
-                    sqldb.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                    sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
 
                     if (model.CarID != null)
                     {
@@ -1113,7 +1113,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_Insert");
-                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
                 sqlDB.AddInParameter(dbCMD, "ReviewText", SqlDbType.NVarChar, model.ReviewText);
                 sqlDB.AddInParameter(dbCMD, "Rating", SqlDbType.Int, model.Rating);
@@ -1146,7 +1146,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(conn);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_SelectByPK");
 
-                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
 
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
 
@@ -1178,7 +1178,7 @@ namespace CarInfo.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_UpdateByPK");
-                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, model.ReviewID);
                 sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
                 sqlDB.AddInParameter(dbCMD, "ReviewText", SqlDbType.NVarChar, model.ReviewText);
@@ -1212,7 +1212,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_DeleteByPK");
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
-                sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
+                sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
 
                 DataTable dt = new DataTable();
                 using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))

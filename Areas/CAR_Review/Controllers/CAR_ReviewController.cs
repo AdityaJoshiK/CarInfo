@@ -2,6 +2,7 @@
 using CarInfo.Areas.MST_Car.Models;
 using CarInfo.BAL;
 using CarInfo.DAL;
+using CarInfo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data;
@@ -37,12 +38,15 @@ namespace CarInfo.Areas.CAR_Review.Controllers
             return View("CAR_ReviewList", reviews);
         }
 
-        public IActionResult Save(CAR_ReviewModel modelCAR_Review)
+        public IActionResult Save(DataTable model)
         {
             #region Insert & Update
 
             string str = Configuration.GetConnectionString("MyConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
+
+            CAR_ReviewModel modelCAR_Review = new CAR_ReviewModel();
+            modelCAR_Review.ReviewText = model.Rows[0]["ReviewText"].ToString(); // Extract ReviewText value from the DataTable
 
             if (modelCAR_Review.ReviewID == null || modelCAR_Review.ReviewID == 0)
             {
@@ -59,6 +63,31 @@ namespace CarInfo.Areas.CAR_Review.Controllers
 
             #endregion
         }
+
+
+
+        //public IActionResult Save(CAR_ReviewModel modelCAR_Review)
+        //{
+        //    #region Insert & Update
+
+        //    string str = Configuration.GetConnectionString("MyConnectionString");
+        //    CAR_DAL dalCAR = new CAR_DAL();
+
+        //    if (modelCAR_Review.ReviewID == null || modelCAR_Review.ReviewID == 0)
+        //    {
+        //        DataTable dt = dalCAR.PR_CAR_Review_Insert(modelCAR_Review);
+        //        TempData["ReviewInsertMsg"] = "Record Inserted Succesfully";
+        //    }
+        //    else
+        //    {
+        //        DataTable dt = dalCAR.PR_CAR_Review_UpdateByPK(modelCAR_Review);
+        //        TempData["ReviewInsertMsg"] = "Record Updated Succesfully";
+        //    }
+
+        //    return RedirectToAction("Index");
+
+        //    #endregion
+        //}
 
         public IActionResult Add(int? ReviewID)
         {

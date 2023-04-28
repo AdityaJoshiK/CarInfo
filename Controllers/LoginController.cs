@@ -1,20 +1,25 @@
 ﻿using CarInfo.BAL;
+using CarInfo.DAL;
 using CarInfo.Models;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace CarInfo.Controllers
 {
     public class LoginController : Controller
     {
-        FirebaseAuthProvider auth;
-
-        public LoginController()
+        private IConfiguration Configuration;
+        public LoginController(IConfiguration _configuration)
         {
+            Configuration = _configuration;
             auth = new FirebaseAuthProvider(
                             new FirebaseConfig("AIzaSyBqg2CIrBzaV8p-S63a-XrfFHbqEaKdR6A"));
         }
+
+        FirebaseAuthProvider auth;
+
         public IActionResult Index()
         {
             var token = HttpContext.Session.GetString("_UserToken");
@@ -44,6 +49,10 @@ namespace CarInfo.Controllers
         {
             try
             {
+                string connstr = this.Configuration.GetConnectionString("myConnectionString");
+                SEC_DAL dal = new SEC_DAL();
+               dal.dbo_PR_MST_Client_Insert(connstr, loginModel.Email, loginModel.Password); ;
+
                 //create the user
                 await auth.CreateUserWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
                 //log in the new user
@@ -104,7 +113,32 @@ namespace CarInfo.Controllers
             try
             {
                 //log in an existing user
-                var fbAuthLink = await auth
+                string connstr = this.Configuration.GetConnectionString("myConnectionString");
+                SEC_DAL dal = new SEC_DAL();
+                //dal.dbo_PR_MST_Client_Insert(connstr, loginModel.Email, loginModel.Password);
+                DataTable dt;
+
+                    // Email login
+                    dt = dal.PR_MST_Client_SelectByUserNamePassword(connstr, loginModel.Email, loginModel.Password);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        // Successful login, store user information in session variables
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            HttpContext.Session.SetString("Email", dr["Email"].ToString());
+                            HttpContext.Session.SetString("ClientID", dr["ClientID"].ToString());
+                            HttpContext.Session.SetString("Password", dr["Password"].ToString());
+                            //HttpContext.Session.SetString("FirstName", dr["FirstName"].ToString());
+                            //HttpContext.Session.SetString("LastName", dr["LastName"].ToString());
+                            //HttpContext.Session.SetString("PhotoPath", dr["PhotoPath"].ToString());
+                            //break;
+                        }
+
+                        
+                    }
+
+                    var fbAuthLink = await auth
                                 .SignInWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
                 string token = fbAuthLink.FirebaseToken;
                 //save the token to a session variable

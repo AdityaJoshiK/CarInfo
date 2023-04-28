@@ -38,5 +38,17 @@ namespace CarInfo.BAL
                 throw new ArgumentNullException(nameof(email), "Email cannot be null or empty.");
             }
         }
+
+        public static int? ClientID()
+        {
+            int? UserID = null;
+
+            if (_httpContextAccessor.HttpContext.Session.GetString("ClientID") != null)
+            {
+                UserID = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("ClientID"));
+            }
+
+            return UserID;
+        }
     }
 }
