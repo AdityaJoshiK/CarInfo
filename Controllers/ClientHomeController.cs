@@ -27,18 +27,29 @@ namespace CarInfo.Controllers
         {
             String str = Configuration.GetConnectionString("myConnectionString");
 
-            
-            DataTable make = new DataTable();
             CLIENT_DALBase carDal = new CLIENT_DALBase();
-    
+            CAR_DALBase dalCar = new CAR_DALBase();
 
-            make = carDal.PR_Client_SelectRecentCars();
+            DataTable MakeDataTable = new DataTable();
 
-            return View("Index", make);
-            //return View("CAR_List");
+            #region makeDropdown
+            List<CAR_MakeDropDownModel> makeList = dalCar.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = makeList;
+            #endregion
+
+            DataTable makeDataTable = carDal.PR_Client_SelectRecentCars();
+
+            // Create a ViewModel and populate it
+            var viewModel = new Car_Home
+            {
+                MakeDataTable = makeDataTable
+            };
+
+            return View("Index", viewModel);
         }
 
-      
+
+
         public IActionResult Details(int CarID)
         {
             DataTable make = new DataTable();

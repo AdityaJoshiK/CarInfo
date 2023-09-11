@@ -4,7 +4,7 @@
 }
 
 @using System.Data
-@model DataTable
+@model Car_Home
 
 <div class="content">
     <div class="container-fluid">
@@ -66,12 +66,15 @@
             <h2>Find your right car</h2>
             <form class="b-filter">
                 <div class="btn-group bootstrap-select">
-                    <select class="selectpicker" data-width="100%" tabindex="-98">
+                    <select class="selectpicker" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();" data-width="100%" tabindex="-98">
+                        <option>Select Make</option>
+                    </select>
+                   @*  <select class="selectpicker" data-width="100%" tabindex="-98">
                         <option>Select Make</option>
                         <option>Make 1</option>
                         <option>Make 2</option>
                         <option>Make 3</option>
-                    </select>
+                    </select> *@
                 </div>
                 <div class="btn-group bootstrap-select">
                     <select class="selectpicker" data-width="100%" tabindex="-98">
@@ -144,7 +147,7 @@
             </div>
             <div id="hot_deals" class="product-flexslider hidden-buttons">
                 <div class="slider-items slider-width-col4 products-grid">
-       @foreach (DataRow dr in Model.Rows)
+       @foreach (DataRow dr in Model.MakeDataTable.Rows)
      {
                         <div class="item">
                             <div class="item-inner">
