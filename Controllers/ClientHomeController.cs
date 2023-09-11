@@ -32,18 +32,39 @@ namespace CarInfo.Controllers
 
             DataTable MakeDataTable = new DataTable();
 
-            #region makeDropdown
-            List<CAR_MakeDropDownModel> makeList = dalCar.PR_CAR_Make_DropDown();
-            ViewBag.MakeList = makeList;
-            #endregion
-
             DataTable makeDataTable = carDal.PR_Client_SelectRecentCars();
 
             // Create a ViewModel and populate it
             var viewModel = new Car_Home
             {
+                CarList = new List<CLIENT_Model>(), // Populate this with your CAR_List data
                 MakeDataTable = makeDataTable
             };
+
+            #region CarDropdown
+            List<MST_CarDropDownModel> list1 = dalCar.PR_MST_Car_DropDown();
+            ViewBag.CarList = list1;
+            #endregion
+
+            #region makeDropdown
+            List<CAR_MakeDropDownModel> makeList = dalCar.PR_CAR_Make_DropDown();
+            ViewBag.MakeList = makeList;
+            #endregion
+
+            #region TypeDropdown
+            List<CAR_TypeDropDownModel> TypeList = dalCar.PR_CAR_Type_DropDown();
+            ViewBag.TypeList = TypeList;
+            #endregion
+
+            #region FuelTypeDropdown
+            List<CAR_FuelTypeDropDownModel> FuelTypeList = dalCar.PR_CAR_FuelType_DropDown();
+            ViewBag.FuelTypeList = FuelTypeList;
+            #endregion
+
+            #region TransmissionTypeDropdown
+            List<CAR_TransmissionTypeDropDownModel> TransmissionTypeList = dalCar.PR_CAR_TransmissionType_DropDown();
+            ViewBag.TransmissionTypeList = TransmissionTypeList;
+            #endregion
 
             return View("Index", viewModel);
         }

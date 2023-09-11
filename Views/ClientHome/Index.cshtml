@@ -77,35 +77,23 @@
                     </select> *@
                 </div>
                 <div class="btn-group bootstrap-select">
-                    <select class="selectpicker" data-width="100%" tabindex="-98">
-                        <option>Select Car Status</option>
-                        <option>Status 1</option>
-                        <option>Status 2</option>
-                        <option>Status 3</option>
+                    <select class="selectpicker" id="MyCarID" asp-for="CarID" asp-items="@(new SelectList(ViewBag.CarList,"CarID","Name"))" data-width="100%" tabindex="-98">
+                        <option value="Select Car"></option>
                     </select>
                 </div>
                 <div class="btn-group bootstrap-select">
-                    <select class="selectpicker" data-width="100%" tabindex="-98">
-                        <option>Select Model</option>
-                        <option>Model 1</option>
-                        <option>Model 2</option>
-                        <option>Model 3</option>
+                    <select class="selectpicker" asp-for="TypeID" asp-items="@(new SelectList(ViewBag.TypeList,"TypeID","TypeName"))" data-width="100%" tabindex="-98">
+                        <option>Select Type</option>
                     </select>
                 </div>
                 <div class="btn-group bootstrap-select">
-                    <select class="selectpicker" data-width="100%" tabindex="-98">
-                        <option>Select All Locations</option>
-                        <option>Location 1</option>
-                        <option>Location 2</option>
-                        <option>Location 3</option>
+                    <select class="selectpicker" asp-for="FuelTypeName" asp-items="@(new SelectList(ViewBag.FuelTypeList,"FuelTypeName","FuelTypeName"))" data-width="100%" tabindex="-98">
+                        <option>Select FuelType</option>
                     </select>
                 </div>
                 <div class="btn-group bootstrap-select">
-                    <select class="selectpicker" data-width="100%" tabindex="-98">
-                        <option>Select Year</option>
-                        <option>2017</option>
-                        <option>2016</option>
-                        <option>2015</option>
+                    <select class="selectpicker" asp-for="TransmissionTypeName" asp-items="@(new SelectList(ViewBag.TransmissionTypeList,"TransmissionTypeName","TransmissionTypeName"))" data-width="100%" tabindex="-98">
+                        <option>Select TransmissionType</option>
                     </select>
                 </div>
                 <div class="ui-filter-slider">
