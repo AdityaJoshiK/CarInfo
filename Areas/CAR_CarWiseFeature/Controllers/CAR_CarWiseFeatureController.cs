@@ -3,6 +3,7 @@ using CarInfo.Areas.CAR_Feature.Models;
 using CarInfo.Areas.CAR_Make.Models;
 using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.MST_Car.Models;
+using CarInfo.BAL;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -11,6 +12,7 @@ using System.Data.SqlClient;
 
 namespace CarInfo.Areas.CAR_CarWiseFeature.Controllers
 {
+    [CheckAccess]
     [Area("CAR_CarWiseFeature")]
     [Route("CAR_CarWiseFeature/[controller]/[action]")]
     public class CAR_CarWiseFeatureController : Controller

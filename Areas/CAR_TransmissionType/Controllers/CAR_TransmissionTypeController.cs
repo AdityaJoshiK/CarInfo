@@ -4,9 +4,11 @@ using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
+using CarInfo.BAL;
 
 namespace CarInfo.Areas.CAR_TransmissionType.Controllers
 {
+    [CheckAccess]
     [Area("CAR_TransmissionType")]
     [Route("CAR_TransmissionType/[controller]/[action]")]
     public class CAR_TransmissionTypeController : Controller

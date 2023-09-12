@@ -1,5 +1,6 @@
 ﻿using CarInfo.Areas.CAR_Feature.Models;
 using CarInfo.Areas.MST_Car.Models;
+using CarInfo.BAL;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -8,6 +9,7 @@ using System.Data.SqlClient;
 
 namespace CarInfo.Areas.CAR_Feature.Controllers
 {
+    [CheckAccess]
     [Area("CAR_Feature")]
     [Route("CAR_Feature/[controller]/[action]")]
     public class CAR_FeatureController : Controller

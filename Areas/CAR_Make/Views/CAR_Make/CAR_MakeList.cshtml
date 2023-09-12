@@ -71,6 +71,7 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Make Name</th>
                                 <th>Created</th>
                                 <th>Modified</th>
@@ -81,6 +82,9 @@
                             @foreach (DataRow dr in Model.Rows)
                             {
                                 <tr>
+                                    @*  <td>
+                                        <img src="@dr["PhotoPath"]" style="height:150px;width:150px" class="img img-responsive" />
+                                    </td> *@
                                     @*<td>@dr["CountryID"]</td>*@
                                     <td>@dr["MakeName"]</td>
                                     <td>@dr["CreationDate"]</td>

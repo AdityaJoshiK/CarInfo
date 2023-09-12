@@ -11,6 +11,7 @@ using System.Reflection;
 
 namespace CarInfo.Areas.CAR_Review.Controllers
 {
+    [CheckAccess]
     [Area("CAR_Review")]
     [Route("CAR_Review/[controller]/[action]")]
     public class CAR_ReviewController : Controller

@@ -15,9 +15,11 @@ using CarInfo.Areas.CAR_TransmissionType.Models;
 using CarInfo.Areas.CAR_Variant.Models;
 using CarInfo.Areas.CAR_CarWiseVariant.Models;
 using CarInfo.Areas.CAR_CarWiseFeature.Models;
+using CarInfo.BAL;
 
 namespace CarInfo.Areas.MST_Car.Controllers
 {
+    [CheckAccess]
     [Area("MST_Car")]
     [Route("MST_Car/[controller]/[action]")]
     public class MST_CarController : Controller

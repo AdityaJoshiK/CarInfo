@@ -1,5 +1,6 @@
 ﻿using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
 using CarInfo.Areas.MST_Car.Models;
+using CarInfo.BAL;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -7,6 +8,7 @@ using System.Data;
 
 namespace CarInfo.Areas.CAR_CarWiseTransmissionType.Controllers
 {
+    [CheckAccess]
     [Area("CAR_CarWiseTransmissionType")]
     [Route("CAR_CarWiseTransmissionType/[controller]/[action]")]
     public class CAR_CarWiseTransmissionTypeController : Controller

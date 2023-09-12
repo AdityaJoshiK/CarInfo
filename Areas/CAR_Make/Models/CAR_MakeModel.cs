@@ -12,6 +12,9 @@ namespace CarInfo.Areas.CAR_Make.Models
         [DisplayName("Make Name")]
         public string MakeName { get; set; }
 
+        public IFormFile? File { get; set; }
+        public string? PhotoPath { get; set; }
+
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
     }

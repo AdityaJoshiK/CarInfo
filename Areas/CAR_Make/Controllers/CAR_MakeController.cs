@@ -1,4 +1,5 @@
 ﻿using CarInfo.Areas.CAR_Make.Models;
+using CarInfo.BAL;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -6,6 +7,7 @@ using System.Data;
 
 namespace CarInfo.Areas.CAR_Make.Controllers
 {
+    [CheckAccess]
     [Area("CAR_Make")]
     [Route("CAR_Make/[controller]/[action]")]
     public class CAR_MakeController : Controller
@@ -30,6 +32,29 @@ namespace CarInfo.Areas.CAR_Make.Controllers
 
         public IActionResult Save(CAR_MakeModel modelCAR_Make)
         {
+            #region Image Upload
+
+            if (modelCAR_Make.File != null)
+            {
+                string FilePath = "wwwroot\\MakerLogoUpload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                string fileNameWithPath = Path.Combine(path, modelCAR_Make.File.FileName);
+                //modelCAR_Make.PhotoPath = "~" + FilePath.Replace("wwwroot\\","/") + "/" + modelCAR_Make.File.FileName;
+                modelCAR_Make.PhotoPath = FilePath.Replace("wwwroot\\", "/") + "/" + modelCAR_Make.File.FileName;
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    modelCAR_Make.File.CopyTo(stream);
+                }
+            }
+
+            #endregion
             #region Insert & Update
 
             string str = Configuration.GetConnectionString("MyConnectionString");

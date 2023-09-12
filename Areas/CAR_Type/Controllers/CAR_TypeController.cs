@@ -1,4 +1,5 @@
 ﻿using CarInfo.Areas.CAR_Type.Models;
+using CarInfo.BAL;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -7,6 +8,7 @@ using System.Reflection;
 
 namespace CarInfo.Areas.CAR_Type.Controllers
 {
+    [CheckAccess]
     [Area("CAR_Type")]
     [Route("CAR_Type/[controller]/[action]")]
     public class CAR_TypeController : Controller

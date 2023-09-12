@@ -79,6 +79,7 @@ namespace CarInfo.DAL
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Make_Insert");
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeName", SqlDbType.NVarChar, model.MakeName);
+                sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
 
                 DataTable dt = new DataTable();
 
@@ -143,6 +144,7 @@ namespace CarInfo.DAL
                 sqlDB.AddInParameter(dbCMD, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(dbCMD, "MakeID", SqlDbType.Int, model.MakeID);
                 sqlDB.AddInParameter(dbCMD, "MakeName", SqlDbType.NVarChar, model.MakeName);
+                sqlDB.AddInParameter(dbCMD, "PhotoPath", SqlDbType.NVarChar, model.PhotoPath);
 
 
                 DataTable dt = new DataTable();

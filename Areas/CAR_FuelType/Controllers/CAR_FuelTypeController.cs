@@ -1,5 +1,6 @@
 ﻿using CarInfo.Areas.CAR_FuelType.Models;
 using CarInfo.Areas.MST_Car.Models;
+using CarInfo.BAL;
 using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
@@ -8,6 +9,7 @@ using System.Reflection;
 
 namespace CarInfo.Areas.CAR_FuelType.Controllers
 {
+    [CheckAccess]
     [Area("CAR_FuelType")]
     [Route("CAR_FuelType/[controller]/[action]")]
     public class CAR_FuelTypeController : Controller
