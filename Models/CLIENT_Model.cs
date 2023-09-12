@@ -14,6 +14,9 @@ namespace CarInfo.Models
         public String TransmissionTypeName { get; set; }
         public int? TypeID { get; set; }
 
+        public string? minPrice { get; set; }
+        public string? maxPrice { get; set; }
+
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
@@ -21,6 +24,8 @@ namespace CarInfo.Models
         [DataType(DataType.Text)]
         [DisplayName("Review Text")]
         public string ReviewText { get; set; }
+
+        public string PriceRange { get; set; }
 
         public int? Rating { get; set; }
         public DataTable CarCategories { get; set; }

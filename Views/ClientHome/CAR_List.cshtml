@@ -269,6 +269,9 @@
                     <div class="b-filter__inner bg-grey">
                         <h2>Find your right car</h2>
                         <form class="b-filter" asp-controller="ClientHome" asp-action="CarFilter">
+                             <input type="hidden" asp-for="PriceRange" id="selected-price-input">
+                             <input type="hidden" asp-for="minPrice" id="minPrice" name="minPrice" />
+                             <input type="hidden" asp-for="maxPrice" id="maxPrice" name="maxPrice" />
                           <div class="btn-group bootstrap-select" style="width: 100%;">
                                 <select class="selectpicker" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();" data-width="100%" tabindex="-98">
                                     <option>Select Make</option>
@@ -303,7 +306,7 @@
                                     <option>2015</option>
                                 </select>
                             </div>*@
-                            <div class="ui-filter-slider">
+                            @* <div class="ui-filter-slider">
                                 <div class="sidebar-widget-body m-t-10">
                                     <div class="price-range-holder">
                                         <span class="min-max"> <span class="pull-left">$200.00</span> <span class="pull-right">$800.00</span> </span>
@@ -311,7 +314,23 @@
                                     </div>
                                     <!-- /.price-range-holder -->
                                 </div>
-                            </div>
+                            </div> *@
+
+                             
+                           
+    <!-- Add input fields for minimum and maximum price -->
+<div class="ui-filter-slider">
+    <div class="sidebar-widget-body m-t-10">
+        <div class="price-range-holder">
+            <span class="min-max">
+                <span class="pull-left">$200.00</span>
+                <span class="pull-right">$800.00</span>
+            </span>
+            <input type="text" class="price-slider" value="" style="display:block" id="price-slider" asp-for="PriceRange">
+        </div>
+        <!-- /.price-range-holder -->
+    </div>
+</div>
                             <div>
                                 @*<div class="b-filter__btns">*@
                                     @*<button type="submit" >search vehicle</button>*@
@@ -334,9 +353,43 @@
 </section>
 <!--main-container col2-left-layout-->
 @section Scripts{
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script type="text/javascript">
+    function SetSlider() {
+        var minPrice = 200; // Set your minimum price here
+        var maxPrice = 800; // Set your maximum price here
+
+        // Initialize the slider with the minimum and maximum prices
+        $("#price-slider").slider({
+            range: true,
+            min: minPrice,
+            max: maxPrice,
+            step: 5,
+            values: [minPrice, maxPrice],
+            stop: function (event, ui) {
+                var start = parseInt(ui.values[0]);
+                var end = parseInt(ui.values[1]);
+                $("#minPrice").val(start);
+                $("#maxPrice").val(end);
+                $("#PriceRange").val(start + "-" + end);
+            },
+            slide: function (event, ui) {
+                if ((ui.values[0] + 5) >= ui.values[1]) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    $(function () {
+        SetSlider();
+    });
+</script>
+
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
     <script>

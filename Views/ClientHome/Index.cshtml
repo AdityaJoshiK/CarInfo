@@ -64,7 +64,7 @@
     <div class="section-filter">
         <div class="b-filter__inner bg-grey container">
             <h2>Find your right car</h2>
-            <form class="b-filter">
+            <form class="b-filter" asp-controller="ClientHome" asp-action="CarFilter">
                 <div class="btn-group bootstrap-select">
                     <select class="selectpicker" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();" data-width="100%" tabindex="-98">
                         <option>Select Make</option>
@@ -107,7 +107,8 @@
                 </div>
                 <div>
                     <div class="b-filter__btns">
-                        <button class="btn btn-lg btn-primary">search vehicle</button>
+                          <button type="submit" class="btn btn-lg btn-primary search-btn"> <span class="glyphicon glyphicon-search">Search</span> </button>
+                        @* <button type="submit" class="btn btn-lg btn-primary">search vehicle</button> *@
                     </div>
                 </div>
             </form>
