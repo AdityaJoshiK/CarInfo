@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarInfo.Models
 {
@@ -13,6 +14,8 @@ namespace CarInfo.Models
         public String TransmissionTypeName { get; set; }
         public int? TypeID { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
 
         [Required(ErrorMessage = "Please enter Review"), MaxLength(50)]
         [DataType(DataType.Text)]
