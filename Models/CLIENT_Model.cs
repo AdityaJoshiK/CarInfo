@@ -30,5 +30,6 @@ namespace CarInfo.Models
         public int? Rating { get; set; }
         public DataTable CarCategories { get; set; }
         public DataTable CarsByType { get; set; }
+        public DataTable CarDetail { get; set; }
     }
 }

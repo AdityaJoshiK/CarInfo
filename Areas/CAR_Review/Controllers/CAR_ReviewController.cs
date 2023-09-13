@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace CarInfo.Areas.CAR_Review.Controllers
 {
-    [CheckAccess]
+    [ClientCheckAccess]
     [Area("CAR_Review")]
     [Route("CAR_Review/[controller]/[action]")]
     public class CAR_ReviewController : Controller
@@ -39,45 +39,40 @@ namespace CarInfo.Areas.CAR_Review.Controllers
             return View("CAR_ReviewList", reviews);
         }
 
-        public IActionResult Save()
+        public IActionResult Save(CLIENT_Model mmodel)
         {
             #region Insert & Update
 
-            // Get the values submitted by the form
-            int carID = Convert.ToInt32(Request.Form["CarID"]);
-            string rating = Request.Form["rating"];
-            string reviewText = Request.Form["ReviewText"];
-            string author = Request.Form["author"];
-            string email = Request.Form["email"];
+
 
             // Create a new instance of CAR_ReviewModel and populate it with the form data
             CAR_ReviewModel model = new CAR_ReviewModel();
-            model.CarID = carID;
-            model.Rating = Convert.ToInt32(rating);
-            model.ReviewText = reviewText;
+            model.CarID = mmodel.CarID;
+            model.Rating = mmodel.Rating;
+            model.ReviewText = mmodel.ReviewText;
             //model.Author = author;
             //model.Email = email;
 
             // Call the data access layer method to insert the new record
             string str = Configuration.GetConnectionString("MyConnectionString");
             CAR_DAL dalCAR = new CAR_DAL();
-            dalCAR.PR_CAR_Review_Insert(model);
+            //dalCAR.PR_CAR_Review_Insert(model);
 
             //CAR_ReviewModel modelCAR_Review = new CAR_ReviewModel();
             //modelCAR_Review.ReviewText = model.Rows[0]["ReviewText"].ToString(); // Extract ReviewText value from the DataTable
 
-            //if (modelCAR_Review.ReviewID == null || modelCAR_Review.ReviewID == 0)
-            //{
-            //    DataTable dt = dalCAR.PR_CAR_Review_Insert(modelCAR_Review);
-            //    TempData["ReviewInsertMsg"] = "Record Inserted Succesfully";
-            //}
-            //else
-            //{
-            //    DataTable dt = dalCAR.PR_CAR_Review_UpdateByPK(modelCAR_Review);
-            //    TempData["ReviewInsertMsg"] = "Record Updated Succesfully";
-            //}
+            if (model.ReviewID == null || model.ReviewID == 0)
+            {
+                DataTable dt = dalCAR.PR_CAR_Review_Insert(model);
+                TempData["ReviewInsertMsg"] = "Record Inserted Successfully";
+            }
+            else
+            {
+                DataTable dt = dalCAR.PR_CAR_Review_UpdateByPK(model);
+                TempData["ReviewInsertMsg"] = "Record Updated Successfully";
+            }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "ClientHome", new { CarID = mmodel.CarID });
 
             #endregion
         }

@@ -78,7 +78,12 @@ namespace CarInfo.Controllers
 
             make = carDal.PR_Client_Car_Detail(CarID);
 
-            return View("CAR_Detail",make);
+            var viewModel = new CLIENT_Model
+            {
+               CarDetail=make,
+            };
+
+            return View("CAR_Detail",viewModel);
         }
 
         public IActionResult CarList(int TypeID,string FuelTypeName,string TransmissionTypeName)
