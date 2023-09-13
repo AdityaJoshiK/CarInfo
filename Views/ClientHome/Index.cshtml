@@ -677,6 +677,13 @@
     <div class="slider-items-products">
         <div id="brand-slider" class="product-flexslider hidden-buttons">
             <div class="slider-items slider-width-col6">
+                       @foreach (DataRow dr in Model.MakerPhotoDataTable.Rows)
+                           {
+                    <div class="item">
+                        <div class="logo-item"><a href="#"><img src="@dr["PhotoPath"]" alt="Image" width="166px" height="110px"></a></div>
+                    </div>
+           
+           }
                 <!-- Item -->
                 <div class="item">
                     <div class="logo-item"><a href="#"><img src="~/Clientassets/images/brand1.png" alt="Image"></a></div>

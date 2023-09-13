@@ -8,9 +8,9 @@
 <div class="row" style="width:auto">
     <div class="col-md-12">
         <h3>@TempData["MakeInsertMsg"]</h3>
-        <form method="post" asp-controller="CAR_Make" asp-action="Save">
-            @Html.HiddenFor(x=>x.MakeID)
+        <form method="post" asp-controller="CAR_Make" asp-action="Save" enctype="multipart/form-data">
             @Html.HiddenFor(x=>x.PhotoPath)
+            @Html.HiddenFor(x=>x.MakeID)
             <div class="form-group">
                 <label>Make Name</label>
                 <input type="text" class="form-control" placeholder="Enter Make Name" asp-for="MakeName" />

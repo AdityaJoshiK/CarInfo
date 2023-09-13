@@ -36,6 +36,34 @@ namespace CarInfo.DAL
 
         #endregion
 
+        #region AllMakerPhotos
+
+        public DataTable PR_Client_AllMakerPhotos()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Make_SelectAllPhotos");
+                //sqldb.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
         #region SelectRecentCars
 
         public DataTable PR_Client_SelectRecentCars()

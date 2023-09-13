@@ -7,6 +7,7 @@ namespace CarInfo.Models
         //public int? MakeID { get; set; }
         public List<CLIENT_Model> CarList { get; set; }
         public DataTable MakeDataTable { get; set; }
+        public DataTable MakerPhotoDataTable { get; set; }
     }
 
 }

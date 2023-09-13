@@ -30,15 +30,15 @@ namespace CarInfo.Controllers
             CLIENT_DALBase carDal = new CLIENT_DALBase();
             CAR_DALBase dalCar = new CAR_DALBase();
 
-            DataTable MakeDataTable = new DataTable();
-
+            DataTable MakePhotoDataTable = carDal.PR_Client_AllMakerPhotos();
             DataTable makeDataTable = carDal.PR_Client_SelectRecentCars();
 
             // Create a ViewModel and populate it
             var viewModel = new Car_Home
             {
                 CarList = new List<CLIENT_Model>(), // Populate this with your CAR_List data
-                MakeDataTable = makeDataTable
+                MakeDataTable = makeDataTable,
+                MakerPhotoDataTable = MakePhotoDataTable
             };
 
             #region CarDropdown
