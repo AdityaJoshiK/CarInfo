@@ -70,7 +70,32 @@ namespace CarInfo.Controllers
             return View("Index", viewModel);
         }
 
+        [ClientCheckAccess]
+        public IActionResult AddToFavourite(CLIENT_Model mmodel)
+        {
+            CLIENT_DALBase carDal = new CLIENT_DALBase();
+            DataTable favourite = carDal.PR_Client_Favourite_Insert(mmodel);
 
+            return RedirectToAction("Details", "ClientHome", new { CarID = mmodel.CarID });
+        }
+
+        [ClientCheckAccess]
+        public IActionResult GetFavouriteCars()
+        {
+            CLIENT_DALBase carDal = new CLIENT_DALBase();
+            DataTable favourite = carDal.PR_Client_Favourites();
+
+            return View("Client_Favourites", favourite);
+        }
+
+        [ClientCheckAccess]
+        public IActionResult DeleteFavouriteCar(int carID)
+        {
+            CLIENT_DALBase carDal = new CLIENT_DALBase();
+            DataTable favourite = carDal.PR_Client_DeleteFavourite(carID);
+
+            return RedirectToAction("GetFavouriteCars");
+        }
 
         public IActionResult Details(int CarID)
         {

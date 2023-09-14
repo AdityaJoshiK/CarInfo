@@ -210,7 +210,13 @@
                                 </div>
                                 <div class="email-addto-box">
                                     <ul class="add-to-links">
-                                        <li> <a class="link-wishlist" href="wishlist.html"><span>Add to Wishlist</span></a></li>
+                                        <form>
+                                                <input type="hidden" asp-for="CarID" name="CarID" value="@dr["CarID"]" />
+                                            <li>
+                                                <button type="submit" asp-controller="ClientHome" asp-action="AddToFavourite" class="link-wishlist"><span>Add to Wishlist</span></button>
+                                            </li>
+
+                                        </form>
                                         <li><a class="link-compare" href="compare.html"><span>Add to Compare</span></a></li>
                                     </ul>
                                     <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>

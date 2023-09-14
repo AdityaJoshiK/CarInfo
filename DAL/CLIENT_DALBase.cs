@@ -3,6 +3,7 @@ using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data.Common;
 using System.Data;
 using CarInfo.Models;
+using CarInfo.Areas.CAR_Review.Models;
 
 namespace CarInfo.DAL
 {
@@ -292,5 +293,154 @@ namespace CarInfo.DAL
         }
 
         #endregion
+
+        #region PR_CAR_Review_SelctAll & Filter
+
+        public DataTable PR_CAR_Review_SelectAll(CAR_ReviewModel model)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectAll");
+
+                sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+
+                if (model.CarID != null || model.ReviewText != null || model.Rating != null)
+                {
+                    dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectByCarIDReviewTextRating");
+                    sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+
+                    if (model.CarID != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, model.CarID);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@CarID", DbType.Int32, DBNull.Value);
+                    }
+
+                    if (model.ReviewText != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@ReviewText", DbType.String, model.ReviewText);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@ReviewText", DbType.String, DBNull.Value);
+                    }
+                    if (model.Rating != null)
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Rating", DbType.String, model.Rating);
+                    }
+                    else
+                    {
+                        sqldb.AddInParameter(dbCMD, "@Rating", DbType.String, DBNull.Value);
+                    }
+                }
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PR_Client_Favourite_Insert
+
+        public DataTable PR_Client_Favourite_Insert(CLIENT_Model model)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_Client_Favourite_Insert");
+                sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, model.CarID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region FavouriteCars
+
+        public DataTable PR_Client_Favourites()
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_Favourite_SelectByClientID");
+                sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region DeleteFavouriteCar
+
+        public DataTable PR_Client_DeleteFavourite(int carID)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_Client_Favourite_DeleteByPK");
+                sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+                sqldb.AddInParameter(dbCMD, "CarID", SqlDbType.Int, carID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
     }
+
+
+
 }
