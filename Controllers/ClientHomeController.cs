@@ -10,6 +10,7 @@ using CarInfo.Areas.CAR_FuelType.Models;
 using CarInfo.Areas.CAR_TransmissionType.Models;
 using CarInfo.Areas.CAR_Type.Models;
 using System.Data.SqlClient;
+using CarInfo.Areas.CAR_Review.Models;
 
 namespace CarInfo.Controllers
 {
@@ -78,9 +79,14 @@ namespace CarInfo.Controllers
 
             make = carDal.PR_Client_Car_Detail(CarID);
 
+            DataTable reviews = carDal.PR_Client_Car_ReviewsByCarID(CarID);
+            int numberOfReviews = reviews.Rows.Count;
+
             var viewModel = new CLIENT_Model
             {
                CarDetail=make,
+               CarReviews=reviews,
+               NumberOfReviews = numberOfReviews
             };
 
             return View("CAR_Detail",viewModel);
@@ -198,6 +204,39 @@ namespace CarInfo.Controllers
 
             return View("CAR_List",viewModel);
         }
+
+        public IActionResult SaveReview(CLIENT_Model mmodel)
+        {
+            #region Insert & Update
+
+            // Create a new instance of CAR_ReviewModel and populate it with the form data
+            CAR_ReviewModel model = new CAR_ReviewModel();
+            model.CarID = mmodel.CarID;
+            model.Rating = mmodel.Rating;
+            model.ReviewText = mmodel.ReviewText;
+            //model.Author = author;
+            //model.Email = email;
+
+            // Call the data access layer method to insert the new record
+            string str = Configuration.GetConnectionString("MyConnectionString");
+            CAR_DAL dalCAR = new CAR_DAL();
+
+            if (model.ReviewID == null || model.ReviewID == 0)
+            {
+                DataTable dt = dalCAR.PR_CAR_Review_Insert(model);
+                TempData["ReviewInsertMsg"] = "Record Inserted Successfully";
+            }
+            else
+            {
+                DataTable dt = dalCAR.PR_CAR_Review_UpdateByPK(model);
+                TempData["ReviewInsertMsg"] = "Record Updated Successfully";
+            }
+
+            return RedirectToAction("Details", "ClientHome", new { CarID = mmodel.CarID });
+
+            #endregion
+        }
+
 
         public IActionResult DropDownByMakeCar(int MakeID, List<MST_CarDropDownModel> Make_list)
         {

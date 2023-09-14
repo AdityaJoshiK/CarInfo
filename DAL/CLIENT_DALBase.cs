@@ -264,5 +264,33 @@ namespace CarInfo.DAL
         }
 
         #endregion
+
+        #region ReviewsByCarID
+
+        public DataTable PR_Client_Car_ReviewsByCarID(int CarID)
+        {
+            try
+            {
+                SqlDatabase sqldb = new SqlDatabase(connectionStr);
+                DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectReviewByCarID");
+                sqldb.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqldb.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+                }
+
+                return dt;
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        #endregion
     }
 }

@@ -7,6 +7,25 @@
 @model CLIENT_Model
 
 <style>
+    .filled-star {
+        color: #FFD700 !important;
+    }
+
+    .empty-star {
+        color: #ccc !important;
+    }
+
+
+    /* Increase specificity */
+    .comment .rating .rating-box .filled-star {
+        color: #FFD700; /* Set the color to yellow or any other color you prefer */
+    }
+
+    .comment .rating .rating-box .empty-star {
+        color: #ccc; /* Set the color to gray or any other color you prefer */
+    }
+
+
     .rating {
         display: flex;
         flex-direction: row-reverse;
@@ -133,7 +152,7 @@
                                     <div class="rating-box">
                                         <div style="width:60%" class="rating"></div>
                                     </div>
-                                    <p class="rating-links"> <a href="#">1 Review</a> <span class="separator">|</span> <a href="#">Add Your Review</a> </p>
+                                        <p class="rating-links"> <a href="#">@Model.NumberOfReviews Review</a> <span class="separator">|</span> <a href="#">Add Your Review</a> </p>
                                 </div>
                                 <div class="price-block">
                                     <div class="price-box">
@@ -285,43 +304,37 @@
                         <div class="tab-pane fade" id="reviews_tabs">
                             <div class="woocommerce-Reviews">
                                 <div>
-                                    <h2 class="woocommerce-Reviews-title">2 reviews for <span>Bacca Bucci Men's Running Shoes</span></h2>
+                                        <h2 class="woocommerce-Reviews-title">@Model.NumberOfReviews reviews for <span>@dr["MakeName"] @dr["Name"]</span></h2>
                                     <ol class="commentlist">
+                                            @foreach (DataRow dt in Model.CarReviews.Rows)
+                                            {
                                         <li class="comment">
                                             <div>
                                                 <img alt="" src="images/member1.png" class="avatar avatar-60 photo">
                                                 <div class="comment-text">
-                                                    <div class="ratings">
-                                                        <div class="rating-box">
-                                                            <div style="width:100%" class="rating"></div>
-                                                        </div>
-                                                    </div>
-                                                    <p class="meta"> <strong>John Doe</strong> <span>–</span> April 19, 2018 </p>
+                                                            <div class="rating">
+                                                                @* <div class="rating-box"> *@
+                                                                @for (int j = Convert.ToInt32(dt["Rating"]) + 1; j <= 5; j++)
+                                                                {
+                                                                    <span class="empty-star">☆</span>
+                                                                }
+                                                                    @for (int j = 1; j <= Convert.ToInt32(dt["Rating"]); j++)
+                                                                    {
+                                                                    <span class="filled-star">★</span>
+                                                                    }
+                                                                   
+                                                                @* </div> *@
+                                                            </div>
+                                                    <p class="meta"> <strong>@dt["Email"]</strong> <span>–</span> April 19, 2018 </p>
                                                     <div class="description">
-                                                        <p>Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla quis lorem ut libero malesuada feugiat. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                        <p>Donec sollicitudin molestie malesuada. Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis lorem ut libero malesuada feugiat. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.</p>
+                                                        <p>@dt["ReviewText"]</p>
+                                                        @* <p>Donec sollicitudin molestie malesuada. Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis lorem ut libero malesuada feugiat. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.</p> *@
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        <!-- #comment-## -->
-                                        <li class="comment">
-                                            <div>
-                                                <img alt="" src="images/member2.png" class="avatar avatar-60 photo">
-                                                <div class="comment-text">
-                                                    <div class="ratings">
-                                                        <div class="rating-box">
-                                                            <div style="width:100%" class="rating"></div>
-                                                        </div>
-                                                    </div>
-                                                    <p class="meta"> <strong>Stephen Smith</strong> <span>–</span> June 02, 2018 </p>
-                                                    <div class="description">
-                                                        <p>Donec rutrum congue leo eget malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- #comment-## -->
+                                        }
+                                       
                                     </ol>
                                 </div>
                                 <div>

@@ -31,5 +31,7 @@ namespace CarInfo.Models
         public DataTable CarCategories { get; set; }
         public DataTable CarsByType { get; set; }
         public DataTable CarDetail { get; set; }
+        public DataTable CarReviews { get; set; }
+        public int NumberOfReviews { get; internal set; }
     }
 }
