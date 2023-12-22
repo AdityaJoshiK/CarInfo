@@ -5,7 +5,6 @@ using CarInfo.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data;
-using System.Reflection;
 
 namespace CarInfo.Areas.CAR_FuelType.Controllers
 {
@@ -71,7 +70,6 @@ namespace CarInfo.Areas.CAR_FuelType.Controllers
                 SqlDatabase sqlDB = new SqlDatabase(str);
                 DataTable dt = dalCAR.dbo_PR_CAR_FuelType_SelectByPK(FuelTypeID);
                 CAR_FuelTypeModel modelCAR_FuelType = new CAR_FuelTypeModel();
-
 
 
                 foreach (DataRow dr in dt.Rows)

@@ -71,11 +71,15 @@ namespace CarInfo.Controllers
         }
 
         [ClientCheckAccess]
-        public IActionResult AddToFavourite(CLIENT_Model mmodel)
+        public IActionResult AddToFavourite(CLIENT_Model mmodel,string Home)
         {
             CLIENT_DALBase carDal = new CLIENT_DALBase();
             DataTable favourite = carDal.PR_Client_Favourite_Insert(mmodel);
 
+            if(Home=="Home")
+            {
+                return RedirectToAction("GetFavouriteCars");
+            }
             return RedirectToAction("Details", "ClientHome", new { CarID = mmodel.CarID });
         }
 
@@ -95,6 +99,11 @@ namespace CarInfo.Controllers
             DataTable favourite = carDal.PR_Client_DeleteFavourite(carID);
 
             return RedirectToAction("GetFavouriteCars");
+        }
+
+        public IActionResult Compare()
+        {
+            return View("CAR_Compare");
         }
 
         public IActionResult Details(int CarID)
