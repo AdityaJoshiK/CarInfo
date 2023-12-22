@@ -1055,7 +1055,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqldb = new SqlDatabase(connectionStr);
                 DbCommand dbCMD = sqldb.GetStoredProcCommand("PR_CAR_Review_SelectAll");
 
-                sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+                //sqldb.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
 
                 if (model.CarID != null || model.ReviewText != null || model.Rating != null)
                 {

@@ -77,7 +77,8 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
-                                <th>Car</th>
+                            <th>Car</th>
+                            <th>ClientID</th>
                                 <th>Review Text</th>
                                 <th>Rating</th>
                                 <th>Created</th>
@@ -89,7 +90,8 @@
                             @foreach (DataRow dr in Model.Rows)
                             {
                                 <tr>
-                                    <td>@dr["Name"]</td>
+                                <td>@dr["Name"]</td>
+                                <td>@dr["ClientID"]</td>
                                     <td>@dr["ReviewText"]</td>
                                     <td>@dr["Rating"]</td>
                                     <td>@dr["CreationDate"]</td>

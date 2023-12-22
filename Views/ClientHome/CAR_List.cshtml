@@ -96,11 +96,8 @@
                                                
                                                 <div class="item-box-hover">
                                                     <div class="box-inner">
-                                                        <div class="add_cart">
-                                                            <button class="button btn-cart" type="button"></button>
-                                                        </div>
                                                         <div class="product-detail-bnt"><a class="button detail-bnt"><span>Quick View</span></a></div>
-                                                        <div class="actions"><span class="add-to-links"><a href="#" class="link-wishlist" title="Add to Wishlist"><span>Add to Wishlist</span></a> </span> </div>
+                                                        <div class="actions"><span class="add-to-links"><a asp-controller="ClientHome" asp-action="AddToFavourite" asp-route-Home="Home" asp-route-CarID="@Convert.ToInt32(dr["CarID"].ToString())" class="link-wishlist" title="Add to Wishlist"><span>Add to Wishlist</span></a> </span> </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -121,9 +118,7 @@
                                                             <div class="price-box"><span class="regular-price"><span class="price">₹ @dr["Price"]</span> </span> </div>
                                                     </div>
                                                     <div class="other-info">
-                                                        <div class="col-km"><i class="fa fa-tachometer"></i> 4875km</div>
-                                                        <div class="col-engine"><i class="fa fa-gear"></i> Automatic</div>
-                                                        <div class="col-date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018</div>
+                                                       <a asp-controller="ClientHome" asp-action="Details" asp-route-CarID="@Convert.ToInt32(dr["CarID"].ToString())"><button type="button" title="Continue Shopping" class="button btn-continue" onclick=""><span><span>Explore</span></span></button></a>
                                                     </div>
                                                 </div>
                                             </div>
