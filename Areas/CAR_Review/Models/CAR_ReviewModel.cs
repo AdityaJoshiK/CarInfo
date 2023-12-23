@@ -9,7 +9,7 @@ namespace CarInfo.Areas.CAR_Review.Models
         public int? ClientID { get; set; }
         public int? CarID { get; set; }
 
-        [Required(ErrorMessage = "Please enter Review"), MaxLength(50)]
+        [Required(ErrorMessage = "Please enter Review"), MaxLength(250)]
         [DataType(DataType.Text)]
         [DisplayName("Review Text")]
         public string ReviewText { get; set; }

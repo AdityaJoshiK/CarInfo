@@ -49,9 +49,37 @@ namespace CarInfo.Areas.MST_Car.Controllers
             DataTable detail = new DataTable();
             CAR_DALBase carDal = new CAR_DALBase();
 
+            CAR_CarWiseFeatureModel model = new CAR_CarWiseFeatureModel()
+            {
+                CarID = CarID,
+            };
+
+            DataTable featureDataTable = carDal.PR_CAR_CarWiseFeature_SelectAll(model);
+            List<string> allFeatures = new List<string>();
+
+            foreach (DataRow row in featureDataTable.Rows)
+            {
+                if (row["FeatureName"] != DBNull.Value)
+                {
+                    string[] features = row["FeatureName"].ToString().Split(',');
+                    allFeatures.AddRange(features);
+                }
+            }
+
+            DataTable variantsDataTable = carDal.PR_CAR_CarAllVariants_SelectAll(str, CarID);
+
             detail = carDal.dbo_PR_MST_Car_SelectByPK(CarID);
 
-            return View("MST_CarDetail", detail);
+            var viewModel = new MST_CarModel
+            {
+                //FeatureDataTable = featureDataTable,
+                CarDetailDataTable = detail,
+                CarVariantsDataTable = variantsDataTable,
+                features = allFeatures
+            };
+
+            //return View("MST_CarDetail", detail);
+            return View("MST_CarDetail", viewModel);
         }
 
         //public IActionResult Save(MST_CarModel modelMST_Car)

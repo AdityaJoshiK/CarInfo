@@ -34,12 +34,16 @@ namespace CarInfo.Controllers
             DataTable MakePhotoDataTable = carDal.PR_Client_AllMakerPhotos();
             DataTable makeDataTable = carDal.PR_Client_SelectRecentCars();
 
+            CAR_ReviewModel model = new CAR_ReviewModel();
+            DataTable reviewDataTable = dalCar.PR_CAR_Review_SelectAll(model);
+
             // Create a ViewModel and populate it
             var viewModel = new Car_Home
             {
                 CarList = new List<CLIENT_Model>(), // Populate this with your CAR_List data
                 MakeDataTable = makeDataTable,
-                MakerPhotoDataTable = MakePhotoDataTable
+                MakerPhotoDataTable = MakePhotoDataTable,
+                ReviewDataTable = reviewDataTable
             };
 
             #region CarDropdown

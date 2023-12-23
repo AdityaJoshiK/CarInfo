@@ -8,6 +8,7 @@ namespace CarInfo.Models
         public List<CLIENT_Model> CarList { get; set; }
         public DataTable MakeDataTable { get; set; }
         public DataTable MakerPhotoDataTable { get; set; }
+        public DataTable ReviewDataTable { get; set; }
     }
 
 }

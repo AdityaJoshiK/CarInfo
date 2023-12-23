@@ -1148,7 +1148,7 @@ namespace CarInfo.DAL
                 SqlDatabase sqlDB = new SqlDatabase(conn);
                 DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_Review_SelectByPK");
 
-                sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
+                //sqlDB.AddInParameter(dbCMD, "ClientID", SqlDbType.Int, ClientCV.ClientID());
 
                 sqlDB.AddInParameter(dbCMD, "ReviewID", SqlDbType.Int, ReviewID);
 
@@ -2797,6 +2797,37 @@ namespace CarInfo.DAL
             }
 
             return totalRecords;
+        }
+
+        #endregion
+
+        #region PR_CAR_CarWiseVariant_SelectByPK
+
+        public DataTable PR_CAR_CarAllVariants_SelectAll(string conn, int? CarID)
+        {
+            try
+            {
+                SqlDatabase sqlDB = new SqlDatabase(conn);
+                DbCommand dbCMD = sqlDB.GetStoredProcCommand("PR_CAR_CarAllVariants_SelectAll");
+
+                sqlDB.AddInParameter(dbCMD, "CarID", SqlDbType.Int, CarID);
+
+
+                DataTable dt = new DataTable();
+
+                using (IDataReader dr = sqlDB.ExecuteReader(dbCMD))
+                {
+                    dt.Load(dr);
+
+                }
+                return dt;
+            }
+            catch (Exception e)
+            {
+
+                return null;
+
+            }
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.Data;
 
 namespace CarInfo.Areas.MST_Car.Models
 {
@@ -27,6 +28,12 @@ namespace CarInfo.Areas.MST_Car.Models
 
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
+
+        public DataTable FeatureDataTable { get; set; }
+        public DataTable CarDetailDataTable { get; set; }
+        public DataTable CarVariantsDataTable { get; set; }
+
+        public List<string> features { get; set; }
     }
 
     public class MST_CarDropDownModel

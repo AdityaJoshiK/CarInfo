@@ -69,11 +69,11 @@
                     <select class="selectpicker" asp-for="MakeID" asp-items="@(new SelectList(ViewBag.MakeList,"MakeID","MakeName"))" onchange="fnOnMakeChange();" data-width="100%" tabindex="-98">
                         <option>Select Make</option>
                     </select>
-                   @*  <select class="selectpicker" data-width="100%" tabindex="-98">
-                        <option>Select Make</option>
-                        <option>Make 1</option>
-                        <option>Make 2</option>
-                        <option>Make 3</option>
+                    @*  <select class="selectpicker" data-width="100%" tabindex="-98">
+                    <option>Select Make</option>
+                    <option>Make 1</option>
+                    <option>Make 2</option>
+                    <option>Make 3</option>
                     </select> *@
                 </div>
                 <div class="btn-group bootstrap-select">
@@ -119,14 +119,14 @@
 
 
     <!--Category silder End-->
-@*
+    @*
     <div id="top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <a href="#" data-scroll-goto="1"> <img src="~/Clientassets/images/speakers.png" alt="promotion-banner1"> </a> </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <a href="#" data-scroll-goto="2"> <img src="~/Clientassets/images/schedule.png" alt="promotion-banner2"> </a> </div>
-            </div>
-        </div>
+    <div class="container">
+    <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <a href="#" data-scroll-goto="1"> <img src="~/Clientassets/images/speakers.png" alt="promotion-banner1"> </a> </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <a href="#" data-scroll-goto="2"> <img src="~/Clientassets/images/schedule.png" alt="promotion-banner2"> </a> </div>
+    </div>
+    </div>
     </div>*@
 
     <!-- best Pro Slider -->
@@ -134,12 +134,12 @@
         <div class="hot_deals slider-items-products container">
             <div class="new_title">
                 <h2>Recent Cars</h2>
-             
+
             </div>
             <div id="hot_deals" class="product-flexslider hidden-buttons">
                 <div class="slider-items slider-width-col4 products-grid">
-       @foreach (DataRow dr in Model.MakeDataTable.Rows)
-     {
+                    @foreach (DataRow dr in Model.MakeDataTable.Rows)
+                    {
                         <div class="item">
                             <div class="item-inner">
                                 <div class="item-img">
@@ -176,15 +176,15 @@
                                 </div>
                             </div>
                         </div>
-              }
+                    }
 
-           
+
                 </div>
             </div>
         </div>
     </section>
 
-    
+
     <!-- Logo Brand Block -->
     <div class="brand-logo wow bounceInUp animated">
         <div class="container">
@@ -194,6 +194,18 @@
                     <div class="testimonials-section">
                         <div class="offer-slider parallax parallax-2">
                             <ul class="bxslider">
+                                @foreach (DataRow dr in Model.ReviewDataTable.Rows)
+                                {
+                                    <li>
+                                        <div class="avatar"><img src="~/Clientassets/images/member1.png" alt="Image"></div>
+                                        <div class="testimonials">@dr["ReviewText"]</div>
+                                        @{
+                                            string capitalizedUsername = dr["Email"].ToString().Split('@')[0].First().ToString().ToUpper() + dr["Email"].ToString().Split('@')[0].Substring(1);
+                                        }
+                                        <div class="clients_author">@capitalizedUsername <span>Happy Customer</span> </div>
+                                    </li>
+
+                                }
                                 <li>
                                     <div class="avatar"><img src="~/Clientassets/images/member1.png" alt="Image"></div>
                                     <div class="testimonials">Perfect Themes and the best of all that you have many options to choose! Very fast responding! I highly recommend this theme and these people!</div>
@@ -268,7 +280,7 @@
                         </div>
                     </div>
                 }
-         
+
             </div>
         </div>
     </div>
@@ -281,13 +293,13 @@
     <div class="slider-items-products">
         <div id="brand-slider" class="product-flexslider hidden-buttons">
             <div class="slider-items slider-width-col6">
-                       @foreach (DataRow dr in Model.MakerPhotoDataTable.Rows)
-                           {
+                @foreach (DataRow dr in Model.MakerPhotoDataTable.Rows)
+                {
                     <div class="item">
                         <div class="logo-item"><a href="#"><img src="@dr["PhotoPath"]" alt="Image" width="166px" height="110px"></a></div>
                     </div>
-           
-           }
+
+                }
                 <!-- Item -->
                 <div class="item">
                     <div class="logo-item"><a href="#"><img src="~/Clientassets/images/brand1.png" alt="Image"></a></div>

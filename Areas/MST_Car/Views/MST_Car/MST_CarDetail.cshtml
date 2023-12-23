@@ -4,7 +4,7 @@
 }
 
 @using System.Data
-@model DataTable
+@model CarInfo.Areas.MST_Car.Models.MST_CarModel
 
 <header class="mb-3">
     <a href="#" class="burger-btn d-block d-xl-none">
@@ -38,44 +38,44 @@
             </div>
             <div class="card-body" style="overflow:scroll">
                 <ul class="list-group">
-                    @foreach (DataRow dr in Model.Rows)
-                    {
-                        <li class="list-group-item">
+                    <li class="list-group-item">
+                        @foreach (DataRow dr in Model.CarDetailDataTable.Rows)
+                        {
                             <div class="row">
                                 <div class="col-md-3">
                                     <strong>Name:</strong> @dr["Name"]
                                 </div>
-                              @*  <div class="col-md-3">
-                                    <strong>Maker:</strong>  @dr["MakeName"]
-                                </div>*@
-                              @*  <div class="col-md-3">
-                                    <strong>Type:</strong> @dr["TypeName"]
-                                </div>
-                                <div class="col-md-3">
-                                    <strong>Variant:</strong> @dr["VariantName"]
-                                </div>
+                                @*  <div class="col-md-3">
+                            <strong>Maker:</strong>  @dr["MakeName"]
+                            </div>*@
+                                @*  <div class="col-md-3">
+                            <strong>Type:</strong> @dr["TypeName"]
+                            </div>
+                            <div class="col-md-3">
+                            <strong>Variant:</strong> @dr["VariantName"]
+                            </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-3">
-                                    <strong>Feature:</strong> @dr["FeatureName"]
-                                </div>
-                                <div class="col-md-3">
-                                    <strong>FuelType:</strong> @dr["FuelTypeName"]
-                                </div>
-                                <div class="col-md-3">
-                                    <strong>TransmissionType:</strong> @dr["TransmissionTypeName"]
-                                </div>*@
+                            <div class="col-md-3">
+                            <strong>Feature:</strong> @dr["FeatureName"]
+                            </div>
+                            <div class="col-md-3">
+                            <strong>FuelType:</strong> @dr["FuelTypeName"]
+                            </div>
+                            <div class="col-md-3">
+                            <strong>TransmissionType:</strong> @dr["TransmissionTypeName"]
+                            </div>*@
                                 <div class="col-md-3">
                                     <strong>Year:</strong> @dr["Year"]
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-3">
-                                    <strong>Price:</strong> @dr["Price"]
-                                </div>
-                              @*  <div class="col-md-3">
-                                    <strong>Image:</strong> @dr["Image"]
-                                </div>*@
+                                @*  <div class="col-md-3">
+                            <strong>Price:</strong> @dr["Price"]
+                            </div> *@
+                                @*  <div class="col-md-3">
+                            <strong>Image:</strong> @dr["Image"]
+                            </div>*@
                                 <div class="col-md-3">
                                     <strong>Created:</strong> @dr["CreationDate"]
                                 </div>
@@ -83,16 +83,39 @@
                                     <strong>Modified:</strong> @dr["ModificationDate"]
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-md-12">
-                                    <form method="post">
-                                        @*<input type="hidden" name="carId" value="@dr["Id"]" />*@
-                                        <button type="submit" class="btn btn-danger float-end">Delete</button>
-                                    </form>
-                                </div>
+                        }
+
+                        <div class="row mt-2">
+                            <h8><strong>Variants:</strong></h8>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col-md-3"><strong>VariantName</strong></th>
+                                        <th scope="col-md-3"><strong>Price</strong></th>
+                                        <th scope="col-md-3"><strong>Features</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (DataRow dr in Model.CarVariantsDataTable.Rows)
+                                    {
+                                        <tr>
+                                            <td>@dr["VariantName"]</td>
+                                            <td>@dr["Price"]</td>
+                                            <td>Features: @string.Join(", ", Model.features)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <form method="post">
+                                    @*<input type="hidden" name="carId" value="@dr["Id"]" />*@
+                                    <button type="submit" class="btn btn-danger float-end">Delete</button>
+                                </form>
                             </div>
-                        </li>
-                    }
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
