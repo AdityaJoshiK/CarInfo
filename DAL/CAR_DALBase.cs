@@ -15,7 +15,6 @@ using CarInfo.Areas.MST_Car.Models;
 using System.Data.SqlClient;
 using CarInfo.Areas.CAR_Image.Models;
 using CarInfo.Areas.CAR_FuelType.Models;
-using CAR_CarWiseFuelTypeDropDownModel = CarInfo.Areas.CAR_CarWiseFuelType.Models.CAR_CarWiseFuelTypeDropDownModel;
 using CarInfo.Areas.CAR_CarWiseTransmissionType.Models;
 using CarInfo.Areas.CAR_CarWiseVariant.Models;
 using CarInfo.Areas.CAR_CarWiseFeature.Models;
