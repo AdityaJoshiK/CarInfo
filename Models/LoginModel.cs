@@ -9,6 +9,9 @@ namespace CarInfo.Models
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+
+        public string EmailVerificationCode { get; set; }
+        public bool IsEmailVerified { get; set; }
     }
 
    

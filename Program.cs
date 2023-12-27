@@ -1,3 +1,5 @@
+using CarInfo.Email;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 //Add sessions
 //builder.Services.AddSession(options =>
 //{

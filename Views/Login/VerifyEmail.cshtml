@@ -1,10 +1,9 @@
 ﻿@model CarInfo.Models.LoginModel
 
 @{
-    ViewData["Title"] = "Registration";
+    ViewData["Title"] = "SignIn";
     Layout = "~/Views/Shared/_Layout_Client.cshtml";
 }
-
 <div class="page-heading">
     <div class="container">
         <div class="row">
@@ -30,7 +29,7 @@
             <!--page-title-->
 
             @* <form action="#" method="post" id="login-form"> *@
-                @* <input name="form_key" type="hidden" value="EPYwQxF6xoWcjLUr"> *@
+                <@* input *@ name="form_key" type="hidden" value="EPYwQxF6xoWcjLUr">
                 <fieldset class="col2-set">
                     <div class="col-1 new-users">
                         <strong>New Customers</strong>
@@ -38,40 +37,27 @@
 
                             <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
                             <div class="buttons-set">
-                                @*<button type="button" asp-action="Registration" title="Create an Account" class="button create-account" onClick=""><span><span>Create an Account</span></span></button>*@
-                                <a class="button create-account" asp-controller="Login" asp-action="SignIn">Log In</a>
+                                <button type="button" asp-action="Registration" title="Create an Account" class="button create-account" onClick=""><span><span>Create an Account</span></span></button>
+                                <a class="button create-account" asp-asp-controller="Login" asp-action="Registration">Register new User</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-2 registered-users">
-                        <strong>New User</strong>
+                        <strong>Verify Email Address</strong>
                         <div class="content">
 
-                            <p>If you don't' have an account with us, please Register.</p>
-                            <form asp-action="Registration">
+                            <p>We Sent a 6-Digit Code To Your Email.</p>
+                            <form asp-action="VerifyEmail" method="post">
+                                @if (TempData["RegistrationModel"] != null)
+                                {
+                                    <input type="hidden" name="model" value="@TempData["RegistrationModel"]" />
+                                }
                                 <ul class="form-list">
-                                    <input type="hidden" asp-for="EmailVerificationCode" />
                                     <li>
-                                        <label asp-for="Email">Email Address<em class="required">*</em></label>
+                                        <label for="otp">Code<em class="required">*</em></label>
                                         <div class="input-box">
-                                            <input asp-for="Email" type="text" id="email" class="input-text required-entry validate-email" title="Email Address">
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                        </div>
-                                    </li>
-                                    @if (Model != null && !Model.IsEmailVerified)
-                                    {
-                                        <li>
-                                            <label for="otp">Enter OTP<em class="required">*</em></label>
-                                            <div class="input-box">
-                                                <input type="text" asp-for="EmailVerificationCode" class="input-text required-entry" id="otp" />
-                                                <span asp-validation-for="EmailVerificationCode" class="text-danger"></span>
-                                            </div>
-                                        </li>
-                                    }
-                                    <li>
-                                        <label asp-for="Password">Password<em class="required">*</em></label>
-                                        <div class="input-box">
-                                            <input asp-for="Password" type="password" class="input-text required-entry validate-password" id="pass" title="Password">
+                                            <input name="otp" type="text" id="otp" class="input-text required-entry" title="Code">
+                                            @* <span asp-validation-for="EmailVerificationCode" class="text-danger"></span> *@
                                         </div>
                                     </li>
                                 </ul>
@@ -95,9 +81,9 @@
 
                                 <div class="buttons-set">
 
-                                    <button type="submit" class="button login" title="Login" name="send" id="send2"><span>Register</span></button>
+                                    <button type="submit" class="button login" title="Code" name="send" id="send2"><span>Verify</span></button>
 
-                                    <a href="#" class="forgot-word">Forgot Your Password?</a>
+                                    @* <a href="#" class="forgot-word">Forgot Your Password?</a> *@
                                 </div> <!--buttons-set-->
                             </form>
                         </div> <!--content-->
@@ -111,5 +97,7 @@
 
 </div> <!--col1-layout-->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
